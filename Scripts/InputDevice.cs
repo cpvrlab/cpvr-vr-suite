@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class InputDevice : MonoBehaviour
+namespace cpvrlab_vr_suite.Scripts
 {
-    public bool controllerInput;
-    [SerializeField] private GameObject leftController;
-    [SerializeField] private GameObject rightController;
-    [SerializeField] private GameObject handVisualizer;
-
-    private void Awake()
+    public class InputDevice : MonoBehaviour
     {
-        handVisualizer.SetActive(!controllerInput);
-        leftController.SetActive(controllerInput);
-        rightController.SetActive(controllerInput);
+        public bool controllerInput;
+        [SerializeField] private GameObject leftController;
+        [SerializeField] private GameObject rightController;
+        [SerializeField] private GameObject handVisualizer;
+
+        private void Awake()
+        {
+            handVisualizer.SetActive(!controllerInput);
+            leftController.SetActive(controllerInput);
+            rightController.SetActive(controllerInput);
+        }
     }
 }

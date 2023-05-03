@@ -2,50 +2,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugDisplay : MonoBehaviour
+namespace cpvrlab_vr_suite.Scripts
 {
-    private Dictionary<string, string> _debugLogs = new ();
-
-    public Text display;
-    public Text fps;
-    [SerializeField] private Toggle fpsToggle;
-
-    private void Start()
+    public class DebugDisplay : MonoBehaviour
     {
-        fpsToggle.isOn = false;
-        OnFpsToggle();
-    }
+        private Dictionary<string, string> _debugLogs = new ();
 
-    private void OnEnable() => Application.logMessageReceived += HandleLog;
+        public Text display;
+        public Text fps;
+        [SerializeField] private Toggle fpsToggle;
 
-    private void OnDisable() => Application.logMessageReceived -= HandleLog;
+        private void Start()
+        {
+            fpsToggle.isOn = false;
+            OnFpsToggle();
+        }
+
+        private void OnEnable() => Application.logMessageReceived += HandleLog;
+
+        private void OnDisable() => Application.logMessageReceived -= HandleLog;
     
-    public void OnFpsToggle() => fps.gameObject.SetActive(fpsToggle.isOn);
+        public void OnFpsToggle() => fps.gameObject.SetActive(fpsToggle.isOn);
 
-    private void HandleLog(string logString, string stackTrace, LogType type)
-    {
-        if (type == LogType.Log)
+        private void HandleLog(string logString, string stackTrace, LogType type)
         {
-            var splitString = logString.Split(char.Parse(":"));
-            var debugKey = splitString[0];
-            var debugValue = splitString.Length > 1 ? splitString[1] : "";
+            if (type == LogType.Log)
+            {
+                var splitString = logString.Split(char.Parse(":"));
+                var debugKey = splitString[0];
+                var debugValue = splitString.Length > 1 ? splitString[1] : "";
 
-            if (_debugLogs.ContainsKey(debugKey))
-                _debugLogs[debugKey] = debugValue;
-            else
-                _debugLogs.Add(debugKey, debugValue);
+                if (_debugLogs.ContainsKey(debugKey))
+                    _debugLogs[debugKey] = debugValue;
+                else
+                    _debugLogs.Add(debugKey, debugValue);
+            }
+
+            var displayText = "";
+            foreach (KeyValuePair<string, string> log in _debugLogs)
+            {
+                if (log.Value == "")
+                    displayText += log.Key + "\n";
+                else
+                    displayText += log.Key + ": " + log.Value + "\n";
+            }
+
+            display.text = displayText;
         }
-
-        var displayText = "";
-        foreach (KeyValuePair<string, string> log in _debugLogs)
-        {
-            if (log.Value == "")
-                displayText += log.Key + "\n";
-            else
-                displayText += log.Key + ": " + log.Value + "\n";
-        }
-
-        display.text = displayText;
     }
 }
 

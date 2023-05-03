@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using Unity.Collections;
 using Unity.XR.CoreUtils;
+using UnityEngine;
+using UnityEngine.XR.Hands;
 using UnityEngine.XR.Management;
 
-namespace UnityEngine.XR.Hands.Samples.VisualizerSample
+namespace cpvrlab_vr_suite.Scripts
 {
     public class HandVisualizer : MonoBehaviour
     {

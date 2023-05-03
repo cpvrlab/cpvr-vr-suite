@@ -1,20 +1,26 @@
 using UnityEngine;
 
-public class PersistentSingleton : MonoBehaviour
+namespace cpvrlab_vr_suite.Scripts
 {
-    public static PersistentSingleton Instance { get; private set; }
-
-    private void Awake()
+    public class PersistentSingleton : MonoBehaviour
     {
-        if (Instance != null)
+        public static PersistentSingleton Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);    
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            Instance = null;
             Destroy(gameObject);
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnApplicationQuit()
-    {
-        Instance = null;
-        Destroy(gameObject);
+        }
     }
 }

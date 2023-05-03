@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FpsCounter : MonoBehaviour
+namespace cpvrlab_vr_suite.Scripts
 {
-    private Text _fpsText;
-    private void Start() => _fpsText = GetComponent<Text>();
-
-    private void Update()
+    public class FpsCounter : MonoBehaviour
     {
-        float currentFPS = (int)(1f / Time.deltaTime);
-        _fpsText.text = currentFPS.ToString("0.00") + " FPS";
+        private Text _fpsText;
+        private void Start() => _fpsText = GetComponent<Text>();
+
+        private void Update()
+        {
+            float currentFPS = (int)(1f / Time.deltaTime);
+            _fpsText.text = currentFPS.ToString("0.00") + " FPS";
+        }
     }
 }

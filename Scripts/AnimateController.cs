@@ -1,22 +1,25 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AnimateController : MonoBehaviour
+namespace cpvrlab_vr_suite.Scripts
 {
-    [SerializeField] private InputActionProperty pinchAction;
-    [SerializeField] private InputActionProperty gripAction;
-    private Animator _animator;
-    private static readonly int Trigger = Animator.StringToHash("Trigger");
-    private static readonly int Grip = Animator.StringToHash("Grip");
-
-    private void Awake() => _animator = GetComponent<Animator>();
-
-    private void Update()
+    public class AnimateController : MonoBehaviour
     {
-        var triggerValue = pinchAction.action.ReadValue<float>();
-        _animator.SetFloat(Trigger, triggerValue);
+        [SerializeField] private InputActionProperty pinchAction;
+        [SerializeField] private InputActionProperty gripAction;
+        private Animator _animator;
+        private static readonly int Trigger = Animator.StringToHash("Trigger");
+        private static readonly int Grip = Animator.StringToHash("Grip");
 
-        var gripValue = gripAction.action.ReadValue<float>();
-        _animator.SetFloat(Grip, gripValue);
+        private void Awake() => _animator = GetComponent<Animator>();
+
+        private void Update()
+        {
+            var triggerValue = pinchAction.action.ReadValue<float>();
+            _animator.SetFloat(Trigger, triggerValue);
+
+            var gripValue = gripAction.action.ReadValue<float>();
+            _animator.SetFloat(Grip, gripValue);
+        }
     }
 }
