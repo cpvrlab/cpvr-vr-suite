@@ -3,6 +3,7 @@
 ## About
 
 This is a package created for and by the CPVRLab of the BFH. It contains assets which are commonly used together in new VR projects by members of the CPVRLab.
+Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/CustomPackages.html) regarding the handling of a custom UPM package.
 
 ## Adding this package to a Unity project
 
