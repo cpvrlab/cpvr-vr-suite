@@ -2908,7 +2908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc9ef92d6c33f74aad222b5107cd3bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerInput: 0
+  controllerInput: 1
   leftController: {fileID: 9055394900516659281}
   rightController: {fileID: 9055394901339592155}
   handVisualizer: {fileID: 9055394900983421556}
@@ -2990,9 +2990,9 @@ MonoBehaviour:
   teleportLayer:
     serializedVersion: 2
     m_Bits: 8
+  length: 10
   resolutionLevel: 5
   deepestPoint: -3
-  velocity: 10
   validColor: {r: 0, g: 1, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
   lineThickness: 0.01

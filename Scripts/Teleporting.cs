@@ -6,9 +6,9 @@ namespace cpvrlab_vr_suite.Scripts
     public class Teleporting : MonoBehaviour
     {
         [SerializeField] private LayerMask teleportLayer;
+        [SerializeField] private float length;                        // How far will the arc be
         [SerializeField, Range(1, 7)] private byte resolutionLevel;  
         [SerializeField] private float deepestPoint;                    // Deepest point on the map
-        [SerializeField] private float velocity;                        // How far will the arc be
         [SerializeField] private Color validColor;               
         [SerializeField] private Color invalidColor;             
         [SerializeField] private float lineThickness = 0.01f;    
@@ -72,7 +72,7 @@ namespace cpvrlab_vr_suite.Scripts
             var heightFromDeepestPoint = controllerPos.y - deepestPoint;
 
             // Calculate arc in physics, check if a teleportable area was found and draw the arc
-            CreateArc(heightFromDeepestPoint, resolution, velocity, angleXRad, angleYRad, controllerPos, _lineTeleportPoints);
+            CreateArc(heightFromDeepestPoint, resolution, length, angleXRad, angleYRad, controllerPos, _lineTeleportPoints);
             CastRay(_lineTeleportPoints, out var lastPoint, out var hitPos, out var hitNormal, out var valid);
             DrawTeleport(hitPos, hitNormal, lastPoint, valid);
 
