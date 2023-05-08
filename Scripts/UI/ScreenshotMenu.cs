@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using cpvrlab_vr_suite.Scripts.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace cpvrlab_vr_suite.Scripts
+namespace cpvrlab_vr_suite.Scripts.UI
 {
     public class ScreenshotMenu : MonoBehaviour
     {
@@ -27,10 +28,7 @@ namespace cpvrlab_vr_suite.Scripts
                 screenshotButton.interactable = false;
         }
 
-        public void OnScreenshotClicked()
-        {
-            StartCoroutine(ScreenshotRoutine());
-        }
+        public void OnScreenshotClicked() => StartCoroutine(ScreenshotRoutine());
 
         private IEnumerator ScreenshotRoutine()
         {
@@ -66,11 +64,11 @@ namespace cpvrlab_vr_suite.Scripts
             flashImage.color = new Color(0, 0, 0, 0);
         
             // Send Mail
-            string resultMsg = "";
+            var resultMsg = "";
 
             if (!emailAddress.Equals(""))
             {
-                string emailError = MailSender.SendEmail(emailAddress, "", screenshot);
+                var emailError = MailSender.SendEmail(emailAddress, "", screenshot);
                 if (emailError.Equals(""))
                     resultMsg = "Screenshot sent to " + emailAddress;
                 else
@@ -81,7 +79,7 @@ namespace cpvrlab_vr_suite.Scripts
 #if UNITY_ANDROID
             if (saveImageToGallery)
             {
-                string imageURL = AndroidExtensions.SaveImageToGallery(screenshot, filename, "");
+                var imageURL = AndroidExtensions.SaveImageToGallery(screenshot, filename, "");
                 resultMsg += "\n Screenshot saved to: \n" + imageURL;
             }
 #endif

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Management;
 
-namespace cpvrlab_vr_suite.Scripts
+namespace cpvrlab_vr_suite.Scripts.VR
 {
     public class HandVisualizer : MonoBehaviour
     {

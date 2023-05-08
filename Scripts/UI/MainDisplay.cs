@@ -1,26 +1,18 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace cpvrlab_vr_suite.Scripts
+namespace cpvrlab_vr_suite.Scripts.UI
 {
-    public class MenuController : MonoBehaviour
+    public class MainDisplay : MonoBehaviour
     {
         [SerializeField] private GameObject buttonPrefab;
         [SerializeField] private Transform scrollViewContent;
+        [SerializeField] private MenuController menuController;
 
-        [Header("UI Elements")]
-        [SerializeField] private GameObject mainPanel;
-        [SerializeField] private GameObject debugPanel;
-    
-        private Animator _animator;
-    
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
-        
             for (var i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 var button = Instantiate(buttonPrefab, scrollViewContent);
@@ -31,11 +23,9 @@ namespace cpvrlab_vr_suite.Scripts
             }
         }
 
-        public void OnCloseClick() => StartCoroutine(CloseMenu());
+        public void OnCloseClick() => menuController.CloseMenu();
 
-        public void OnDebugClick() => OpenPanel(debugPanel);
-
-        public void OnBackClicked() => OpenPanel(mainPanel);
+        public void OnDebugClick() => menuController.OpenPanel(1);
 
         public void OnQuitClick()
         {
@@ -45,32 +35,12 @@ namespace cpvrlab_vr_suite.Scripts
         Application.Quit();
 #endif
         }
-    
+        
         private void ChangeScene(int index)
         {
             if (index == SceneManager.GetActiveScene().buildIndex) return;
-            gameObject.SetActive(false);
+            menuController.gameObject.SetActive(false);
             SceneManager.LoadSceneAsync(index);
-        }
-    
-        private void OpenPanel(GameObject panel)
-        {
-            CloseAllPanels();
-            panel.SetActive(true);
-        }
-
-        private void CloseAllPanels()
-        {
-            mainPanel.SetActive(false);
-            debugPanel.SetActive(false);
-        }
-
-        private IEnumerator CloseMenu()
-        {
-            OpenPanel(mainPanel);
-            _animator.Play("MenuClose");
-            yield return new WaitForSeconds(0.25f);
-            gameObject.SetActive(false);
         }
     }
 }

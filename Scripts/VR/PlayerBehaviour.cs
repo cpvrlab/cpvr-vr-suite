@@ -1,9 +1,10 @@
 using System.Collections;
+using cpvrlab_vr_suite.Scripts.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-namespace cpvrlab_vr_suite.Scripts
+namespace cpvrlab_vr_suite.Scripts.VR
 {
     public class PlayerBehaviour : MonoBehaviour
     {
@@ -105,7 +106,7 @@ namespace cpvrlab_vr_suite.Scripts
             _menuLastOpened = Time.time;
             if (menu.activeSelf)
             {
-                _menuController.OnCloseClick();
+                _menuController.CloseMenu();
             }
             else
             {

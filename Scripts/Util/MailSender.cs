@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using UnityEngine;
 
-namespace cpvrlab_vr_suite.Scripts
+namespace cpvrlab_vr_suite.Scripts.Util
 {
     public static class MailSender
     {
@@ -48,8 +48,8 @@ namespace cpvrlab_vr_suite.Scripts
             }
             catch (Exception e)
             {
-                Debug.Log($"Error sending E-Mail. --> {e}" );
-                return e.ToString();
+                Debug.Log($"Error sending E-Mail. --> {e.Message}" );
+                return e.Message;
             }
         }
     }
