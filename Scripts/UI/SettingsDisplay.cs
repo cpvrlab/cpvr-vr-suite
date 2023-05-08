@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace cpvrlab_vr_suite.Scripts.UI
 {
-    public class SettingsBehaviour : MonoBehaviour
+    public class SettingsDisplay : MonoBehaviour
     {
         [SerializeField] private MenuController menuController;
         [SerializeField] private Text fpsText;
@@ -28,7 +28,6 @@ namespace cpvrlab_vr_suite.Scripts.UI
 
         public void OnFpsToggle()
         {
-            Debug.Log("OnFpsToggle");
             PlayerPrefs.SetInt("showFPS", fpsToggle.isOn ? 1 : 0);
             fpsText.gameObject.SetActive(fpsToggle.isOn);
             fpsCounter.gameObject.SetActive(fpsToggle.isOn);
@@ -36,7 +35,6 @@ namespace cpvrlab_vr_suite.Scripts.UI
 
         public void OnDebugToggle()
         {
-            Debug.Log("OnDebugToggle");
             PlayerPrefs.SetInt("showDebug", debugToggle.isOn ? 1 : 0);
             debugLog.gameObject.SetActive(debugToggle.isOn);
             if (debugToggle.isOn)

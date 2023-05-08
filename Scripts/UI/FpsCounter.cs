@@ -16,7 +16,6 @@ namespace cpvrlab_vr_suite.Scripts.UI
         {
             _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.01f;
             var currentFPS = (1.0f / _deltaTime).ToString("0.0");
-            Debug.Log("FPS: " + currentFPS);
             _fpsText.text = currentFPS + " FPS";
         }
     }
