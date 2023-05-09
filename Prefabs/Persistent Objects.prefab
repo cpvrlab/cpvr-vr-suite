@@ -4435,9 +4435,9 @@ MonoBehaviour:
   m_LeftHandMesh: {fileID: 6718611641279329084, guid: 2db381a9068c1a644afabfb5605b92e1, type: 3}
   m_RightHandMesh: {fileID: 478781614430790623, guid: a8e7de3a354338e49a442bcd3f8abb64, type: 3}
   m_DrawMeshes: 1
-  m_DebugDrawPrefab: {fileID: 6507399986997092475, guid: 254b742d65a15d14b9df756ae77de868, type: 3}
+  m_DebugDrawPrefab: {fileID: 6507399986997092475, guid: 755d008208f0573439813466580ff961, type: 3}
   m_DebugDrawJoints: 0
-  m_VelocityPrefab: {fileID: 8538602047018081646, guid: 629fd7882ec6bfc499a5fcf20035282b, type: 3}
+  m_VelocityPrefab: {fileID: 8538602047018081646, guid: 539ae23ff39afc54fa68f3eaee0a3267, type: 3}
   m_VelocityType: 2
 --- !u!1 &9055394901013581573
 GameObject:
