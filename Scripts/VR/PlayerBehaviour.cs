@@ -50,7 +50,7 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         private void Update()
         {
-            if (_inputDeviceScript.controllerInput) return;
+            if (_inputDeviceScript.controllerInput || _leftHandTransform == null) return;
             var dot = Vector3.Dot(_headTransform.forward,_leftHandTransform.up);
             Debug.Log($"Lefthand Dot: {dot}");
         }

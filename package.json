@@ -1,13 +1,13 @@
 {
   "name": "com.bfh.cpvrlab-vr-suite",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "displayName": "CPVRLab VR Suite",
   "description": "This is a package created for and by the CPVRLab of the BFH. It contains scripts, models, materials and prefabs which are commonly used together in new VR projects by members of the CPVRLab",
   "unity": "2021.3",
   "dependencies": {
-    "com.unity.xr.openxr": "1.6.0",
-    "com.unity.xr.interaction.toolkit": "2.2.0",
-    "com.unity.xr.hands": "1.1.0-pre.2"
+    "com.unity.xr.openxr": "1.7.0",
+    "com.unity.xr.interaction.toolkit": "2.3.2",
+    "com.unity.xr.hands": "1.1.0"
   },
   "keywords": [
     "Virtual Reality"
