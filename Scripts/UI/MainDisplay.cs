@@ -25,7 +25,7 @@ namespace cpvrlab_vr_suite.Scripts.UI
 
         public void OnCloseClick() => menuController.CloseMenu();
 
-        public void OnDebugClick() => menuController.OpenPanel(1);
+        public void OnSettingsClick() => menuController.OpenPanel(1);
 
         public void OnQuitClick()
         {
