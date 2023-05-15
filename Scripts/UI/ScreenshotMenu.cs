@@ -23,7 +23,8 @@ namespace cpvrlab_vr_suite.Scripts.UI
             countdownText.text = "";
             resultText.text = "";
             flashImage.color = new Color(0, 0, 0, 0);
-
+            
+            emailAddress = PlayerPrefs.GetString("emailAddress");
             if (emailAddress.Equals("") && !saveImageToGallery)
                 screenshotButton.interactable = false;
         }
