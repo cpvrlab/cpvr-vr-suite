@@ -122,14 +122,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8542242043287294564}
-        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MainDisplay, bfh.cpvrlab-vr-suite
-        m_MethodName: OnSettingsClick
-        m_Mode: 1
+      - m_Target: {fileID: 7170346546553762396}
+        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MenuController, bfh.cpvrlab-vr-suite
+        m_MethodName: OpenPanel
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -760,10 +760,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9042257186874735367}
-        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.SettingsBehaviour,
-          bfh.cpvrlab-vr-suite
-        m_MethodName: OnBackClicked
+      - m_Target: {fileID: 7170346546553762396}
+        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MenuController, bfh.cpvrlab-vr-suite
+        m_MethodName: OpenMainPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3967,7 +3966,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 6924171197177854669, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_Reference: {fileID: -1619093063939271303, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   leftTeleportAction:
     m_UseReference: 1
     m_Action:
@@ -3979,7 +3978,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -6856852754234941836, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_Reference: {fileID: -6921223074003857015, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rightTeleportAction:
     m_UseReference: 1
     m_Action:
@@ -3991,7 +3990,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8489473731640914149, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_Reference: {fileID: 6339509221879696199, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   menu: {fileID: 8841093295124172921}
 --- !u!114 &9055394900547899481
 MonoBehaviour:

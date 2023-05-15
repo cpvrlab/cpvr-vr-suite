@@ -13,7 +13,9 @@ namespace cpvrlab_vr_suite.Scripts.UI
 
         private void Awake()
         {
-            for (var i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            if (SceneManager.sceneCountInBuildSettings > 1)
+                SceneManager.LoadSceneAsync(1);
+            for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 var button = Instantiate(buttonPrefab, scrollViewContent);
                 button.GetComponentInChildren<TextMeshProUGUI>().text =
