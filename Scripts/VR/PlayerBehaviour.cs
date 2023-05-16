@@ -11,9 +11,11 @@ namespace cpvrlab_vr_suite.Scripts.VR
         [Header("Left Hand Actions")] 
         [SerializeField] private InputActionProperty menuAction;
         [SerializeField] private InputActionProperty leftTeleportAction;
+        [SerializeField] private InputActionProperty leftHandTrackingState;
 
         [Header("Right Hand Actions")]
         [SerializeField] private InputActionProperty rightTeleportAction;
+        [SerializeField] private InputActionProperty rightHandTrackingState;
 
         [Header("User Interface")]
         [SerializeField] private GameObject menu;
@@ -42,8 +44,10 @@ namespace cpvrlab_vr_suite.Scripts.VR
             menuAction.action.performed += ToggleMenu;
             leftTeleportAction.action.performed += StartLeftTeleport;
             leftTeleportAction.action.canceled += EndLeftTeleport;
+            leftHandTrackingState.action.canceled += CancelTeleport;
             rightTeleportAction.action.performed += StartRightTeleport;
             rightTeleportAction.action.canceled += EndRightTeleport;
+            rightHandTrackingState.action.canceled += CancelTeleport;
             SceneManager.activeSceneChanged += ChangedActiveScene;
             StartCoroutine(MenuInitialization());
         }
@@ -85,7 +89,8 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         private void EndRightTeleport(InputAction.CallbackContext obj)
         {
-            if (!_inputDeviceScript.controllerInput && PalmFacesHead(true))
+            if (!_inputDeviceScript.controllerInput && 
+                PalmFacesHead(true))
                 _teleportScript.CancelTeleport();
             else
                 _teleportScript.DisableTeleport();
@@ -93,11 +98,14 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         private void EndLeftTeleport(InputAction.CallbackContext obj)
         {
-            if (!_inputDeviceScript.controllerInput && PalmFacesHead(false))
+            if (!_inputDeviceScript.controllerInput && 
+                PalmFacesHead(false))
                 _teleportScript.CancelTeleport();
             else
                 _teleportScript.DisableTeleport();
         }
+
+        private void CancelTeleport(InputAction.CallbackContext obj) => _teleportScript.CancelTeleport();
 
         private void ToggleMenu(InputAction.CallbackContext obj)
         {

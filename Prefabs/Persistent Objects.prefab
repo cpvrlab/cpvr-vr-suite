@@ -950,6 +950,7 @@ MonoBehaviour:
   fpsToggle: {fileID: 9055394901211816109}
   debugToggle: {fileID: 5729324044379459421}
   emailAddress: {fileID: 3380327945549507093}
+  screenshotButton: {fileID: 9055394901567613860}
 --- !u!1 &4927464769637110788
 GameObject:
   m_ObjectHideFlags: 0
@@ -3979,6 +3980,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -6921223074003857015, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftHandTrackingState:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Hand Tracking State
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ab3616aa-f7e0-4f21-ab8e-f322817e04f9
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 840156964685210860, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rightTeleportAction:
     m_UseReference: 1
     m_Action:
@@ -3991,6 +4004,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6339509221879696199, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rightHandTrackingState:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Hand Tracking State
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ee290f03-6a21-4a54-a6c5-49e3d78f4448
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -7044516463258014562, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   menu: {fileID: 8841093295124172921}
 --- !u!114 &9055394900547899481
 MonoBehaviour:

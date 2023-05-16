@@ -16,6 +16,7 @@ namespace cpvrlab_vr_suite.Scripts.UI
         [SerializeField] private Toggle fpsToggle;
         [SerializeField] private Toggle debugToggle;
         [SerializeField] private TMP_InputField emailAddress;
+        [SerializeField] private Button screenshotButton;
     
         private Dictionary<string, string> _debugLogs = new ();
 
@@ -45,8 +46,11 @@ namespace cpvrlab_vr_suite.Scripts.UI
 
         public void OnEmailFieldExited()
         {
-            if(IsValidEmail(emailAddress.text))
+            if (IsValidEmail(emailAddress.text))
+            {
                 PlayerPrefs.SetString("emailAddress", emailAddress.text);
+                screenshotButton.interactable = true;
+            }
         }
 
         public void OnBackClicked() => menuController.OpenMainPanel();

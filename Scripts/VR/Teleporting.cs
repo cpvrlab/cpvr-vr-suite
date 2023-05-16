@@ -89,6 +89,7 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         public void DisableTeleport()
         {
+            if (!_teleport) return;
             CancelTeleport();
             if (_teleportPosition == Vector3.zero) return;
             // Add camera to origin offset to teleportPosition

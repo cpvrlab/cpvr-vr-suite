@@ -1,5 +1,5 @@
 {
-    "name": "XRI Default Input Actions",
+    "name": "CPVR Input Actions",
     "maps": [
         {
             "name": "XRI Head",
@@ -818,7 +818,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Teleport Select",
@@ -975,7 +975,7 @@
                     "name": "",
                     "id": "687e76dc-9eea-4deb-a0f1-32669d19f0f0",
                     "path": "<MetaAimHand>{LeftHand}/indexPressed",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2,pressPoint=0.9)",
                     "processors": "",
                     "groups": "",
                     "action": "Teleport",
@@ -1539,6 +1539,15 @@
             "id": "99ce76d3-82c5-4289-9670-2ecffa6833fd",
             "actions": [
                 {
+                    "name": "Teleport",
+                    "type": "Button",
+                    "id": "15cf2e5f-c2e9-40a0-8d3c-763610ff8b39",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Teleport Select",
                     "type": "Value",
                     "id": "02e43582-8973-4940-af06-dff6158e3df2",
@@ -1609,29 +1618,9 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Teleport",
-                    "type": "Button",
-                    "id": "15cf2e5f-c2e9-40a0-8d3c-763610ff8b39",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "919c4a6c-22ed-4083-8e14-f30e91ff59fe",
-                    "path": "<XRController>{RightHand}/Primary2DAxis",
-                    "interactions": "Sector(directions=-1,sweepBehavior=3)",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Teleport Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "62690862-4688-4010-975b-b3d9c6062157",
@@ -1724,10 +1713,21 @@
                     "name": "",
                     "id": "99267f07-29ed-4e0b-b0bb-9294cf971ffe",
                     "path": "<MetaAimHand>{RightHand}/indexPressed",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2,pressPoint=0.9)",
                     "processors": "",
                     "groups": "",
                     "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "919c4a6c-22ed-4083-8e14-f30e91ff59fe",
+                    "path": "<XRController>{RightHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=-1,sweepBehavior=3)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
