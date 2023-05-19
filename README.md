@@ -8,7 +8,7 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 ## Adding this package to a Unity project
 
 1. Open the project settings and set up XR Plugin Management
-2. Head to the package manager, add a package via git URL and paste the following URL: https://gitlab.ti.bfh.ch/VR/cpvrlab-vr-suite.git
+2. Head to the package manager, add a package via git URL and paste the following URL: https://github.com/cpvrlab/cpvr-vr-suite.git
 3. In the project settings, set OpenXR as Plugin provider and configure the feature groups as well as the interaction profiles for the desired platform
 4. In order to use the overlay keyboard when using a Meta Quest 2 or Pro headset, a custom AndroidManifest.xml and folder structure has to be created.
    1. Create the following folder structure: **Assets/Plugins/Android**
