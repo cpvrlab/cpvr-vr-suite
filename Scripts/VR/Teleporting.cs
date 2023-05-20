@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Numerics;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 namespace cpvrlab_vr_suite.Scripts.VR
 {
@@ -20,6 +23,8 @@ namespace cpvrlab_vr_suite.Scripts.VR
         [SerializeField] private InputActionProperty leftHandRotation;
         [SerializeField] private InputActionProperty rightHandPosition;
         [SerializeField] private InputActionProperty rightHandRotation;
+        [SerializeField] private Vector3 rightPinchOffset = new Vector3( -0.02f,-0.08f,0.11f);
+        [SerializeField] private Vector3 rightPinchRotationEuler = new Vector3(30, 10, 0);
 
         private Vector3 _teleportPosition;           
         private Transform _circle;
@@ -63,21 +68,25 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         private void DrawTeleportArc()
         {
-            var handPosition = _rightHand ? GetRightHandPosition() : GetLeftHandPosition();
-            var handRotation = _rightHand ? GetRightHandRotation() : GetLeftHandRotation();
-            var controllerPos = CalculatePositionInWorldSpace(handPosition);
+            var handPosOS = _rightHand ? GetRightHandPosition() : GetLeftHandPosition();
+            var handRotOS = _rightHand ? GetRightHandRotation() : GetLeftHandRotation();
+            
+            Vector3 pinchOffsetOS = _rightHand ? rightPinchOffset : 
+                                                 Vector3.Scale(rightPinchOffset, new Vector3(-1,1,1));
+            var handPosWS = CalculatePositionInWorldSpace(handPosOS + handRotOS * pinchOffsetOS);
+            
+            Quaternion pinchRotOS = _rightHand ? Quaternion.Euler(rightPinchRotationEuler) : 
+                                                 Quaternion.Euler(Vector3.Scale(rightPinchRotationEuler,new Vector3(1,-1,1)));
+            GetHandAngleInWorldSpace(handRotOS * pinchRotOS, out var angleXRad, out var angleYRad);
 
-            GetHandAngleInWorldSpace(handRotation, out var angleXRad, out var angleYRad);
+            var heightFromDeepestPoint = handPosWS.y - deepestPoint;
 
-            var heightFromDeepestPoint = controllerPos.y - deepestPoint;
-
-            // Calculate arc in physics, check if a teleportable area was found and draw the arc
-            CreateArc(heightFromDeepestPoint, resolution, length, angleXRad, angleYRad, controllerPos, _lineTeleportPoints);
+            // Calculate arc in physics, check if a teleport area was found and draw the arc
+            CreateArc(heightFromDeepestPoint, resolution, length, angleXRad, angleYRad, handPosWS, _lineTeleportPoints);
             CastRay(_lineTeleportPoints, out var lastPoint, out var hitPos, out var hitNormal, out var valid);
             DrawTeleport(hitPos, hitNormal, lastPoint, valid);
 
             // Store the found valid position 
-        
             _teleportPosition = valid ? hitPos : Vector3.zero;
         }
 
@@ -120,8 +129,10 @@ namespace cpvrlab_vr_suite.Scripts.VR
         }
 
         // calculates the controller or hand position in WS
-        private Vector3 CalculatePositionInWorldSpace(Vector3 posOS) => 
-            Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * posOS + transform.position;
+        private Vector3 CalculatePositionInWorldSpace(Vector3 handPosOS)
+        {
+            return Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * handPosOS + transform.position;
+        }
     
         private void DrawTeleport(Vector3 hitPos, Vector3 hitNormal, int lastPoint, bool valid)
         {
@@ -185,7 +196,7 @@ namespace cpvrlab_vr_suite.Scripts.VR
             }
         }
 
-        // Checks if a teleportable area is in the way of the arc. Shoots a ray every second calculated position
+        // Checks if a teleport area is in the way of the arc. Shoots a ray every second calculated position
         private void CastRay(Vector3[] p, out int lastPoint, out Vector3 hitPos, out Vector3 hitNormal, out bool valid)
         {
             lastPoint = 0;
