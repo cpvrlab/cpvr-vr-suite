@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.9] - 2023-05-22
+- Updated hand model (taken from XR Hands Demo)
+- Created gameobjects for the hands (contains the XRITK components)
+- Removed old hand prefabs and models
+
 ## [1.0.8] - 2023-05-20
 - Added this changelog file
 - Added pinchOffset to Teleporting.cs

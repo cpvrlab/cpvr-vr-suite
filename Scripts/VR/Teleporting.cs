@@ -1,8 +1,5 @@
-﻿using System.Numerics;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using Quaternion = UnityEngine.Quaternion;
-using Vector3 = UnityEngine.Vector3;
 
 namespace cpvrlab_vr_suite.Scripts.VR
 {
