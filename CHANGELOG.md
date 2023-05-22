@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2023-05-22
+- Reworked menu interaction logic
+- Opening the menu is now controlled by the system gesture on the left hand (aim flags)
+- While the menu is open, teleportation is disabled. This is controlled by UnityEvents on the MenuController.cs script
+- Refactored PlayerBehaviour.cs
+
 ## [1.0.9] - 2023-05-22
 - Updated hand model (taken from XR Hands Demo)
 - Created gameobjects for the hands (contains the XRITK components)

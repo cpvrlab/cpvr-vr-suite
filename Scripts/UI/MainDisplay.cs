@@ -25,10 +25,6 @@ namespace cpvrlab_vr_suite.Scripts.UI
             }
         }
 
-        public void OnCloseClick() => menuController.CloseMenu();
-
-        public void OnSettingsClick() => menuController.OpenPanel(1);
-
         public void OnQuitClick()
         {
 #if UNITY_EDITOR
@@ -41,7 +37,6 @@ namespace cpvrlab_vr_suite.Scripts.UI
         private void ChangeScene(int index)
         {
             if (index == SceneManager.GetActiveScene().buildIndex) return;
-            menuController.gameObject.SetActive(false);
             SceneManager.LoadSceneAsync(index);
         }
     }
