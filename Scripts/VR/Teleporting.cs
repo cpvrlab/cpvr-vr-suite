@@ -16,12 +16,9 @@ namespace cpvrlab_vr_suite.Scripts.VR
         [SerializeField] private int resolution;
         [SerializeField] private GameObject circlePrefab;
         [SerializeField] private Transform headTransform;
-        [SerializeField] private InputActionProperty leftHandPosition;
-        [SerializeField] private InputActionProperty leftHandRotation;
-        [SerializeField] private InputActionProperty rightHandPosition;
-        [SerializeField] private InputActionProperty rightHandRotation;
-        [SerializeField] private Vector3 rightPinchOffset = new Vector3( -0.02f,-0.08f,0.11f);
-        [SerializeField] private Vector3 rightPinchRotationEuler = new Vector3(30, 10, 0);
+        [SerializeField] private Transform xrOrigin;
+        [SerializeField] private InputActionProperty teleportAction;
+        [SerializeField] private Transform rayOrigin;
 
         private Vector3 _teleportPosition;           
         private Transform _circle;
@@ -32,27 +29,17 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         private void Awake()
         {
-            resolution          = 1 << resolutionLevel;
+            resolution           = 1 << resolutionLevel;
             _lineTeleport        = gameObject.AddComponent<LineRenderer>();
             _lineTeleportPoints  = new Vector3[resolution + 1];
 
-            _circle = Instantiate(circlePrefab, transform.parent).transform;
+            _circle = Instantiate(circlePrefab, xrOrigin.parent).transform;
             _circle.GetComponent<Renderer>().sharedMaterial.color = validColor;
+
+            if (rayOrigin == null) rayOrigin = transform;
 
             SetupLineRenderer();
             EnableAll(false);
-        }
-
-        private void SetupLineRenderer()
-        {
-            _lineTeleport.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            _lineTeleport.receiveShadows = false;
-            _lineTeleport.allowOcclusionWhenDynamic = false;
-            _lineTeleport.loop = false;
-            _lineTeleport.material = lineMaterial;
-            _lineTeleport.material.color = validColor;
-            _lineTeleport.startWidth = lineThickness;
-            _lineTeleport.endWidth = lineThickness;
         }
 
         private void FixedUpdate()
@@ -63,23 +50,29 @@ namespace cpvrlab_vr_suite.Scripts.VR
             DrawTeleportArc();
         }
 
+        private void OnEnable()
+        {
+            teleportAction.action.performed += _ => _teleport = true;
+            teleportAction.action.canceled += _ => DisableTeleport();
+        }
+        
+        private void OnDisable()
+        {
+            _teleport = false;
+            _lineTeleport.enabled = false;
+            _circle.gameObject.SetActive(false);
+        }
+
         private void DrawTeleportArc()
         {
-            var handPosOS = _rightHand ? GetRightHandPosition() : GetLeftHandPosition();
-            var handRotOS = _rightHand ? GetRightHandRotation() : GetLeftHandRotation();
-            
-            Vector3 pinchOffsetOS = _rightHand ? rightPinchOffset : 
-                                                 Vector3.Scale(rightPinchOffset, new Vector3(-1,1,1));
-            var handPosWS = CalculatePositionInWorldSpace(handPosOS + handRotOS * pinchOffsetOS);
-            
-            Quaternion pinchRotOS = _rightHand ? Quaternion.Euler(rightPinchRotationEuler) : 
-                                                 Quaternion.Euler(Vector3.Scale(rightPinchRotationEuler,new Vector3(1,-1,1)));
-            GetHandAngleInWorldSpace(handRotOS * pinchRotOS, out var angleXRad, out var angleYRad);
-
-            var heightFromDeepestPoint = handPosWS.y - deepestPoint;
+            var handPos = rayOrigin.position;
+            var handRot = transform.rotation;
+            var handAngleXRad = -handRot.eulerAngles.x * Mathf.Deg2Rad;
+            var handAngleYRad = (-handRot.eulerAngles.y + 90.0f) * Mathf.Deg2Rad;
+            var heightFromDeepestPoint = handPos.y - deepestPoint;
 
             // Calculate arc in physics, check if a teleport area was found and draw the arc
-            CreateArc(heightFromDeepestPoint, resolution, length, angleXRad, angleYRad, handPosWS, _lineTeleportPoints);
+            CreateArc(heightFromDeepestPoint, length, handAngleXRad, handAngleYRad, handPos, _lineTeleportPoints);
             CastRay(_lineTeleportPoints, out var lastPoint, out var hitPos, out var hitNormal, out var valid);
             DrawTeleport(hitPos, hitNormal, lastPoint, valid);
 
@@ -87,50 +80,20 @@ namespace cpvrlab_vr_suite.Scripts.VR
             _teleportPosition = valid ? hitPos : Vector3.zero;
         }
 
-        public void Teleport(bool rightHand)
-        {
-            _teleport = true;
-            _rightHand = rightHand;
-        }
-
-        public void DisableTeleport()
+        private void DisableTeleport()
         {
             if (!_teleport) return;
-            CancelTeleport();
-            if (_teleportPosition == Vector3.zero) return;
+            _teleport = false;
+            if (_teleportPosition == Vector3.zero || PalmFacesHead()) return;
             // Add camera to origin offset to teleportPosition
-            var originPosition = transform.position;
+            var originPosition = xrOrigin.position;
             var headPosition = headTransform.position;
             var deltaPosition = originPosition - new Vector3(headPosition.x, originPosition.y, headPosition.z);
             _teleportPosition += deltaPosition;
-            transform.position = _teleportPosition;
+            xrOrigin.position = _teleportPosition;
             _teleportPosition = Vector3.zero;
         }
 
-        public void CancelTeleport() => _teleport = false;
-
-        private Vector3 GetLeftHandPosition() => leftHandPosition.action.ReadValue<Vector3>();
-
-        private Quaternion GetLeftHandRotation() => leftHandRotation.action.ReadValue<Quaternion>();
-
-        private Vector3 GetRightHandPosition() => rightHandPosition.action.ReadValue<Vector3>();
-
-        private Quaternion GetRightHandRotation() => rightHandRotation.action.ReadValue<Quaternion>();
-
-        // stores angleX_RAD and angleY_RAD of the hand rotation in WS
-        private void GetHandAngleInWorldSpace(Quaternion handRotation, out float angleXRad, out float angleYRad)
-        {
-            var handRotationEuler = (transform.rotation * handRotation).eulerAngles;
-            angleXRad = -handRotationEuler.x * Mathf.Deg2Rad;
-            angleYRad = (-handRotationEuler.y + 90.0f) * Mathf.Deg2Rad;
-        }
-
-        // calculates the controller or hand position in WS
-        private Vector3 CalculatePositionInWorldSpace(Vector3 handPosOS)
-        {
-            return Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * handPosOS + transform.position;
-        }
-    
         private void DrawTeleport(Vector3 hitPos, Vector3 hitNormal, int lastPoint, bool valid)
         {
             var hasHit = hitPos != Vector3.zero && valid; // If something was hit
@@ -149,10 +112,7 @@ namespace cpvrlab_vr_suite.Scripts.VR
         }
 
         // Sets the position and rotation of the circle
-        private void SetCircle(Vector3 pos, Vector3 normal)
-        {
-            if (_circle != null) _circle.transform.position = pos + normal * 0.01f;
-        }
+        private void SetCircle(Vector3 pos, Vector3 normal) => _circle.position = pos + normal * 0.01f;
 
         // Enables/Disables the lineTeleport and Circle (Visible Objects)
         private void EnableAll(bool isEnabled)
@@ -166,7 +126,6 @@ namespace cpvrlab_vr_suite.Scripts.VR
 
         // Calculates an arc using 3D projectile motion, returns points in WS
         private void CreateArc(float deepest,
-            int res,
             float velo,
             float angX,
             float angY,
@@ -179,11 +138,11 @@ namespace cpvrlab_vr_suite.Scripts.VR
             var sinY = Mathf.Sin(angY);
             var height = deepest + (velo * velo * sinX * sinX) / 19.62f;
             var totalTime = (velo * sinX) / 9.81f + Mathf.Sqrt(height * 2.0f / 9.81f);
-            var partTime = totalTime / res;
+            var partTime = totalTime / resolution;
             var time = partTime;
             p[0] = controllerPos;   // First position is the origin of the arc
 
-            for (var i = 1; i < (res + 1); i++)
+            for (var i = 1; i < (resolution + 1); i++)
             {
                 p[i].x = velo * cosX * cosY * time;
                 p[i].y = velo * sinX * time - 0.5f * 9.81f * time * time;
@@ -221,16 +180,26 @@ namespace cpvrlab_vr_suite.Scripts.VR
             if (hit.collider != null)
                 valid = ((1 << hit.collider.gameObject.layer) & teleportLayer) != 0;
             // Needed to specify preciser which ray was the last
-            if (i < length)
-            {
-                if (Physics.Linecast(p[i], (p[i + 1]), out hit))
-                {
-                    lastPoint = i;
-                    hitPos = hit.point;
-                    hitNormal = hit.normal;
-                    valid = ((1 << hit.collider.gameObject.layer) & teleportLayer) != 0;
-                }
-            }
+            if (i >= length) return;
+            if (!Physics.Linecast(p[i], (p[i + 1]), out hit)) return;
+            lastPoint = i;
+            hitPos = hit.point;
+            hitNormal = hit.normal;
+            valid = ((1 << hit.collider.gameObject.layer) & teleportLayer) != 0 && !PalmFacesHead();
+        }
+        
+        private bool PalmFacesHead() => Vector3.Dot(headTransform.forward, transform.up) > 0.5f;
+
+        private void SetupLineRenderer()
+        {
+            _lineTeleport.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            _lineTeleport.receiveShadows = false;
+            _lineTeleport.allowOcclusionWhenDynamic = false;
+            _lineTeleport.loop = false;
+            _lineTeleport.material = lineMaterial;
+            _lineTeleport.material.color = validColor;
+            _lineTeleport.startWidth = lineThickness;
+            _lineTeleport.endWidth = lineThickness;
         }
     }
 }
