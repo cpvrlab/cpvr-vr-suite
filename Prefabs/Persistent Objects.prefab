@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: 1922809181}
   - component: {fileID: 1922809180}
   - component: {fileID: 1922809179}
+  - component: {fileID: 1922809185}
   m_Layer: 0
   m_Name: LeftHand
   m_TagString: Untagged
@@ -1184,6 +1185,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRightHand: 0
+--- !u!114 &1922809185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922809177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74ae2ab8abd6224eacf280ff410f8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AimFlagsAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Aim Flags
+      m_Type: 0
+      m_ExpectedControlType: Integer
+      m_Id: e8cffc2c-30c7-4d90-a385-0f68d27a9b9b
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -6595512345416212934, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_SystemGestureStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SystemGestureEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  m_MenuPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7170346546553762396}
+        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MenuController, bfh.cpvrlab-vr-suite.scripts
+        m_MethodName: ToggleMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2078867302
 GameObject:
   m_ObjectHideFlags: 0
@@ -3277,7 +3323,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 9055394901306993400}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3359,9 +3405,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13a5bfbfcd7ac546ba118b2dbd92585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xrOrigin: {fileID: 9055394900547899494}
   panels:
   - {fileID: 8841093296185724283}
   - {fileID: 4828369157437919658}
+  onMenuOpened:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9055394900547899481}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMenuClosed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9055394900547899481}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!95 &9055394901368430178
 Animator:
   serializedVersion: 5
@@ -4301,9 +4378,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8542242043287294564}
-        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MainDisplay, bfh.cpvrlab-vr-suite
-        m_MethodName: OnCloseClick
+      - m_Target: {fileID: 7170346546553762396}
+        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MenuController, bfh.cpvrlab-vr-suite.scripts
+        m_MethodName: ToggleMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5150,6 +5227,7 @@ GameObject:
   - component: {fileID: 9055394900547899492}
   - component: {fileID: 9055394900547899480}
   - component: {fileID: 9055394900547899481}
+  - component: {fileID: 360617695}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -5234,18 +5312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e180db664b94d4f8304eac2c6fa38a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Menu
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: d80aecb2-6140-4747-b551-87ffa934c746
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -1619093063939271303, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   leftTeleportAction:
     m_UseReference: 1
     m_Action:
@@ -5294,7 +5360,6 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -7044516463258014562, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  menu: {fileID: 8841093295124172921}
 --- !u!114 &9055394900547899481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5370,6 +5435,18 @@ MonoBehaviour:
     m_Reference: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rightPinchOffset: {x: -0.02, y: -0.08, z: 0.11}
   rightPinchRotationEuler: {x: 30, y: 10, z: 0}
+--- !u!114 &360617695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055394900547899493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8269b22aa2d413439d7b3a999592126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9055394900569986993
 GameObject:
   m_ObjectHideFlags: 0
