@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2023-05-23
+- Fixed menu opening and closing instantly.
+
 ## [1.1.0] - 2023-05-22
 - Reworked menu interaction logic
 - Opening the menu is now controlled by the system gesture on the left hand (aim flags)

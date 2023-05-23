@@ -21,6 +21,7 @@ namespace cpvrlab_vr_suite.Scripts.UI
         private Animator _animator;
         private Transform _headTransform;
         private bool _inMenu;
+        private float _menuLastOpened = -1f;
 
         private void Awake()
         {
@@ -79,6 +80,8 @@ namespace cpvrlab_vr_suite.Scripts.UI
         
         public async void ToggleMenu()
         {
+            if (Time.time - _menuLastOpened < 0.25f) return;
+            _menuLastOpened = Time.time;
             OpenPanel(0);
             if (_inMenu)
             {
