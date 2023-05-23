@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2023-05-22
+- Reworked the teleport interaction
+- Seperated the teleport interaction from the remaining logic
+- Input interactions are now properly seperated
+- Removed PlayerBehaviour.cs and RegisterHandToXrOrigin.cs
+- Update requires replacing the PersistentObjects prefab
+
 ## [1.1.1] - 2023-05-23
 - Fixed menu opening and closing instantly.
 

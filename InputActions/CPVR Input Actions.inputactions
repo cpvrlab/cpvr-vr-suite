@@ -793,17 +793,6 @@
                     "action": "UI Open",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e2ead2e3-427d-4c64-852b-97c0989e530d",
-                    "path": "<MetaAimHand>{LeftHand}/indexPressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "UI Open",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },

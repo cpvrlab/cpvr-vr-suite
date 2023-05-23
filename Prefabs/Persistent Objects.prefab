@@ -1,5 +1,289 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &366068245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 366068246}
+  - component: {fileID: 366068247}
+  m_Layer: 0
+  m_Name: Teleporting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &366068246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366068245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1922809178}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &366068247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366068245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23f1ef506b4c8a489d6ef54a1181f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  length: 10
+  resolutionLevel: 5
+  deepestPoint: -3
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  lineThickness: 0.01
+  lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
+  resolution: 0
+  circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
+  headTransform: {fileID: 9055394901306993287}
+  xrOrigin: {fileID: 9055394900547899494}
+  teleportAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Teleport
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 395d5b3f-fd18-4744-99ce-6c23f22df36d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -6921223074003857015, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rayOrigin: {fileID: 2078867303}
+--- !u!1 &801673167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 801673168}
+  - component: {fileID: 801673169}
+  m_Layer: 0
+  m_Name: Teleporting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &801673168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801673167}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9055394900516659280}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &801673169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801673167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23f1ef506b4c8a489d6ef54a1181f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  length: 10
+  resolutionLevel: 5
+  deepestPoint: -3
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  lineThickness: 0.01
+  lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
+  resolution: 0
+  circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
+  headTransform: {fileID: 9055394901306993287}
+  xrOrigin: {fileID: 9055394900547899494}
+  teleportAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Teleport
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 395d5b3f-fd18-4744-99ce-6c23f22df36d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -6921223074003857015, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rayOrigin: {fileID: 0}
+--- !u!1 &1090929861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090929862}
+  - component: {fileID: 1090929863}
+  m_Layer: 0
+  m_Name: Teleporting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1090929862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090929861}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9055394901339592154}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1090929863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090929861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23f1ef506b4c8a489d6ef54a1181f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  length: 10
+  resolutionLevel: 5
+  deepestPoint: -3
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  lineThickness: 0.01
+  lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
+  resolution: 0
+  circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
+  headTransform: {fileID: 9055394901306993287}
+  xrOrigin: {fileID: 9055394900547899494}
+  teleportAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Teleport
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 395d5b3f-fd18-4744-99ce-6c23f22df36d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 6339509221879696199, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rayOrigin: {fileID: 0}
+--- !u!1 &1489806270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489806271}
+  - component: {fileID: 1489806272}
+  m_Layer: 0
+  m_Name: Teleporting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1489806271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489806270}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1629237447}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1489806272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489806270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23f1ef506b4c8a489d6ef54a1181f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  length: 10
+  resolutionLevel: 5
+  deepestPoint: -3
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  lineThickness: 0.01
+  lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
+  resolution: 0
+  circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
+  headTransform: {fileID: 9055394901306993287}
+  xrOrigin: {fileID: 9055394900547899494}
+  teleportAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Teleport
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 395d5b3f-fd18-4744-99ce-6c23f22df36d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 6339509221879696199, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rayOrigin: {fileID: 2115677365}
 --- !u!1 &1629237446
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,7 +298,6 @@ GameObject:
   - component: {fileID: 1629237451}
   - component: {fileID: 1629237450}
   - component: {fileID: 1629237449}
-  - component: {fileID: 1629237448}
   m_Layer: 0
   m_Name: RightHand
   m_TagString: Untagged
@@ -35,6 +318,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2115677365}
+  - {fileID: 1489806271}
   m_Father: {fileID: 9055394899935222101}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -579,19 +863,6 @@ MonoBehaviour:
   m_StopLineAtFirstRaycastHit: 1
   m_StopLineAtSelection: 0
   m_SnapEndpointIfAvailable: 1
---- !u!114 &1629237448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629237446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a8bcf55deded494db9893abc7cbcd6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRightHand: 1
 --- !u!1 &1922809177
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +877,6 @@ GameObject:
   - component: {fileID: 1922809182}
   - component: {fileID: 1922809181}
   - component: {fileID: 1922809180}
-  - component: {fileID: 1922809179}
   - component: {fileID: 1922809185}
   m_Layer: 0
   m_Name: LeftHand
@@ -628,6 +898,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2078867303}
+  - {fileID: 366068246}
   m_Father: {fileID: 9055394899935222101}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1172,19 +1443,6 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
---- !u!114 &1922809179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922809177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a8bcf55deded494db9893abc7cbcd6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRightHand: 0
 --- !u!114 &1922809185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3412,7 +3670,43 @@ MonoBehaviour:
   onMenuOpened:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9055394900547899481}
+      - m_Target: {fileID: 366068247}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1489806272}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 801673169}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1090929863}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -3427,7 +3721,43 @@ MonoBehaviour:
   onMenuClosed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9055394900547899481}
+      - m_Target: {fileID: 366068247}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1489806272}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 801673169}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1090929863}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -4649,6 +4979,7 @@ GameObject:
   - component: {fileID: 9055394900516659285}
   - component: {fileID: 9055394900516659282}
   - component: {fileID: 9055394900516659283}
+  - component: {fileID: 763319585}
   m_Layer: 0
   m_Name: LeftHand Controller
   m_TagString: Untagged
@@ -4669,6 +5000,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8948639129571011666}
+  - {fileID: 801673168}
   m_Father: {fileID: 9055394899935222101}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5213,6 +5545,45 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
+--- !u!114 &763319585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055394900516659281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc009fd35480f54787b491036208006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 0e8cfb2e-1ff2-4eed-8788-b228ab91b771
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1619093063939271303, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  callEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7170346546553762396}
+        m_TargetAssemblyTypeName: cpvrlab_vr_suite.Scripts.UI.MenuController, bfh.cpvrlab-vr-suite.scripts
+        m_MethodName: ToggleMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9055394900547899493
 GameObject:
   m_ObjectHideFlags: 0
@@ -5225,8 +5596,6 @@ GameObject:
   - component: {fileID: 9055394900547899495}
   - component: {fileID: 9055394900547899483}
   - component: {fileID: 9055394900547899492}
-  - component: {fileID: 9055394900547899480}
-  - component: {fileID: 9055394900547899481}
   - component: {fileID: 360617695}
   m_Layer: 0
   m_Name: XR Origin
@@ -5280,7 +5649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc9ef92d6c33f74aad222b5107cd3bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerInput: 0
+  controllerInput: 1
   leftController: {fileID: 9055394900516659281}
   rightController: {fileID: 9055394901339592155}
   leftHand: {fileID: 1922809177}
@@ -5300,141 +5669,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ActionAssets:
   - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
---- !u!114 &9055394900547899480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9055394900547899493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1e180db664b94d4f8304eac2c6fa38a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftTeleportAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Teleport
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 1c570198-6317-4d6c-8225-b2c918ecfc8d
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -6921223074003857015, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  leftHandTrackingState:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Tracking State
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: ab3616aa-f7e0-4f21-ab8e-f322817e04f9
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 840156964685210860, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightTeleportAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Teleport
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: ccb93a9d-db41-45c7-901e-bd74735e4a59
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6339509221879696199, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightHandTrackingState:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Hand Tracking State
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: ee290f03-6a21-4a54-a6c5-49e3d78f4448
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -7044516463258014562, guid: c348712bda248c246b8c49b3db54643f, type: 3}
---- !u!114 &9055394900547899481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9055394900547899493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a23f1ef506b4c8a489d6ef54a1181f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  length: 10
-  resolutionLevel: 5
-  deepestPoint: -3
-  validColor: {r: 0, g: 1, b: 0, a: 1}
-  invalidColor: {r: 1, g: 0, b: 0, a: 1}
-  lineThickness: 0.01
-  lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
-  resolution: 0
-  circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
-  headTransform: {fileID: 9055394901306993287}
-  leftHandPosition:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Position
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 73baf8bf-c249-4be1-9978-6c11547adcd3
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  leftHandRotation:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Rotation
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: f150fa10-1fe2-4401-8ef1-ad08656288a4
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8248158260566104461, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightHandPosition:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Hand Position
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: a1a23797-aceb-4280-b1a2-e4c1b3c37f20
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightHandRotation:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Hand Rotation
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 588cd4aa-1525-49cc-b094-0a9cae19ea37
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightPinchOffset: {x: -0.02, y: -0.08, z: 0.11}
-  rightPinchRotationEuler: {x: 30, y: 10, z: 0}
 --- !u!114 &360617695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6555,6 +6789,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3693529215478418871}
+  - {fileID: 1090929862}
   m_Father: {fileID: 9055394899935222101}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
