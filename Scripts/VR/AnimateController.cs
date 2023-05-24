@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace cpvrlab_vr_suite.Scripts.VR
+namespace cpvr_vr_suite.Scripts.VR
 {
     public class AnimateController : MonoBehaviour
     {

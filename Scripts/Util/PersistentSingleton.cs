@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace cpvrlab_vr_suite.Scripts.Util
+namespace cpvr_vr_suite.Scripts.Util
 {
     public class PersistentSingleton : MonoBehaviour
     {
-        public static PersistentSingleton Instance { get; private set; }
+        private static PersistentSingleton Instance { get; set; }
 
         private void Awake()
         {
