@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2023-05-24
+- Added possibility to adjust the angle of the teleport ray
+
 ## [2.0.1] - 2023-05-24
 - Changed menu state after scene change
 - Button referencing the current scene is now non interactable

@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms;
 
 namespace cpvr_vr_suite.Scripts.VR
 {
     public class Teleporting : MonoBehaviour
     {
+        [Header("Ray settings")]
         [SerializeField] private LayerMask teleportLayer;
         [SerializeField] private float length;                        // How far will the arc be
         [SerializeField, Range(1, 7)] private byte resolutionLevel;  
@@ -14,11 +17,14 @@ namespace cpvr_vr_suite.Scripts.VR
         [SerializeField] private float lineThickness = 0.01f;    
         [SerializeField] private Material lineMaterial;
         [SerializeField] private int resolution;
+        [SerializeField, Range(0, 75)] private float rayAngleOffset;
+        [Header("Object references")]
         [SerializeField] private GameObject circlePrefab;
+        [SerializeField] private Transform rayOrigin;
         [SerializeField] private Transform headTransform;
         [SerializeField] private Transform xrOrigin;
+        [Header("Action reference")]
         [SerializeField] private InputActionProperty teleportAction;
-        [SerializeField] private Transform rayOrigin;
 
         private Vector3 _teleportPosition;           
         private Transform _circle;
@@ -36,10 +42,18 @@ namespace cpvr_vr_suite.Scripts.VR
             _circle = Instantiate(circlePrefab, xrOrigin.parent).transform;
             _circle.GetComponent<Renderer>().sharedMaterial.color = validColor;
 
-            if (rayOrigin == null) rayOrigin = transform;
+            if (rayOrigin == null)
+                rayOrigin = transform;
+            else
+                rayOrigin.localRotation = Quaternion.Euler(rayAngleOffset, -rayAngleOffset, 0);
 
             SetupLineRenderer();
             EnableAll(false);
+        }
+
+        private void Start()
+        {
+            
         }
 
         private void FixedUpdate()
@@ -66,7 +80,7 @@ namespace cpvr_vr_suite.Scripts.VR
         private void DrawTeleportArc()
         {
             var handPos = rayOrigin.position;
-            var handRot = transform.rotation;
+            var handRot = rayOrigin.rotation;
             var handAngleXRad = -handRot.eulerAngles.x * Mathf.Deg2Rad;
             var handAngleYRad = (-handRot.eulerAngles.y + 90.0f) * Mathf.Deg2Rad;
             var heightFromDeepestPoint = handPos.y - deepestPoint;
@@ -97,9 +111,9 @@ namespace cpvr_vr_suite.Scripts.VR
         private void DrawTeleport(Vector3 hitPos, Vector3 hitNormal, int lastPoint, bool valid)
         {
             var hasHit = hitPos != Vector3.zero && valid; // If something was hit
-            _lineTeleport.positionCount = (hasHit) ? lastPoint + 1 : _lineTeleportPoints.Length;
-            _lineTeleport.material.color = (hasHit) ? validColor : invalidColor;
-            var maxIteration = (hasHit) ? lastPoint : _lineTeleportPoints.Length;
+            _lineTeleport.positionCount = hasHit ? lastPoint + 1 : _lineTeleportPoints.Length;
+            _lineTeleport.material.color = hasHit ? validColor : invalidColor;
+            var maxIteration = hasHit ? lastPoint : _lineTeleportPoints.Length;
 
             EnableCircle(hasHit);
 
@@ -136,18 +150,22 @@ namespace cpvr_vr_suite.Scripts.VR
             var sinX = Mathf.Sin(angX);
             var cosY = Mathf.Cos(angY);
             var sinY = Mathf.Sin(angY);
-            var height = deepest + (velo * velo * sinX * sinX) / 19.62f;
-            var totalTime = (velo * sinX) / 9.81f + Mathf.Sqrt(height * 2.0f / 9.81f);
+            var height = deepest + Mathf.Pow(velo, 2) * sinX * sinX / (2.0f * 9.81f);
+            var totalTime = velo * sinX / 9.81f + Mathf.Sqrt(height * 2.0f / 9.81f);
             var partTime = totalTime / resolution;
             var time = partTime;
             p[0] = controllerPos;   // First position is the origin of the arc
 
             for (var i = 1; i < (resolution + 1); i++)
             {
-                p[i].x = velo * cosX * cosY * time;
-                p[i].y = velo * sinX * time - 0.5f * 9.81f * time * time;
-                p[i].z = velo * cosX * sinY * time;
-                p[i] += controllerPos;  // Adds position of the controller e.g. the origin of the arc
+                Vector3 arcPos = new()
+                {
+                    x = velo * cosX * cosY * time,
+                    y = velo * sinX * time - 0.5f * 9.81f * Mathf.Pow(time, 2),
+                    z = velo * cosX * sinY * time
+                };
+                arcPos += controllerPos; // Adds position of the controller e.g. the origin of the arc
+                p[i] = arcPos;
                 time += partTime;
             }
         }
