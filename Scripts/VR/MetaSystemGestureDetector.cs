@@ -3,12 +3,10 @@ using Unity.XR.CoreUtils.Bindings.Variables;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit.Inputs;
-#if XR_HANDS
 using UnityEngine.XR.Hands;
-#endif
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
-namespace cpvrlab_vr_suite.Scripts.VR
+namespace cpvr_vr_suite.Scripts.VR
 {
     /// <summary>
     /// Behavior that provides events for when the system gesture starts and ends and when the

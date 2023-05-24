@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace cpvrlab_vr_suite.Scripts.Util
+namespace cpvr_vr_suite.Scripts.Util
 {
     /// <summary>
     /// This is a generic behaviour to show and hide objects when the main camera tagged game object
@@ -12,7 +12,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
         public List<GameObject> objectsToShow;
         public List<GameObject> objectsToHide;
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("MainCamera")) return;
 
@@ -25,7 +25,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
 
         }
 
-        void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("MainCamera")) return;
 

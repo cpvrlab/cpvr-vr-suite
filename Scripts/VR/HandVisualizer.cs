@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
+using UnityEngine;
+using UnityEngine.XR.Hands;
 
-namespace UnityEngine.XR.Hands.Samples.VisualizerSample
+namespace cpvr_vr_suite.Scripts.VR
 {
     public class HandVisualizer : MonoBehaviour
     {
@@ -75,7 +77,7 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
         {
 #if ENABLE_INPUT_SYSTEM
             if (m_UseOptimizedControls)
-                InputSystem.InputSystem.settings.SetInternalFeatureFlag("USE_OPTIMIZED_CONTROLS", true);
+                UnityEngine.InputSystem.InputSystem.settings.SetInternalFeatureFlag("USE_OPTIMIZED_CONTROLS", true);
 #endif // ENABLE_INPUT_SYSTEM
         }
 

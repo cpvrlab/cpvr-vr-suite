@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace cpvrlab_vr_suite.Scripts.UI
+namespace cpvr_vr_suite.Scripts.UI
 {
     public class FpsCounter : MonoBehaviour
     {

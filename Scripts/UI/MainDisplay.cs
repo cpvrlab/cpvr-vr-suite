@@ -1,20 +1,20 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace cpvrlab_vr_suite.Scripts.UI
+namespace cpvr_vr_suite.Scripts.UI
 {
     public class MainDisplay : MonoBehaviour
     {
         [SerializeField] private GameObject buttonPrefab;
         [SerializeField] private Transform scrollViewContent;
-        [SerializeField] private MenuController menuController;
 
+        private readonly List<Button> _sceneButtons = new();
         private void Awake()
         {
-            if (SceneManager.sceneCountInBuildSettings > 1)
-                SceneManager.LoadSceneAsync(1);
+            _sceneButtons.Add(default); // Dummy object to occupy the first index in the list so the button indexes match with the scene indexes
             for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 var button = Instantiate(buttonPrefab, scrollViewContent);
@@ -22,7 +22,12 @@ namespace cpvrlab_vr_suite.Scripts.UI
                     System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
                 var index = i;
                 button.GetComponent<Button>().onClick.AddListener(()=> { ChangeScene(index); });
+                _sceneButtons.Add(button.GetComponent<Button>());
             }
+
+            if (SceneManager.sceneCountInBuildSettings <= 1) return;
+            SceneManager.LoadSceneAsync(1);
+            _sceneButtons[1].interactable = false;
         }
 
         public void OnQuitClick()
@@ -36,7 +41,10 @@ namespace cpvrlab_vr_suite.Scripts.UI
         
         private void ChangeScene(int index)
         {
-            if (index == SceneManager.GetActiveScene().buildIndex) return;
+            var currentIndex = SceneManager.GetActiveScene().buildIndex;
+            if (index == currentIndex) return;
+            _sceneButtons[currentIndex].interactable = true;
+            _sceneButtons[index].interactable = false;
             SceneManager.LoadSceneAsync(index);
         }
     }

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2023-05-24
+- Changed menu state after scene change
+- Button referencing the current scene is now non interactable
+
 ## [2.0.0] - 2023-05-22
 - Reworked the teleport interaction
 - Seperated the teleport interaction from the remaining logic

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace cpvrlab_vr_suite.Scripts.UI
+namespace cpvr_vr_suite.Scripts.UI
 {
     public class MenuController : MonoBehaviour
     {
@@ -34,7 +34,7 @@ namespace cpvrlab_vr_suite.Scripts.UI
 
         private void Start() => ToggleMenu();
 
-        private void OnEnable() => SceneManager.activeSceneChanged += (_, _) => ResetPositionAndRotation();
+        private void OnEnable() => SceneManager.activeSceneChanged += (_, _) => ToggleMenu();
 
         public void OpenPanel(int index)
         {
