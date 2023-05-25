@@ -17,7 +17,7 @@ namespace cpvr_vr_suite.Scripts.VR
         [SerializeField] private float lineThickness = 0.01f;    
         [SerializeField] private Material lineMaterial;
         [SerializeField] private int resolution;
-        [SerializeField, Range(0, 75)] private float rayAngleOffset;
+        [SerializeField, Range(0, 75)] private float rayAngleOffset = 30.0f;
         [Header("Object references")]
         [SerializeField] private GameObject circlePrefab;
         [SerializeField] private Transform rayOrigin;
@@ -31,7 +31,6 @@ namespace cpvr_vr_suite.Scripts.VR
         private LineRenderer _lineTeleport;     
         private Vector3[] _lineTeleportPoints;  
         private bool _teleport;
-        private bool _rightHand;
 
         private void Awake()
         {

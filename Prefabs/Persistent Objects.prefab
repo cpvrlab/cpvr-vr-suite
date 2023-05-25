@@ -56,7 +56,7 @@ MonoBehaviour:
   lineThickness: 0.01
   lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
   resolution: 0
-  rayAngleOffset: 0
+  rayAngleOffset: 30
   circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
   rayOrigin: {fileID: 766076451}
   headTransform: {fileID: 9055394901306993287}
@@ -304,7 +304,7 @@ MonoBehaviour:
   lineThickness: 0.01
   lineMaterial: {fileID: 2100000, guid: 0e6168f19cc9ddd4f86ea5c096db3eb7, type: 2}
   resolution: 0
-  rayAngleOffset: 0
+  rayAngleOffset: 30
   circlePrefab: {fileID: 1930061714443534, guid: 5942a5d5a06424b4685f4dddf5f1d7ea, type: 3}
   rayOrigin: {fileID: 2115677365}
   headTransform: {fileID: 9055394901306993287}
@@ -6183,7 +6183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
