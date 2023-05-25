@@ -16,7 +16,6 @@ namespace cpvr_vr_suite.Scripts.VR
         [SerializeField] private float lineThickness = 0.01f;    
         [SerializeField] private Material lineMaterial;
         [SerializeField] private int resolution;
-        [SerializeField, Range(0, 75)] private float rayAngleOffset = 30.0f;
         [Header("Object references")]
         [SerializeField] private GameObject circlePrefab;
         [SerializeField] private Transform rayOrigin;
@@ -42,8 +41,6 @@ namespace cpvr_vr_suite.Scripts.VR
 
             if (rayOrigin == null)
                 rayOrigin = transform;
-            else
-                rayOrigin.localRotation = Quaternion.Euler(rayAngleOffset, -rayAngleOffset, 0);
 
             SetupLineRenderer();
             EnableAll(false);
