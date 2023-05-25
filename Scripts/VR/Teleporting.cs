@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms;
 
 namespace cpvr_vr_suite.Scripts.VR
 {
@@ -48,11 +47,6 @@ namespace cpvr_vr_suite.Scripts.VR
 
             SetupLineRenderer();
             EnableAll(false);
-        }
-
-        private void Start()
-        {
-            
         }
 
         private void FixedUpdate()
