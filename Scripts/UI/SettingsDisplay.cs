@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using cpvr_vr_suite.Scripts.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace cpvrlab_vr_suite.Scripts.UI
+namespace cpvr_vr_suite.Scripts.UI
 {
+    [DefaultExecutionOrder(1000)]
     public class SettingsDisplay : MonoBehaviour
     {
         [SerializeField] private MenuController menuController;

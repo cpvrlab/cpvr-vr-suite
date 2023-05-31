@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.3] - 2023-05-31
+- emailaddress will now be correctly shown if the field in the inspector has been filled out.
+
 ## [2.0.2] - 2023-05-24
 - Added possibility to adjust the angle of the teleport ray
 
