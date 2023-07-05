@@ -5,6 +5,7 @@ namespace cpvr_vr_suite.Scripts.VR
     public class InterfaceRayBehaviour : MonoBehaviour
     {
         [SerializeField] private bool isRight;
+        [SerializeField] private float additionalPitchAngleDeg = -15.0f;
         private Transform _headTransform;
         private Vector3 _directionOffset;
 
@@ -16,7 +17,10 @@ namespace cpvr_vr_suite.Scripts.VR
             _headTransform = transform;
         }
 
-        private void Update() => transform.rotation = Quaternion.LookRotation(GetShoulderToHandDirection(GetHeadOffset()));
+        private void Update()
+        {
+            transform.rotation = Quaternion.LookRotation(GetShoulderToHandDirection(GetHeadOffset())) * Quaternion.Euler(additionalPitchAngleDeg, 0, 0);
+        }
 
         private Vector3 GetHeadOffset()
         {
