@@ -87,7 +87,7 @@ namespace cpvr_vr_suite.Scripts.VR
         {
             if (!_teleport) return;
             _teleport = false;
-            if (_teleportPosition == Vector3.zero || PalmFacesHead()) return;
+            if (_teleportPosition == Vector3.zero /*|| PalmFacesHead()*/) return;   // Disabled due to bug with inputsystem
             // Add camera to origin offset to teleportPosition
             var originPosition = xrOrigin.position;
             var headPosition = headTransform.position;
@@ -192,7 +192,7 @@ namespace cpvr_vr_suite.Scripts.VR
             lastPoint = i;
             hitPos = hit.point;
             hitNormal = hit.normal;
-            valid = ((1 << hit.collider.gameObject.layer) & teleportLayer) != 0 && !PalmFacesHead();
+            valid = ((1 << hit.collider.gameObject.layer) & teleportLayer) != 0 /*&& !PalmFacesHead()*/;    //Disabled due to bug
         }
         
         private bool PalmFacesHead() => Vector3.Dot(headTransform.forward, transform.up) > 0.5f;
