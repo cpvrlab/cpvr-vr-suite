@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.4] - 2023-07-05
 - HMD tracking bindings are now referencing the CPVR Inputaction bindings.
+- Changed binding reference for XR hand position and rotation.
 
 ## [2.0.3] - 2023-05-31
 - emailaddress will now be correctly shown if the field in the inspector has been filled out.
