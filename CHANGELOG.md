@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2023-07-05
+- Added samples to the package, which contain all mutable items like prefabs and materials
+
 ## [2.0.4] - 2023-07-05
 - HMD tracking bindings are now referencing the CPVR Inputaction bindings.
 - Added Invisible Panel around UI
