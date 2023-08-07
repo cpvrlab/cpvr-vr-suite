@@ -13,7 +13,7 @@
     {
       "displayName": "Essentials",
       "description": "Contains essential mutable assets like prefabs and materials",
-      "path": "Samples~/Essentials"
+      "path": "Samples/Essentials"
     }
   ],
   "keywords": [
