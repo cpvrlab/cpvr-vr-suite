@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.5] - 2023-08-29
+- Updated required versions of dependencies
+- Added flag to toggle the Menu on Start & Scene change on MenuController.cs
+
 ## [2.0.4] - 2023-07-05
 - HMD tracking bindings are now referencing the CPVR Inputaction bindings.
 - Added Invisible Panel around UI
