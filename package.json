@@ -1,6 +1,6 @@
 {
   "name": "com.bfh.cpvrlab-vr-suite",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "displayName": "CPVRLab VR Suite",
   "description": "This is a package created for and by the CPVRLab of the BFH. It contains scripts, models, materials and prefabs which are commonly used together in new VR projects by members of the CPVRLab",
   "unity": "2021.3",

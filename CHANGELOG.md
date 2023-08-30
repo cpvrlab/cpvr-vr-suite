@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.6] - 2023-08-30
+- Added new component for sending events on hovering over UI Elements.
+
 ## [2.0.5] - 2023-08-29
 - Updated required versions of dependencies
 - Added flag to toggle the Menu on Start & Scene change on MenuController.cs
