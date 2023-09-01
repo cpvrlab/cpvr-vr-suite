@@ -3,9 +3,7 @@ using Unity.XR.CoreUtils.Bindings.Variables;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
-#if XR_HANDS_1_1_OR_NEWER
 using UnityEngine.XR.Hands;
-#endif
 
 namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
 {
@@ -130,10 +128,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
 
         readonly BindableEnum<SystemGestureState> m_SystemGestureState = new BindableEnum<SystemGestureState>(checkEquality: false);
 
-#if XR_HANDS_1_1_OR_NEWER
         [NonSerialized] // NonSerialized is required to avoid an "Unsupported enum base type" error about the Flags enum being ulong
         MetaAimFlags m_AimFlags;
-#endif
 
         bool m_AimFlagsBound;
 
@@ -144,15 +140,10 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
         {
             BindAimFlags();
 
-#if XR_HANDS_1_1_OR_NEWER
             var action = m_AimFlagsAction.action;
             if (action != null)
                 // Force invoking the events upon initialization to simplify making sure the callback's desired results are synced
                 UpdateAimFlags((MetaAimFlags)action.ReadValue<int>(), true);
-#else
-            Debug.LogWarning("Script requires XR Hands (com.unity.xr.hands) package to monitor Meta Aim Flags. Install using Window > Package Manager or click Fix on the related issue in Edit > Project Settings > XR Plug-in Management > Project Validation.", this);
-            SetGestureState(SystemGestureState.Ended, true);
-#endif
         }
 
         /// <summary>
@@ -212,7 +203,6 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
             }
         }
 
-#if XR_HANDS_1_1_OR_NEWER
         void UpdateAimFlags(MetaAimFlags value, bool forceInvoke = false)
         {
             var hadMenuPressed = (m_AimFlags & MetaAimFlags.MenuPressed) != 0;
@@ -249,13 +239,10 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
 
             SetGestureState(SystemGestureState.Ended, forceInvoke);
         }
-#endif
 
         void OnAimFlagsActionPerformedOrCanceled(InputAction.CallbackContext context)
         {
-#if XR_HANDS_1_1_OR_NEWER
             UpdateAimFlags((MetaAimFlags)context.ReadValue<int>());
-#endif
         }
     }
 }

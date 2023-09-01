@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Events;
-#if XR_HANDS_1_1_OR_NEWER
 using UnityEngine.XR.Hands;
-#endif
 
 namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
 {
@@ -14,11 +12,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
     {
         [SerializeField]
         [Tooltip("Which hand to check for the poke gesture.")]
-#if XR_HANDS_1_1_OR_NEWER
+
         Handedness m_Handedness;
-#else
-        int m_Handedness;
-#endif
 
         [SerializeField]
         [Tooltip("Called when the hand has started a poke gesture.")]
@@ -28,28 +23,22 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
         [Tooltip("Called when the hand has ended a poke gesture.")]
         UnityEvent m_PokeGestureEnded;
 
-#if XR_HANDS_1_1_OR_NEWER
         XRHandSubsystem m_Subsystem;
         bool m_IsPoking;
 
         static readonly List<XRHandSubsystem> s_Subsystems = new List<XRHandSubsystem>();
-#endif
 
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
         /// </summary>
         protected void OnEnable()
         {
-#if XR_HANDS_1_1_OR_NEWER
             SubsystemManager.GetSubsystems(s_Subsystems);
             if (s_Subsystems.Count == 0)
                 return;
 
             m_Subsystem = s_Subsystems[0];
             m_Subsystem.updatedHands += OnUpdatedHands;
-#else
-            Debug.LogError("Script requires XR Hands (com.unity.xr.hands) package. Install using Window > Package Manager or click Fix on the related issue in Edit > Project Settings > XR Plug-in Management > Project Validation.", this);
-#endif
         }
 
         /// <summary>
@@ -57,16 +46,13 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
         /// </summary>
         protected void OnDisable()
         {
-#if XR_HANDS_1_1_OR_NEWER
             if (m_Subsystem == null)
                 return;
 
             m_Subsystem.updatedHands -= OnUpdatedHands;
             m_Subsystem = null;
-#endif
         }
 
-#if XR_HANDS_1_1_OR_NEWER
         void OnUpdatedHands(XRHandSubsystem subsystem, XRHandSubsystem.UpdateSuccessFlags updateSuccessFlags, XRHandSubsystem.UpdateType updateType)
         {
             var wasPoking = m_IsPoking;
@@ -195,6 +181,5 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
             m_IsPoking = false;
             m_PokeGestureEnded.Invoke();
         }
-#endif
     }
 }
