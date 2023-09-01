@@ -4868,7 +4868,7 @@ MonoBehaviour:
   m_LeftHandMesh: {fileID: 2119128821997336139, guid: 3de860839676b6b459e2c944786d2531, type: 3}
   m_RightHandMesh: {fileID: 2746493918707896725, guid: 0e2ca5c484407ed4a80a1bab4b8a53d1, type: 3}
   m_HandMeshMaterial: {fileID: 0}
-  m_DrawMeshes: 0
+  m_DrawMeshes: 1
   m_DebugDrawPrefab: {fileID: 6507399986997092475, guid: 755d008208f0573439813466580ff961, type: 3}
   m_DebugDrawJoints: 0
   m_VelocityPrefab: {fileID: 8538602047018081646, guid: 539ae23ff39afc54fa68f3eaee0a3267, type: 3}

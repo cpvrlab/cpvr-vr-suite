@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.7] - 2023-09-01
+- Added new rig which is based on the latest example from the XRITK
+
 ## [2.0.6] - 2023-08-30
 - Added new component for sending events on hovering over UI Elements.
 
