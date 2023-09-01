@@ -7466,8 +7466,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7002916714603714710}
   - component: {fileID: 1762016631692000656}
-  - component: {fileID: 7439220731565638286}
-  - component: {fileID: 3549770210416300791}
+  - component: {fileID: 7455870049792634616}
+  - component: {fileID: 2002115677164849535}
   - component: {fileID: 7372181171722318978}
   m_Layer: 0
   m_Name: Right Hand
@@ -7517,7 +7517,7 @@ MonoBehaviour:
   - {fileID: 6886952933355931079}
   - {fileID: 7639454815167929302}
   m_StartingInteractionOverridesMap: []
---- !u!114 &7439220731565638286
+--- !u!114 &7455870049792634616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7526,7 +7526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5154471940470052233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbac611a2982409ab5f5e604f53bcad0, type: 3}
+  m_Script: {fileID: 11500000, guid: f74a0c00f65b3fc4e962c87b6844c8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Handedness: 2
@@ -7560,7 +7560,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &3549770210416300791
+--- !u!114 &2002115677164849535
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7569,7 +7569,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5154471940470052233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a83bc4aa48d0da648b49d0fd56690b25, type: 3}
+  m_Script: {fileID: 11500000, guid: ccbd40f81f7e6554696aa00ec01f2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_AimFlagsAction:
@@ -14855,8 +14855,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3023228402533355749}
   - component: {fileID: 84803741114045932}
-  - component: {fileID: 3176091995159301064}
-  - component: {fileID: 7128304616722775948}
+  - component: {fileID: 2147214809529025418}
+  - component: {fileID: 6777519674114006665}
   - component: {fileID: 2548296373528207716}
   m_Layer: 0
   m_Name: Left Hand
@@ -14906,7 +14906,7 @@ MonoBehaviour:
   - {fileID: 5080279640890025676}
   - {fileID: 3966407815328395337}
   m_StartingInteractionOverridesMap: []
---- !u!114 &3176091995159301064
+--- !u!114 &2147214809529025418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14915,7 +14915,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8418722199596893119}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbac611a2982409ab5f5e604f53bcad0, type: 3}
+  m_Script: {fileID: 11500000, guid: f74a0c00f65b3fc4e962c87b6844c8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Handedness: 1
@@ -14949,7 +14949,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &7128304616722775948
+--- !u!114 &6777519674114006665
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14958,7 +14958,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8418722199596893119}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a83bc4aa48d0da648b49d0fd56690b25, type: 3}
+  m_Script: {fileID: 11500000, guid: ccbd40f81f7e6554696aa00ec01f2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_AimFlagsAction:

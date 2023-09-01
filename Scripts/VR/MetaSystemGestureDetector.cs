@@ -1,12 +1,13 @@
 using System;
 using Unity.XR.CoreUtils.Bindings.Variables;
-using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
+#if XR_HANDS_1_1_OR_NEWER
+using UnityEngine.XR.Hands;
+#endif
 
-namespace cpvr_vr_suite.Scripts.VR
+namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
 {
     /// <summary>
     /// Behavior that provides events for when the system gesture starts and ends and when the
@@ -129,7 +130,7 @@ namespace cpvr_vr_suite.Scripts.VR
 
         readonly BindableEnum<SystemGestureState> m_SystemGestureState = new BindableEnum<SystemGestureState>(checkEquality: false);
 
-#if XR_HANDS
+#if XR_HANDS_1_1_OR_NEWER
         [NonSerialized] // NonSerialized is required to avoid an "Unsupported enum base type" error about the Flags enum being ulong
         MetaAimFlags m_AimFlags;
 #endif
@@ -143,7 +144,7 @@ namespace cpvr_vr_suite.Scripts.VR
         {
             BindAimFlags();
 
-#if XR_HANDS
+#if XR_HANDS_1_1_OR_NEWER
             var action = m_AimFlagsAction.action;
             if (action != null)
                 // Force invoking the events upon initialization to simplify making sure the callback's desired results are synced
@@ -211,7 +212,7 @@ namespace cpvr_vr_suite.Scripts.VR
             }
         }
 
-#if XR_HANDS
+#if XR_HANDS_1_1_OR_NEWER
         void UpdateAimFlags(MetaAimFlags value, bool forceInvoke = false)
         {
             var hadMenuPressed = (m_AimFlags & MetaAimFlags.MenuPressed) != 0;
@@ -252,7 +253,7 @@ namespace cpvr_vr_suite.Scripts.VR
 
         void OnAimFlagsActionPerformedOrCanceled(InputAction.CallbackContext context)
         {
-#if XR_HANDS
+#if XR_HANDS_1_1_OR_NEWER
             UpdateAimFlags((MetaAimFlags)context.ReadValue<int>());
 #endif
         }
