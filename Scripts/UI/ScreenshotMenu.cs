@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using cpvrlab_vr_suite.Scripts.Util;
 using TMPro;
 using UnityEngine;
@@ -32,9 +33,9 @@ namespace cpvr_vr_suite.Scripts.UI
                 screenshotButton.interactable = false;
         }
 
-        public void OnScreenshotClicked() => StartCoroutine(ScreenshotRoutine());
+        public void OnScreenshotClicked() => ScreenshotRoutine();
 
-        private IEnumerator ScreenshotRoutine()
+        private async void ScreenshotRoutine()
         {
             var flashColor = Color.white;
             var filename = $"VR4Architects-{DateTime.Now:yyyyMMdd-HHmmss}";
@@ -45,15 +46,16 @@ namespace cpvr_vr_suite.Scripts.UI
             for (var i = 4; i > 0; i--)
             {
                 countdownText.text = i.ToString();
-                yield return new WaitForSeconds(1);
+                await Task.Delay(1000);
             }
             countdownText.text = "";
-            yield return null;
+
+            await Task.Yield();
         
             // Take Screenshot
             var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
 
-            yield return null;
+            await Task.Yield();
 
             // Flash Screen
             flashImage.color = flashColor;
@@ -61,7 +63,7 @@ namespace cpvr_vr_suite.Scripts.UI
             {
                 flashColor.a = Mathf.Lerp(1, 0, i / 0.33f);
                 flashImage.color = flashColor;
-                yield return null;
+                await Task.Yield();
             }
         
             screenshotButton.interactable = true;
@@ -72,11 +74,11 @@ namespace cpvr_vr_suite.Scripts.UI
 
             if (!emailAddress.Equals(""))
             {
-                var emailError = MailSender.SendEmail(emailAddress, "", screenshot);
-                if (emailError.Equals(""))
+                var emailError = await MailSender.SendEmail(emailAddress, "", screenshot);
+                if (emailError)
                     resultMsg = "Screenshot sent to " + emailAddress;
                 else
-                    resultMsg = "Error sending screenshot to " + emailError;
+                    resultMsg = "Error sending screenshot to " + emailAddress;
             }
         
             // Save to local Storage (Quest)
@@ -95,14 +97,13 @@ namespace cpvr_vr_suite.Scripts.UI
 
                 for (var i = 3; i > 0; i--)
                 {
-                    yield return new WaitForSeconds(1);
+                    await Task.Delay(1000);
                 }
             
                 Debug.Log(resultMsg);
             
                 resultText.text = "";
                 countdownText.text = "";
-                yield return null;
             }
         }
     }

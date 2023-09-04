@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace cpvrlab_vr_suite.Scripts.Util
@@ -14,7 +15,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
         private const string SenderEmail = "cpvr.architects@gmail.com";
         private const string Password = "qqkspvmhdslrizea";
 
-        public static string SendEmail(string receiver, string message, Texture2D screenshot)
+        public static async Task<bool> SendEmail(string receiver, string message, Texture2D screenshot)
         {
             try
             {
@@ -43,13 +44,13 @@ namespace cpvrlab_vr_suite.Scripts.Util
                 smtpClient.EnableSsl = true;
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new NetworkCredential(SenderEmail, Password);
-                smtpClient.SendAsync(mail, null);
-                return "";
+                await smtpClient.SendMailAsync(mail);
+                return true;
             }
             catch (Exception e)
             {
-                Debug.Log($"Error sending E-Mail. --> {e.Message}" );
-                return e.Message;
+                Debug.LogException(e);
+                return false;
             }
         }
     }

@@ -28,7 +28,7 @@ public class DebugDisplay : MonoBehaviour
 
     private void HandleLog(string logString, string stackTrace, LogType type)
         {
-            if (type == LogType.Log)
+            if (type == LogType.Log || type == LogType.Exception)
             {
                 var splitString = logString.Split(char.Parse(":"));
                 var debugKey = splitString[0];
