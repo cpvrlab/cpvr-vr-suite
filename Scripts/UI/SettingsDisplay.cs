@@ -11,7 +11,7 @@ namespace cpvr_vr_suite.Scripts.UI
     public class SettingsDisplay : MonoBehaviour
     {
         [SerializeField] private MenuController menuController;
-        [SerializeField] private Text fpsText;
+        [SerializeField] private TMP_Text fpsText;
         [SerializeField] private FpsCounter fpsCounter;
         [SerializeField] private TMP_Text debugLog;
         [SerializeField] private Toggle fpsToggle;

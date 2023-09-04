@@ -1,14 +1,13 @@
-using System;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 using Unity.Profiling;
+using TMPro;
 
 namespace cpvr_vr_suite.Scripts.UI
 {
     public class FpsCounter : MonoBehaviour
     {
-        private Text _fpsText;
+        private TMP_Text _fpsText;
         private float _deltaTime;
         private ProfilerRecorder _drawBatchCountRecorder;
         private ProfilerRecorder _drawCallCountRecorder;
@@ -29,7 +28,7 @@ namespace cpvr_vr_suite.Scripts.UI
         }
 
 
-        private void Start() => _fpsText = GetComponent<Text>();
+        private void Start() => _fpsText = GetComponent<TMP_Text>();
 
         private void Update()
         {

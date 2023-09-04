@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace cpvr_vr_suite.Scripts.Util
 {
@@ -15,6 +16,9 @@ namespace cpvr_vr_suite.Scripts.Util
                 Instance = this;
                 DontDestroyOnLoad(gameObject);    
             }
+
+            if (SceneManager.sceneCountInBuildSettings <= 1) return;
+            SceneManager.LoadSceneAsync(1);
         }
 
         private void OnApplicationQuit()

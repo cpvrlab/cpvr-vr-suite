@@ -95,7 +95,6 @@ namespace cpvr_vr_suite.Scripts.UI
 
                 for (var i = 3; i > 0; i--)
                 {
-                    countdownText.text = i.ToString();
                     yield return new WaitForSeconds(1);
                 }
             
