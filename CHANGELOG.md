@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.8] - 2023-09-04
+- Implemented complete handmenu to the new rig
+- fixed missing script errors in the old rig
+
 ## [2.0.7] - 2023-09-01
 - Added new rig which is based on the latest example from the XRITK
 - Added empty handmenu to the new rig
