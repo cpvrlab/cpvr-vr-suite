@@ -10,6 +10,7 @@ namespace cpvr_vr_suite.Scripts.UI
 {
     public class MenuController : MonoBehaviour
     {
+        [SerializeField] private bool _showMenuOnStart;
         [SerializeField] private Transform xrOrigin;
         
         [Header("UI Elements")] 
@@ -32,9 +33,18 @@ namespace cpvr_vr_suite.Scripts.UI
                 Debug.LogError("Camera is not positioned setup or placed correctly!");
         }
 
-        private void Start() => ToggleMenu();
+        private void Start()
+        {
+            if (_showMenuOnStart)
+                OpenMenu();
+            else
+                CloseMenu();
+        }
 
-        private void OnEnable() => SceneManager.activeSceneChanged += (_, _) => ToggleMenu();
+        private void OnEnable() => SceneManager.activeSceneChanged += (_, _) => {
+            if (!_showMenuOnStart) return;
+            OpenMenu();
+        };
 
         public void OpenPanel(int index)
         {
@@ -82,22 +92,34 @@ namespace cpvr_vr_suite.Scripts.UI
         {
             if (Time.time - _menuLastOpened < 0.25f) return;
             _menuLastOpened = Time.time;
-            OpenPanel(0);
             if (_inMenu)
             {
-                onMenuClosed?.Invoke();
                 _animator.Play("MenuClose");
                 await Task.Delay(250);
-                CloseAllPanels();  
+                CloseMenu();
             }
             else
             {
-                onMenuOpened?.Invoke();
-                UpdatePositionAndRotation();
+                OpenMenu();
                 _animator.Play("MenuOpen");
                 await Task.Delay(250);
             }
-            _inMenu = !_inMenu;
+        }
+
+        private void OpenMenu()
+        {
+            OpenPanel(0);
+            UpdatePositionAndRotation();
+            onMenuOpened?.Invoke();
+            _inMenu = true;
+        }
+
+        private void CloseMenu()
+        {
+            OpenPanel(0);
+            onMenuClosed?.Invoke();
+            CloseAllPanels();
+            _inMenu = false;
         }
     }
 }

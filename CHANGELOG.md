@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.8] - 2023-09-04
+- Implemented complete handmenu to the new rig
+- fixed missing script errors in the old rig
+
+## [2.0.7] - 2023-09-01
+- Added new rig which is based on the latest example from the XRITK
+- Added empty handmenu to the new rig
+
+## [2.0.6] - 2023-08-30
+- Added new component for sending events on hovering over UI Elements.
+
+## [2.0.5] - 2023-08-29
+- Updated required versions of dependencies
+- Added flag to toggle the Menu on Start & Scene change on MenuController.cs
+
 ## [2.0.4] - 2023-07-05
 - HMD tracking bindings are now referencing the CPVR Inputaction bindings.
 - Added Invisible Panel around UI

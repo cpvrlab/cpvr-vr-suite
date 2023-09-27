@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Userpresence",
+                    "type": "Button",
+                    "id": "29a95865-8b1c-431c-b842-895e9dbab845",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -243,6 +252,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Is Tracked",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ae45ce9-80b4-45d7-9e72-40cf72576855",
+                    "path": "<XRInputV1::OpenXR::HeadTrackingOpenXR>/userpresence",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Userpresence",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

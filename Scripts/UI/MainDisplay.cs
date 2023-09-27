@@ -26,7 +26,6 @@ namespace cpvr_vr_suite.Scripts.UI
             }
 
             if (SceneManager.sceneCountInBuildSettings <= 1) return;
-            SceneManager.LoadSceneAsync(1);
             _sceneButtons[1].interactable = false;
         }
 
@@ -35,7 +34,7 @@ namespace cpvr_vr_suite.Scripts.UI
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Application.Quit();
+            Application.Quit();
 #endif
         }
         
