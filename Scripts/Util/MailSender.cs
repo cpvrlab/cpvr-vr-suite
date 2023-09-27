@@ -10,22 +10,24 @@ namespace cpvrlab_vr_suite.Scripts.Util
 {
     public static class MailSender
     {
-        private const string SmtpHost = "smtp.gmail.com";
-        private const int SmtpPort = 587;
-        private const string SenderEmail = "cpvr.architects@gmail.com";
-        private const string Password = "qqkspvmhdslrizea";
-
         public static async Task<bool> SendEmail(string receiver, string message, Texture2D screenshot)
         {
             try
             {
-                SmtpClient smtpClient = new SmtpClient(SmtpHost, SmtpPort);
+                var mailData = LoadJsonData.Load("Secrets/EmailLogin");
+                if (mailData == null)
+                {
+                    Debug.LogError("No valid MailData object returned!");
+                    return false;
+                }
+
+                SmtpClient smtpClient = new SmtpClient(mailData.server, mailData.port);
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.EnableSsl = true;
 
                 MailMessage mail = new MailMessage();
-                mail.From = new MailAddress(SenderEmail);
+                mail.From = new MailAddress(mailData.address);
                 mail.To.Add(new MailAddress(receiver));
                 mail.Subject = "VR4Architects Screenshot";
                 mail.Body = message;
@@ -43,7 +45,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
                 smtpClient.Timeout = 5000;
                 smtpClient.EnableSsl = true;
                 smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(SenderEmail, Password);
+                smtpClient.Credentials = new NetworkCredential(mailData.address, mailData.apiKey);
                 await smtpClient.SendMailAsync(mail);
                 return true;
             }

@@ -40,7 +40,11 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 1. Place the **Persistent Objects** prefab in an empty scene and add it to the build index
 2. Add your additional scenes to the build index without the **Persistent Object** prefab, camera or any other XR Rig in them
 
-## Further developing this package
+### Sending screenshots via Email
+
+In order to send emails via the screenshotmenu a valid EmailLogin.json file must be provided and stored in 'Assets/Resources/Secrets'. It is forbidden to push this file to a repository as it contains the necessary credentials for the sending email account.
+
+## Extending this package
 
 If you wish to extend the functionality of this package, there are two basic ways to accomplish this.
 1. If you are using a blank project, you can directly clone this repository into your 'Assets' folder. Open a Terminal in your project folder then use the following commands:
