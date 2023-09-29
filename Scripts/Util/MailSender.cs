@@ -51,7 +51,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Debug.Log(e);
                 return false;
             }
         }

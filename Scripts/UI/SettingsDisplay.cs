@@ -89,8 +89,9 @@ namespace cpvr_vr_suite.Scripts.UI
                 var mailAddress = new MailAddress(email);
                 return true;
             }
-            catch (FormatException)
+            catch (FormatException e)
             {
+                Debug.Log(e);
                 return false;
             }
         }

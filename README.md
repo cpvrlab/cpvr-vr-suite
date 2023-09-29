@@ -44,6 +44,10 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 
 In order to send emails via the screenshotmenu a valid EmailLogin.json file must be provided and stored in 'Assets/Resources/Secrets'. It is forbidden to push this file to a repository as it contains the necessary credentials for the sending email account.
 
+Additionally it must be verified that the following two settings are correctly set in the *Project Settings*.
+- Player > Internet Acces: Required
+- XR Plugin Management > OpenXR > Meta Quest Support Settings (Gear icon) > Manifest Settings > Force Remove Internet: false (unticked)
+
 ## Extending this package
 
 If you wish to extend the functionality of this package, there are two basic ways to accomplish this.
