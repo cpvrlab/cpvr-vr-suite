@@ -9,16 +9,6 @@
     "com.unity.xr.interaction.toolkit": "2.4.3",
     "com.unity.xr.hands": "1.2.1"
   },
-<<<<<<< HEAD
-=======
-  "samples": [
-    {
-      "displayName": "Essentials",
-      "description": "Contains essential mutable assets like prefabs and materials",
-      "path": "Samples/Essentials"
-    }
-  ],
->>>>>>> parent of 37efcdc... Hid samples in package
   "keywords": [
     "Virtual Reality"
   ],
