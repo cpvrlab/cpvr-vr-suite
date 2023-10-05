@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.9] - 2023-10-05
+- Implemented Gaze Interactor and Gaze Event components
+
 ## [2.0.8] - 2023-09-04
 - Implemented complete handmenu to the new rig
 - fixed missing script errors in the old rig
