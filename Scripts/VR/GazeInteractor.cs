@@ -44,8 +44,6 @@ public class GazeInteractor : MonoBehaviour
     {
         if (interactable.TryGetComponent<GazeEvent>(out _gazeInteractable))
             _gazeInteractable.OnHoverEnter();
-        else
-            Debug.LogError("GameObject is missing a GazeEvent component.");
     }
 
     private void UnregisterInteractable()
