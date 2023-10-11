@@ -6,12 +6,14 @@ namespace cpvr_vr_suite.Scripts.VR
     {
         [SerializeField] private bool isRight;
         [SerializeField] private float additionalPitchAngleDeg = -15.0f;
-        private Transform _headTransform;
-        private Vector3 _directionOffset;
+        [SerializeField] private Transform _headTransform;
 
         private void Start()
         {
-            _headTransform = GameObject.Find("XR Origin").transform.GetChild(0).GetChild(0).transform;
+            if (_headTransform == null)
+            {
+                _headTransform = GameObject.Find("XR Origin").transform.GetChild(0).GetChild(0).transform;
+            }
             if (_headTransform.CompareTag("MainCamera")) return;
             Debug.LogError("Reference is not the Main Camera");
             _headTransform = transform;

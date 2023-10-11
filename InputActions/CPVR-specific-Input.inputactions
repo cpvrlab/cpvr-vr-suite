@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Teleport Select",
+                    "type": "Button",
+                    "id": "fc157a56-5229-48fe-93e0-3a4a7f754859",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -24,6 +33,65 @@
                     "processors": "",
                     "groups": "",
                     "action": "Teleport Mode activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "166da06c-2c3e-4ae7-adc5-8374056141f8",
+                    "path": "<MetaAimHand>{LeftHand}/indexPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Righthand actions",
+            "id": "fde0efe8-9b93-4197-ad0d-b3defc01a327",
+            "actions": [
+                {
+                    "name": "Teleport mode activate",
+                    "type": "Value",
+                    "id": "eb715b12-cc5a-4d77-9bb4-0ab55c692b03",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Teleport Select",
+                    "type": "Button",
+                    "id": "bd16ffdd-4d6d-4341-a0ac-058b1a09cce5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2285d1a4-31c1-414e-8cb7-823a4efb8981",
+                    "path": "<MetaAimHand>{RightHand}/pinchStrengthIndex",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport mode activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "486445b1-6b19-46d6-b217-7f47c2049a56",
+                    "path": "<MetaAimHand>{RightHand}/indexPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
