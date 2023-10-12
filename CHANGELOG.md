@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2023-10-12
+- Major rework of the package
+- Implemented project validation which informs the user if all required packages and samples are in the project
+- Created new VR Rig based on the latest features from the XR Interaction Toolkit
+- Gaze interaction is now available, which can be toggled in the settings menu
+- Added new handmenu logic with a wrist button
+- Created new InputAction set which only contains the custom actions
+- Replaced teleporting behaviour with the XRITK solution
+- Removed obsolete code, files and prefabs
+
 ## [2.0.9] - 2023-10-05
 - Implemented Gaze Interactor and Gaze Event components
 
