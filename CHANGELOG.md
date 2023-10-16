@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Added dynamic handmenu panels which can be placed in a scene and get loaded when the scene is entered and unloaded when leaving the scene
 - Minor restructure of mainmenu layout
 - Minor bugfix regarding the start state of the gaze interactor
+- Added Quick Outline to the package
 
 ## [3.0.0] - 2023-10-12
 - Major rework of the package
