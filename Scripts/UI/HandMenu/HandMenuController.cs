@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -46,7 +45,11 @@ public class HandMenuController : MonoBehaviour
             _audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        _panels.ForEach(panel => AddUiElementSoundFeedback(panel));
+        _panels.ForEach(panel => 
+        {
+            RegisterPanel(panel);
+            AddUiElementSoundFeedback(panel);
+        });
     }
 
     private void OnEnable()
@@ -60,39 +63,48 @@ public class HandMenuController : MonoBehaviour
         _onDisable?.Invoke();
     }
 
-    public void OpenPanel(int index)
+    public void OpenPanel(MenuPanel panel)
     {
         CloseAllPanels();
-        try
-        {
-            _panels[index].gameObject.SetActive(true);
-        }
-        catch (ArgumentOutOfRangeException e)
-        {
-            _panels.First().gameObject.SetActive(true);
-            throw new IndexOutOfRangeException(
-                $"Panel index {index} not within bounds of panel list with length {_panels.Count}.\n{e.Message}");
-        }
+        panel.gameObject.SetActive(true);
     }
 
     public void OpenMainPanel()
     {
         CloseAllPanels();
-        OpenPanel(0);
+        OpenPanel(_panels.First());
     }
 
     public void RegisterPanel(MenuPanel panel)
     {
-        if (_panels.Contains(panel))
+        if (panel.TryGetComponent<MainPanel>(out var _)) return;
+
+        panel.transform.SetParent(transform);
+        panel.transform.SetPositionAndRotation(_panels.First().transform.position, _panels.First().transform.rotation);
+        _panels.First().GetComponent<MainPanel>().AddPanelButton(panel, _panels.Count-1);
+        AddUiElementSoundFeedback(panel);
+        if (!_panels.Contains(panel))
         {
-            Debug.LogWarning($"[PANEL {panel.transform.name}]: Panel already registered.");
+            _panels.Add(panel);
+            panel.gameObject.SetActive(false);
+        } 
+    }
+
+    public void UnregisterDynamicPanels()
+    {
+        var dynamicPanels = _panels.Where(item => item.PanelType == PanelType.Dynamic).ToList();
+        if (!_panels.First().TryGetComponent<MainPanel>(out var mainPanel))
+        {
+            Debug.LogError("First panel does not have a MainPanel Component.");
             return;
         }
 
-        panel.transform.SetParent(transform);
-        _panels.Add(panel);
-        AddUiElementSoundFeedback(panel);
-        _panels.First().GetComponent<MainPanel>().EnableDynamicButton(panel, _panels.Count-1);
+        foreach (var panel in dynamicPanels)
+        {
+            mainPanel.RemovePanelButton(panel);
+            _panels.Remove(panel);
+            panel.transform.SetParent(null);
+        }
     }
 
     private void CloseAllPanels()

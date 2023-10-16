@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum PanelType
 {
@@ -14,13 +13,18 @@ public class MenuPanel : MonoBehaviour
     [SerializeField] private Sprite _sprite;
 
     public Sprite Sprite { get => _sprite; private set => _sprite = value; }
+    public PanelType PanelType { get => _panelType; private set => _panelType = value; }
 
     protected virtual void Start()
     {
         Init();
     }
 
-    public void OnBackClicked() => _handMenuController?.OpenMainPanel();
+    public void OnBackClicked()
+    {
+        if (_handMenuController == null) return;
+        _handMenuController.OpenMainPanel();
+    }
 
     public void OnQuitClicked()
     {
@@ -35,22 +39,13 @@ public class MenuPanel : MonoBehaviour
     {
         if (transform.parent == null || !transform.parent.TryGetComponent(out _handMenuController))
         {
-            if (_panelType == PanelType.Static)
+            _handMenuController = FindFirstObjectByType<HandMenuController>();
+            if (_handMenuController == null)
             {
-                Debug.LogError($"[PANEL {transform.name}]: Static panel does not have a parent with a HandMenuController attached.");
-            }
-            else if (_panelType == PanelType.Dynamic)
-            {
-                _handMenuController = FindFirstObjectByType<HandMenuController>();
-                if (_handMenuController != null)
-                {
-                    _handMenuController.RegisterPanel(this);
-                }
-                else
-                {
-                    Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach dynamic panel to.");
-                }
+                Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
+                return;
             }
         }
+        _handMenuController.RegisterPanel(this);
     }
 }

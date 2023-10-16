@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SceneSelectionPanel : MenuPanel
 {
     [SerializeField] private GameObject buttonPrefab;
-    [SerializeField] private Transform scrollViewContent;
+    [SerializeField] private Transform scrollviewContent;
     private readonly List<Button> _sceneButtons = new();
 
     private void Awake()
@@ -15,7 +15,7 @@ public class SceneSelectionPanel : MenuPanel
         _sceneButtons.Add(default); // Dummy object to occupy the first index in the list so the button indexes match with the scene indexes
         for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            var button = Instantiate(buttonPrefab, scrollViewContent);
+            var button = Instantiate(buttonPrefab, scrollviewContent);
             button.GetComponentInChildren<TextMeshProUGUI>().text =
                 System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
             var index = i;
@@ -33,6 +33,7 @@ public class SceneSelectionPanel : MenuPanel
         if (index == currentIndex) return;
         _sceneButtons[currentIndex].interactable = true;
         _sceneButtons[index].interactable = false;
+        _handMenuController.UnregisterDynamicPanels();
         SceneManager.LoadSceneAsync(index);
     }
 }

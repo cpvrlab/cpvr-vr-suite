@@ -1,21 +1,39 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainPanel : MenuPanel
 {
-    [SerializeField] private Button _dynamicButton;
+    [SerializeField] private Transform _scrollviewContent;
+    [SerializeField] private GameObject _buttonPrefab;
+    private Dictionary<MenuPanel, Button> _menuButtonDictionary = new ();
 
-    public void EnableDynamicButton(MenuPanel panel, int index)
+    protected override void Start() => _handMenuController = transform.parent.GetComponent<HandMenuController>();
+
+    public void AddPanelButton(MenuPanel panel, int index)
     {
-        if (_dynamicButton.transform.GetChild(0).TryGetComponent<Image>(out var image))
+        if (_menuButtonDictionary.ContainsKey(panel)) return;
+        if (_buttonPrefab == null)
         {
-            image.sprite = panel.Sprite;
+            Debug.LogError("ButtonPrefab not assigned!");
+            return;
         }
 
-        _dynamicButton.onClick.RemoveAllListeners();
-        _dynamicButton.onClick.AddListener(() => OnChangePanel(index));
-        _dynamicButton.gameObject.SetActive(true);
-        _handMenuController.AddButtonSoundFeedback(_dynamicButton);
+
+        var button = Instantiate(_buttonPrefab, _scrollviewContent).GetComponent<Button>();
+
+        if (button.transform.GetChild(0).TryGetComponent<Image>(out var image) && panel.Sprite != null)
+            image.sprite = panel.Sprite;
+
+        button.onClick.AddListener(() => _handMenuController.OpenPanel(panel));
+        _handMenuController.AddButtonSoundFeedback(button);
+        _menuButtonDictionary.Add(panel, button);
     }
-    public void OnChangePanel(int index) => _handMenuController.OpenPanel(index);
+
+    public void RemovePanelButton(MenuPanel panel)
+    {
+        if (!_menuButtonDictionary.TryGetValue(panel, out var button)) return;
+        _menuButtonDictionary.Remove(panel);
+        Destroy(button.gameObject);
+    }
 }
