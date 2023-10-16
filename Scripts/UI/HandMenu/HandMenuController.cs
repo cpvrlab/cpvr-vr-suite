@@ -17,8 +17,26 @@ public class HandMenuController : MonoBehaviour
     [SerializeField] private UnityEvent _onDisable;
 
     [Header("UI Panels")] 
-    [SerializeField] private List<MenuPanel> panels;
+    [SerializeField] private List<MenuPanel> _panels;
     private AudioSource _audioSource;
+    private EventTrigger.Entry _hover;
+    private EventTrigger.Entry _click;
+    private EventTrigger.Entry _deselect;
+
+    private void Awake()
+    {
+        _hover = new EventTrigger.Entry();
+        _hover.eventID = EventTriggerType.PointerEnter;
+        _hover.callback.AddListener(_ => { PlaySound(_hoverClip); });
+
+        _click = new EventTrigger.Entry();
+        _click.eventID = EventTriggerType.PointerClick;
+        _click.callback.AddListener(_ => { PlaySound(_clickClip); });
+
+        _deselect = new EventTrigger.Entry();
+        _deselect.eventID = EventTriggerType.Deselect;
+        _deselect.callback.AddListener(_ => { PlaySound(_clickClip); });
+    }
 
     private void Start()
     {
@@ -28,7 +46,7 @@ public class HandMenuController : MonoBehaviour
             _audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        panels.ForEach(panel => AddUiElementSoundFeedback(panel));
+        _panels.ForEach(panel => AddUiElementSoundFeedback(panel));
     }
 
     private void OnEnable()
@@ -47,13 +65,13 @@ public class HandMenuController : MonoBehaviour
         CloseAllPanels();
         try
         {
-            panels[index].gameObject.SetActive(true);
+            _panels[index].gameObject.SetActive(true);
         }
         catch (ArgumentOutOfRangeException e)
         {
-            panels.First().gameObject.SetActive(true);
+            _panels.First().gameObject.SetActive(true);
             throw new IndexOutOfRangeException(
-                $"Panel index {index} not within bounds of panel list with length {panels.Count}.\n{e.Message}");
+                $"Panel index {index} not within bounds of panel list with length {_panels.Count}.\n{e.Message}");
         }
     }
 
@@ -63,9 +81,23 @@ public class HandMenuController : MonoBehaviour
         OpenPanel(0);
     }
 
+    public void RegisterPanel(MenuPanel panel)
+    {
+        if (_panels.Contains(panel))
+        {
+            Debug.LogWarning($"[PANEL {panel.transform.name}]: Panel already registered.");
+            return;
+        }
+
+        panel.transform.SetParent(transform);
+        _panels.Add(panel);
+        AddUiElementSoundFeedback(panel);
+        _panels.First().GetComponent<MainPanel>().EnableDynamicButton(panel, _panels.Count-1);
+    }
+
     private void CloseAllPanels()
     {
-        foreach (var panel in panels) panel.gameObject.SetActive(false);
+        foreach (var panel in _panels) panel.gameObject.SetActive(false);
     }
 
     private void PlaySound(SoundClip clip)
@@ -77,42 +109,45 @@ public class HandMenuController : MonoBehaviour
     }
 
     private void AddUiElementSoundFeedback(MenuPanel panel)
-    {
-        var hover = new EventTrigger.Entry();
-        hover.eventID = EventTriggerType.PointerEnter;
-        hover.callback.AddListener(_ => { PlaySound(_hoverClip); });
-        
-        var click = new EventTrigger.Entry();
-        click.eventID = EventTriggerType.PointerClick;
-        click.callback.AddListener(_ => { PlaySound(_clickClip); });
-
-        var deselect = new EventTrigger.Entry();
-        deselect.eventID = EventTriggerType.Deselect;
-        deselect.callback.AddListener(_ => { PlaySound(_clickClip); });
-        
+    {        
         var buttons = panel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
         {
-            var uiInteraction = button.gameObject.AddComponent<EventTrigger>();
-            uiInteraction.triggers.Add(hover);
-            uiInteraction.triggers.Add(click);
+            AddButtonSoundFeedback(button);
         }
 
         var toggles = panel.GetComponentsInChildren<Toggle>();
         foreach (var toggle in toggles)
         {
-            var uiInteraction = toggle.gameObject.AddComponent<EventTrigger>();
-            uiInteraction.triggers.Add(hover);
-            uiInteraction.triggers.Add(click);                
+            AddToggleSoundFeedback(toggle);        
         }
 
         var inputFields = panel.GetComponentsInChildren<TMP_InputField>();
         foreach (var inputField in inputFields)
         {
-            var uiInteraction = inputField.gameObject.AddComponent<EventTrigger>();
-            uiInteraction.triggers.Add(hover);
-            uiInteraction.triggers.Add(click);
-            uiInteraction.triggers.Add(deselect);
+            AddInputFieldSoundFeedback(inputField);
         }
+    }
+
+    public void AddButtonSoundFeedback(Button button)
+    {
+        var uiInteraction = button.gameObject.AddComponent<EventTrigger>();
+        uiInteraction.triggers.Add(_hover);
+        uiInteraction.triggers.Add(_click);
+    }
+
+    private void AddToggleSoundFeedback(Toggle toggle)
+    {
+        var uiInteraction = toggle.gameObject.AddComponent<EventTrigger>();
+        uiInteraction.triggers.Add(_hover);
+        uiInteraction.triggers.Add(_click); 
+    }
+
+    private void AddInputFieldSoundFeedback(TMP_InputField inputField)
+    {
+        var uiInteraction = inputField.gameObject.AddComponent<EventTrigger>();
+        uiInteraction.triggers.Add(_hover);
+        uiInteraction.triggers.Add(_click);
+        uiInteraction.triggers.Add(_deselect);
     }
 }
