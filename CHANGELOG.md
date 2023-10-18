@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added Quick Outline to the package
 - Added validation check for internet settings
 - NOTE: No validation check can currently be made for the Meta Quest 'Force Remove Internet' setting
+- Added toggle to handmenucontroller to enable opening the panel that was open last when reopening the handmenu.
 
 ## [3.0.0] - 2023-10-12
 - Major rework of the package
