@@ -7,6 +7,8 @@ using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
+using UnityEngine.XR.OpenXR;
+using UnityEngine.XR.OpenXR.Features.MetaQuestSupport;
 
 static class VRSuiteProjectValidation
 {
@@ -39,7 +41,7 @@ static class VRSuiteProjectValidation
                     InstallOrUpdateHands();
             },
             FixItAutomatic = true,
-            Error = true,
+            Error = true
         },
         new BuildValidationRule
         {
@@ -53,7 +55,7 @@ static class VRSuiteProjectValidation
                     InstallOrUpdateHands();
             },
             FixItAutomatic = true,
-            Error = false,
+            Error = false
         },
         new BuildValidationRule
         {
@@ -69,7 +71,7 @@ static class VRSuiteProjectValidation
                 }
             },
             FixItAutomatic = true,
-            Error = true,
+            Error = true
         },
         new BuildValidationRule
         {
@@ -83,7 +85,7 @@ static class VRSuiteProjectValidation
                     InstallOrUpdateXRITK();
             },
             FixItAutomatic = true,
-            Error = true,
+            Error = true
         },
         new BuildValidationRule
         {
@@ -97,7 +99,7 @@ static class VRSuiteProjectValidation
                     InstallOrUpdateXRITK();
             },
             FixItAutomatic = true,
-            Error = false,
+            Error = false
         },
         new BuildValidationRule
         {
@@ -112,7 +114,7 @@ static class VRSuiteProjectValidation
                 }
             },
             FixItAutomatic = true,
-            Error = true,
+            Error = true
         },
         new BuildValidationRule
         {
@@ -127,7 +129,7 @@ static class VRSuiteProjectValidation
                 }
             },
             FixItAutomatic = true,
-            Error = true,
+            Error = true
         },
         new BuildValidationRule
         {
@@ -144,8 +146,17 @@ static class VRSuiteProjectValidation
                 }
             },
             FixItAutomatic = true,
-            Error = false,
+            Error = false
         },
+        new BuildValidationRule
+        {
+            IsRuleEnabled = () => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android,
+            Message = "[Project Settings > Player] 'Internet Access' needs to be set to 'Require' in order to send screenshots via email.",
+            Category = k_Category,
+            CheckPredicate = () => EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android || PlayerSettings.Android.forceInternetPermission == true,
+            FixIt = () => PlayerSettings.Android.forceInternetPermission = true,
+            Error = false
+        }
     };
 
     static AddRequest s_XRInteractionToolkitAddRequest;

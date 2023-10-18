@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Minor restructure of mainmenu layout
 - Minor bugfix regarding the start state of the gaze interactor
 - Added Quick Outline to the package
+- Added validation check for internet settings
+- NOTE: No validation check can currently be made for the Meta Quest 'Force Remove Internet' setting
 
 ## [3.0.0] - 2023-10-12
 - Major rework of the package
