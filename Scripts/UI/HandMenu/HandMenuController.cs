@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class HandMenuController : MonoBehaviour
 {
-    [SerializeField] private bool _openLastPanel;
-    private MenuPanel _lastPanel = null;
     [SerializeField] private SoundClip _hoverClip;
     [SerializeField] private SoundClip _clickClip;
 
@@ -19,6 +17,9 @@ public class HandMenuController : MonoBehaviour
 
     [Header("UI Panels")] 
     [SerializeField] private List<MenuPanel> _panels;
+    
+    [HideInInspector] public bool openLastPanel;
+    private MenuPanel _lastPanel = null;
     private AudioSource _audioSource;
     private EventTrigger.Entry _hover;
     private EventTrigger.Entry _click;
@@ -52,12 +53,14 @@ public class HandMenuController : MonoBehaviour
             RegisterPanel(panel);
             AddUiElementSoundFeedback(panel);
         });
+
+        openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
     }
 
     private void OnEnable()
     {
         _onEnable?.Invoke();
-        if (_openLastPanel && _lastPanel != null && _panels.Contains(_lastPanel))
+        if (openLastPanel && _lastPanel != null && _panels.Contains(_lastPanel))
             OpenPanel(_lastPanel);
         else
             OpenMainPanel();
