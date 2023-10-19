@@ -37,7 +37,12 @@ public class MenuPanel : MonoBehaviour
 
     private void Init()
     {
-        if (transform.parent == null || !transform.parent.TryGetComponent(out _handMenuController))
+        if (_panelType == PanelType.Static)
+        {
+            _handMenuController = transform.parent.GetComponent<HandMenuController>();
+        }
+
+        if (_panelType == PanelType.Dynamic)
         {
             _handMenuController = FindFirstObjectByType<HandMenuController>();
             if (_handMenuController == null)
@@ -45,7 +50,7 @@ public class MenuPanel : MonoBehaviour
                 Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
                 return;
             }
+            _handMenuController.RegisterPanel(this);
         }
-        _handMenuController.RegisterPanel(this);
     }
 }

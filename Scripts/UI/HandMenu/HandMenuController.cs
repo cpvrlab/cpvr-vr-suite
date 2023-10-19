@@ -87,10 +87,10 @@ public class HandMenuController : MonoBehaviour
 
         panel.transform.SetParent(transform);
         panel.transform.SetPositionAndRotation(_panels.First().transform.position, _panels.First().transform.rotation);
-        _panels.First().GetComponent<MainPanel>().AddPanelButton(panel, _panels.Count-1);
         AddUiElementSoundFeedback(panel);
         if (!_panels.Contains(panel))
         {
+            _panels.First().GetComponent<MainPanel>().AddPanelButton(panel, _panels.Count-1);
             _panels.Add(panel);
             panel.gameObject.SetActive(false);
         } 
