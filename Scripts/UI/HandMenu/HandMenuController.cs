@@ -57,14 +57,10 @@ public class HandMenuController : MonoBehaviour
     private void OnEnable()
     {
         _onEnable?.Invoke();
-        if (_openLastPanel && _lastPanel != null)
-        {
+        if (_openLastPanel && _lastPanel != null && _panels.Contains(_lastPanel))
             OpenPanel(_lastPanel);
-        }
         else
-        {
             OpenMainPanel();
-        }
     }
 
     private void OnDisable()
