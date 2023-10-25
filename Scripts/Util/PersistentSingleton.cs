@@ -16,7 +16,9 @@ namespace cpvr_vr_suite.Scripts.Util
                 Instance = this;
                 DontDestroyOnLoad(gameObject);    
             }
+        }
 
+        private void Start(){
             if (SceneManager.sceneCountInBuildSettings <= 1) return;
             SceneManager.LoadSceneAsync(1);
         }
