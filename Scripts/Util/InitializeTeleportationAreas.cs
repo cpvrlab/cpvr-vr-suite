@@ -31,7 +31,7 @@ public class InitializeTeleportationAreas : MonoBehaviour
             if (!go.TryGetComponent<TeleportationArea>(out var _))
             {
                 var area = go.AddComponent<TeleportationArea>();
-                area.interactionLayers = InteractionLayerMask.NameToLayer("Teleport");
+                area.interactionLayers = InteractionLayerMask.GetMask("Teleport");
                 area.selectMode = InteractableSelectMode.Multiple;
                 teleportAreaCounter++;
             }
