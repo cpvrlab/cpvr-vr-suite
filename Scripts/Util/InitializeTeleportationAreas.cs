@@ -13,25 +13,45 @@ public class InitializeTeleportationAreas : MonoBehaviour
     private void CreateTeleportAreas(Scene activeScene)
     {
         var allGameObjects = FindObjectsOfType<GameObject>();
-        var allTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && go.layer == LayerMask.NameToLayer("Teleport")).ToList();
-        var allNonTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && go.layer == LayerMask.NameToLayer("Non-Teleport")).ToList();
+        var allTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 
+                                                                                     go.layer == LayerMask.NameToLayer("Teleport")).ToList();
+        var allNonTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 
+                                                                                        go.layer == LayerMask.NameToLayer("Non-Teleport")).ToList();
 
-        var teleportCounter = 0;
+        var teleportAreaCounter = 0;
+        var teleportColliderCounter = 0;
         foreach (var go in allTeleportObjects)
         {
-            if (!go.TryGetComponent<Collider>(out var _)) go.AddComponent<MeshCollider>();
+            if (!go.TryGetComponent<Collider>(out var _))
+            {
+                go.AddComponent<MeshCollider>();
+                teleportColliderCounter++;
+            }
+            
             if (!go.TryGetComponent<TeleportationArea>(out var _))
             {
                 var area = go.AddComponent<TeleportationArea>();
-                area.interactionLayers = InteractionLayerMask.GetMask("Teleport");
-                teleportCounter++;
+                area.interactionLayers = InteractionLayerMask.NameToLayer("Teleport");
+                area.selectMode = InteractableSelectMode.Multiple;
+                teleportAreaCounter++;
             }
         }
-        Debug.Log($"{teleportCounter} Teleportation areas added!");
+        
+        Debug.Log($"{allTeleportObjects.Count} Teleport Layer Objects found");
+        Debug.Log($"{teleportColliderCounter} Teleport colliders added");
+        Debug.Log($"{teleportAreaCounter} Teleport areas added");
+        
+        var nonTeleportColliderCounter = 0;
 
         foreach (var go in allNonTeleportObjects)
         {
-            if (!go.TryGetComponent<Collider>(out var _)) go.AddComponent<MeshCollider>();
+            if (!go.TryGetComponent<Collider>(out var _))
+            {
+                go.AddComponent<MeshCollider>();
+                nonTeleportColliderCounter++;
+            }
         }
+        Debug.Log($"{allNonTeleportObjects.Count} Non-Teleport Layer Objects found");
+        Debug.Log($"{nonTeleportColliderCounter} Non-Teleport colliders added");
     }
 }
