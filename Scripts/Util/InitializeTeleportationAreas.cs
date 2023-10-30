@@ -14,9 +14,9 @@ public class InitializeTeleportationAreas : MonoBehaviour
     {
         var allGameObjects = FindObjectsOfType<GameObject>();
         var allTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 
-                                                                                     go.layer == LayerMask.NameToLayer("Teleport")).ToList();
+                                    go.layer == LayerMask.NameToLayer("Teleport")).ToList();
         var allNonTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 
-                                                                                        go.layer == LayerMask.NameToLayer("Non-Teleport")).ToList();
+                                    go.layer == LayerMask.NameToLayer("Non-Teleport")).ToList();
 
         var teleportAreaCounter = 0;
         var teleportColliderCounter = 0;
@@ -31,7 +31,7 @@ public class InitializeTeleportationAreas : MonoBehaviour
             if (!go.TryGetComponent<TeleportationArea>(out var _))
             {
                 var area = go.AddComponent<TeleportationArea>();
-                area.interactionLayers = InteractionLayerMask.NameToLayer("Teleport");
+                area.interactionLayers = InteractionLayerMask.GetMask("Teleport");
                 area.selectMode = InteractableSelectMode.Multiple;
                 teleportAreaCounter++;
             }
