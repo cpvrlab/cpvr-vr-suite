@@ -11,8 +11,6 @@ public class SettingsPanel : MenuPanel
     [SerializeField] private Toggle _gazeToggle;
     [SerializeField] private Toggle _panelToggle;
     [SerializeField] private TMP_InputField _inputField;
-    [SerializeField] private GameObject _gazeInteractor;
-    [SerializeField] private GameObject _gazeStabilizor;
 
     protected override void Start()
     {
@@ -30,8 +28,6 @@ public class SettingsPanel : MenuPanel
 
         _gazeToggle.onValueChanged.AddListener(value =>
         {
-            _gazeStabilizor.SetActive(value);
-            _gazeInteractor.SetActive(value);
             PlayerPrefs.SetInt("useGaze", value ? 1 : 0);
         });
 

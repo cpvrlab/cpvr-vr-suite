@@ -122,9 +122,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DebugDisplay, bfh.cpvrlab-vr-suite.scripts
-        m_MethodName: activateFpsText
+      - m_Target: {fileID: 2383225983842787910}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4372,8 +4372,6 @@ MonoBehaviour:
   _gazeToggle: {fileID: 3707072069102156615}
   _panelToggle: {fileID: 830268960893492003}
   _inputField: {fileID: 4630757747618379515}
-  _gazeInteractor: {fileID: 4739310902320161983}
-  _gazeStabilizor: {fileID: 5296873299989362998}
 --- !u!1 &6237247920247193978
 GameObject:
   m_ObjectHideFlags: 0
@@ -5202,9 +5200,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DebugDisplay, bfh.cpvrlab-vr-suite.scripts
-        m_MethodName: activateDebugLogText
+      - m_Target: {fileID: 7922423189662359837}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6293,9 +6291,21 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DebugDisplay, bfh.cpvrlab-vr-suite.scripts
-        m_MethodName: activateDebugLogText
+      - m_Target: {fileID: 4739310902320161983}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5296873299989362998}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
