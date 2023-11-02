@@ -10,7 +10,7 @@ public class InitializeTeleportationAreas : MonoBehaviour
         SceneManager.activeSceneChanged += (_, activeScene) => CreateTeleportAreas(activeScene);
     }
 
-    private void CreateTeleportAreas(Scene activeScene)
+    public void CreateTeleportAreas(Scene activeScene)
     {
         var allGameObjects = FindObjectsOfType<GameObject>();
         var allTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 

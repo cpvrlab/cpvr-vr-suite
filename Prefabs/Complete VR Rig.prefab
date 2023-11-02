@@ -6682,6 +6682,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6420906563931345950}
     m_Modifications:
+    - target: {fileID: 657184242539281771, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_AdditionalFlightTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 810019319561094050, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_UseGravity
       value: 0
@@ -6733,6 +6737,10 @@ PrefabInstance:
     - target: {fileID: 2218496723442559054, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_Name
       value: XR Origin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945826935290517874, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_AdditionalFlightTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3725040479187177911, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_IsActive
@@ -7268,6 +7276,10 @@ PrefabInstance:
       propertyPath: m_RayOriginTransform
       value: 
       objectReference: {fileID: 1798406747208772741}
+    - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331, type: 3}
+      propertyPath: m_AdditionalFlightTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331, type: 3}
       propertyPath: m_Parameters.numCapVertices
       value: 4
@@ -7766,6 +7778,10 @@ PrefabInstance:
     - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331, type: 3}
       propertyPath: m_RaycastMask.m_Bits
       value: 2147483689
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331, type: 3}
+      propertyPath: m_AdditionalFlightTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331, type: 3}
       propertyPath: m_Parameters.numCapVertices
