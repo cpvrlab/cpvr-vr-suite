@@ -10,6 +10,7 @@ public class HandMenuController : MonoBehaviour
 {
     [SerializeField] private SoundClip _hoverClip;
     [SerializeField] private SoundClip _clickClip;
+    [SerializeField] private bool _playHoverSound;
 
     [Header("Events")]
     [SerializeField] private UnityEvent _onEnable;
@@ -20,7 +21,6 @@ public class HandMenuController : MonoBehaviour
     
     [HideInInspector] public bool openLastPanel;
     private MenuPanel _lastPanel = null;
-    private AudioSource _audioSource;
     private EventTrigger.Entry _hover;
     private EventTrigger.Entry _click;
     private EventTrigger.Entry _deselect;
@@ -32,7 +32,7 @@ public class HandMenuController : MonoBehaviour
         _hover.callback.AddListener(_ => { PlaySound(_hoverClip); });
 
         _click = new EventTrigger.Entry();
-        _click.eventID = EventTriggerType.PointerClick;
+        _click.eventID = EventTriggerType.Select;
         _click.callback.AddListener(_ => { PlaySound(_clickClip); });
 
         _deselect = new EventTrigger.Entry();
@@ -42,12 +42,6 @@ public class HandMenuController : MonoBehaviour
 
     private void Start()
     {
-        if (!TryGetComponent(out _audioSource))
-        {
-            Debug.LogWarning("No AudioSource attached. Adding one.");
-            _audioSource = gameObject.AddComponent<AudioSource>();
-        }
-
         _panels.ForEach(panel => 
         {
             RegisterPanel(panel);
@@ -123,10 +117,13 @@ public class HandMenuController : MonoBehaviour
 
     private void PlaySound(SoundClip clip)
     {
-        _audioSource.clip = clip.clip;
-        _audioSource.volume = clip.volume;
-        _audioSource.pitch = clip.pitch;
-        _audioSource.Play();
+        var go = Instantiate(new GameObject("SoundFX"), transform);
+        var source = go.AddComponent<AudioSource>();
+        source.clip = clip.clip;
+        source.volume = clip.volume;
+        source.pitch = clip.pitch + Random.Range(-0.025f, 0.025f);
+        source.Play();
+        Destroy(go, clip.clip.length * 1.1f);
     }
 
     private void AddUiElementSoundFeedback(MenuPanel panel)
@@ -153,21 +150,21 @@ public class HandMenuController : MonoBehaviour
     public void AddButtonSoundFeedback(Button button)
     {
         var uiInteraction = button.gameObject.AddComponent<EventTrigger>();
-        uiInteraction.triggers.Add(_hover);
+        if (_playHoverSound) uiInteraction.triggers.Add(_hover);
         uiInteraction.triggers.Add(_click);
     }
 
     private void AddToggleSoundFeedback(Toggle toggle)
     {
         var uiInteraction = toggle.gameObject.AddComponent<EventTrigger>();
-        uiInteraction.triggers.Add(_hover);
+        if (_playHoverSound) uiInteraction.triggers.Add(_hover);
         uiInteraction.triggers.Add(_click); 
     }
 
     private void AddInputFieldSoundFeedback(TMP_InputField inputField)
     {
         var uiInteraction = inputField.gameObject.AddComponent<EventTrigger>();
-        uiInteraction.triggers.Add(_hover);
+        if (_playHoverSound) uiInteraction.triggers.Add(_hover);
         uiInteraction.triggers.Add(_click);
         uiInteraction.triggers.Add(_deselect);
     }
