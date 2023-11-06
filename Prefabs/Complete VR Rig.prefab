@@ -6760,6 +6760,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5062945234754799757, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_AngleStabilization
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5062945234754799757, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_PositionStabilization
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 5153517498714181929, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_SmoothTurnEnabled
       value: 1
@@ -6771,6 +6779,14 @@ PrefabInstance:
     - target: {fileID: 6585113627354992487, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344411194599346914, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_AngleStabilization
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344411194599346914, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+      propertyPath: m_PositionStabilization
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 8369974281163441492, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_IsActive
