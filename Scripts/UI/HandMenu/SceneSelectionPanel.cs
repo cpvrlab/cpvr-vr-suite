@@ -10,17 +10,21 @@ public class SceneSelectionPanel : MenuPanel
     [SerializeField] private Transform scrollviewContent;
     private readonly List<Button> _sceneButtons = new();
 
-    private void Awake()
+    protected override void Start()
     {
+        base.Start();
+        
         _sceneButtons.Add(default); // Dummy object to occupy the first index in the list so the button indexes match with the scene indexes
         for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            var button = Instantiate(buttonPrefab, scrollviewContent);
-            button.GetComponentInChildren<TextMeshProUGUI>().text =
+            var buttonObject = Instantiate(buttonPrefab, scrollviewContent);
+            buttonObject.GetComponentInChildren<TextMeshProUGUI>().text =
                 System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+            var button = buttonObject.GetComponent<Button>();
             var index = i;
-            button.GetComponent<Button>().onClick.AddListener(()=> { ChangeScene(index); });
-            _sceneButtons.Add(button.GetComponent<Button>());
+            button.onClick.AddListener(()=> { ChangeScene(index); });
+            _sceneButtons.Add(buttonObject.GetComponent<Button>());
+            _handMenuController.AddButtonSoundFeedback(button);
         }
 
         if (SceneManager.sceneCountInBuildSettings <= 1) return;
