@@ -6106,8 +6106,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 15
+    m_Bottom: 15
   m_ChildAlignment: 4
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
@@ -6519,6 +6519,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6400350243045638085, guid: e2698219e3231e94c8765d49b9dd5cff, type: 3}
+      propertyPath: m_HandTrackingFollowPreset.m_Variable
+      value: 
+      objectReference: {fileID: 11400000, guid: dad0e1a49b8fdad4894b1d8b478780a3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3977197974065273168, guid: e2698219e3231e94c8765d49b9dd5cff, type: 3}
