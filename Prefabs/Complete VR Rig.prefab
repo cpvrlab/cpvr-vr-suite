@@ -464,7 +464,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -68.8}
+  m_AnchoredPosition: {x: 0, y: -46}
   m_SizeDelta: {x: 900, y: 237.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8308770014620748443
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -22.70662, w: 0}
+  m_margin: {x: 0, y: 0, z: -22.70662, w: 97.04494}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1398,7 +1398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: -22}
   m_SizeDelta: {x: 260, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5279566893961058413
@@ -2871,7 +2871,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.5
 --- !u!114 &8142570876646617169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2905,7 +2905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelType: 0
-  _sprite: {fileID: 0}
+  _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _scrollviewContent: {fileID: 3898035280263641741}
   _buttonPrefab: {fileID: 8380809415929934673, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
 --- !u!1 &3940088443026833575
@@ -3302,7 +3302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: -22}
   m_SizeDelta: {x: 260, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7551776477693416234
@@ -3771,7 +3771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: -22}
   m_SizeDelta: {x: 260, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1980427379964762748
@@ -4332,7 +4332,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.5
 --- !u!114 &2763509819296598561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4763,7 +4763,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.5
 --- !u!114 &8726435549296848446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5692,7 +5692,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4, y: -200}
+  m_AnchoredPosition: {x: -4, y: -127}
   m_SizeDelta: {x: 1200, y: 240}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9120810381702335217
@@ -5786,7 +5786,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 38.763794, y: 0, z: 29.11389, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6089,7 +6089,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6480689414864519526
 MonoBehaviour:
@@ -6453,7 +6453,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1571819876068155739, guid: e2698219e3231e94c8765d49b9dd5cff, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2372476104464761951, guid: e2698219e3231e94c8765d49b9dd5cff, type: 3}
       propertyPath: m_IsActive
@@ -6762,7 +6762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5062945234754799757, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_AngleStabilization
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5062945234754799757, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_PositionStabilization
@@ -6782,7 +6782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7344411194599346914, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_AngleStabilization
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7344411194599346914, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_PositionStabilization
@@ -7652,6 +7652,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1804080518943079435}
     m_Modifications:
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5467178415289369289}
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnScreenshotClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: cpvr_vr_suite.Scripts.UI.ScreenshotMenu, bfh.cpvrlab-vr-suite.scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962224539881681698, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5900502014781767337, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
       propertyPath: m_SizeDelta.x
       value: 35
