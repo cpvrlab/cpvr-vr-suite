@@ -53,7 +53,7 @@ namespace cpvr_vr_suite.Scripts.UI
             await Task.Yield();
         
             // Take Screenshot
-            var screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+            var screenshot = ScreenCapture.CaptureScreenshotAsTexture(ScreenCapture.StereoScreenCaptureMode.LeftEye);
 
             await Task.Yield();
 
