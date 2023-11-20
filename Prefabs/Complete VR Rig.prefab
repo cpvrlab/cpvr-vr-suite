@@ -573,8 +573,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6420906563931345950}
-  - component: {fileID: 8113395605953705639}
   - component: {fileID: 481078535825026369}
+  - component: {fileID: 230810531295539711}
   m_Layer: 0
   m_Name: Complete VR Rig
   m_TagString: Untagged
@@ -602,18 +602,6 @@ Transform:
   - {fileID: 1541849660266302579}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8113395605953705639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238428617858091205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa5206f1eacdb846b035da710e58ac4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &481078535825026369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +614,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec41d4d518387043a47c1098425c387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &230810531295539711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238428617858091205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4093269fd42394b872befc204661b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPersistent: 1
+  _xrOrigin: {fileID: 319686131049333654}
 --- !u!1 &1274196322567128527
 GameObject:
   m_ObjectHideFlags: 0
@@ -6894,6 +6896,11 @@ MonoBehaviour:
 --- !u!4 &319686131049333653 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2218496723442559053, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
+  m_PrefabInstance: {fileID: 1920345246252264408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &319686131049333654 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2218496723442559054, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
   m_PrefabInstance: {fileID: 1920345246252264408}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1284343262410713042 stripped

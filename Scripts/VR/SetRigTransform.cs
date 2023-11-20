@@ -1,15 +1,10 @@
-using System.Collections;
 using UnityEngine;
 
 public class SetRigTransform : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        var xrOrigin = GameObject.Find("XR Origin");
-        if (xrOrigin != null)
-        {
-            xrOrigin.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        }
+        if (RigManager.Instance != null && RigManager.Instance.XrOrigin != null)
+            RigManager.Instance.XrOrigin.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 }
