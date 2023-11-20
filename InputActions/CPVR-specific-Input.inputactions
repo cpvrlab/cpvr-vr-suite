@@ -77,7 +77,7 @@
                     "name": "",
                     "id": "2285d1a4-31c1-414e-8cb7-823a4efb8981",
                     "path": "<MetaAimHand>{RightHand}/pinchStrengthIndex",
-                    "interactions": "Press",
+                    "interactions": "Press(pressPoint=0.25)",
                     "processors": "",
                     "groups": "",
                     "action": "Teleport mode activate",
