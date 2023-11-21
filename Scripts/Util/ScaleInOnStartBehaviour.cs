@@ -44,7 +44,8 @@ namespace cpvr_vr_suite.Scripts.Util
             foreach (var objToActivate in objectsToShowAfterFadeIn)
                 objToActivate.SetActive(true);
 
-            _initTeleportAreaScript.CreateTeleportAreas(SceneManager.GetActiveScene());
+            if (_initTeleportAreaScript != null)
+                _initTeleportAreaScript.CreateTeleportAreas(SceneManager.GetActiveScene());
         }
     }
 }

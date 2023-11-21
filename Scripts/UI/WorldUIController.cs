@@ -9,6 +9,7 @@ public class WorldUIController : MonoBehaviour
     public TMP_Text title;
     public TMP_Text content;
     public string titleText;
+    
     [TextArea] public string contentText;
     private Transform _camera;
 

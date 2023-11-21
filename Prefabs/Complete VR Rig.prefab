@@ -6786,7 +6786,7 @@ PrefabInstance:
       objectReference: {fileID: 6457933349090468098}
     - target: {fileID: 3237230896655369491, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_MaxRaycastDistance
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3725040479187177911, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_IsActive
@@ -6822,7 +6822,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8369974281163441492, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8504099170080106023, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
       propertyPath: m_SystemGestureEnded.m_PersistentCalls.m_Calls.Array.size
@@ -6909,7 +6909,7 @@ MonoBehaviour:
   m_ManipulationInteractionGroup: {fileID: 4732000521936233178}
   m_DirectInteractor: {fileID: 7807233673186146300}
   m_RayInteractor: {fileID: 0}
-  m_TeleportInteractor: {fileID: 1284343262410713042}
+  m_TeleportInteractor: {fileID: 8133877196443577661}
   m_TeleportModeActivate: {fileID: -7758313184993274445, guid: cacf8082c31e0b14a97bb56d5d23b44b, type: 3}
   m_TeleportModeCancel: {fileID: 0}
   m_Turn: {fileID: 0}
@@ -6932,17 +6932,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2218496723442559054, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
   m_PrefabInstance: {fileID: 1920345246252264408}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1284343262410713042 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 825434954720726026, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
-  m_PrefabInstance: {fileID: 1920345246252264408}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7966428556909538956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6803edce0201f574f923fd9d10e5b30a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1421068500007409343 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 657184242539281767, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
@@ -7479,7 +7468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902507, guid: c1800acf6366418a9b5f610249000331, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
