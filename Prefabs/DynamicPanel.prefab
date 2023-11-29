@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8174119549767268179}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuPanel, bfh.cpvrlab-vr-suite.scripts
         m_MethodName: OnBackClicked
         m_Mode: 1
@@ -540,7 +540,7 @@ GameObject:
   - component: {fileID: 3743960455173127520}
   - component: {fileID: 4327522770464149760}
   - component: {fileID: 594633238864592018}
-  - component: {fileID: 8174119549767268179}
+  - component: {fileID: 8445169849019757033}
   m_Layer: 5
   m_Name: DynamicPanel
   m_TagString: Untagged
@@ -567,7 +567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1.3926849}
+  m_AnchoredPosition: {x: 0, y: 1.3927002}
   m_SizeDelta: {x: 300, y: 420}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3743960455173127520
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 2
---- !u!114 &8174119549767268179
+--- !u!114 &8445169849019757033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -637,17 +637,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6285612831099565770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c8414b6066b55489aa66c8a12a3e81, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bac8296dbcf42f4a9c48931acdbcda4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _panelType: 0
+  _panelType: 1
   _sprite: {fileID: 0}
-  _fpsToggle: {fileID: 0}
-  _debugToggle: {fileID: 0}
-  _gazeToggle: {fileID: 0}
-  _inputField: {fileID: 0}
-  _gazeInteractor: {fileID: 0}
-  _gazeStabilizor: {fileID: 0}
 --- !u!1 &7110942423775803215
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,7 +800,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8174119549767268179}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuPanel, bfh.cpvrlab-vr-suite.scripts
         m_MethodName: OnQuitClicked
         m_Mode: 1
