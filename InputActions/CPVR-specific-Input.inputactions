@@ -96,6 +96,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "XR HMD",
+            "id": "9c10a381-839f-4859-876d-f980210e0205",
+            "actions": [
+                {
+                    "name": "Userpresence",
+                    "type": "Button",
+                    "id": "48dae203-8848-4bd1-b716-394dd8595ac9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "714bd338-ab3e-4f37-b265-54cf6dd083c2",
+                    "path": "<XRHMD>/userPresence",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Userpresence",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
