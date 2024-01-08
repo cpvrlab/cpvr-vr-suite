@@ -22,9 +22,6 @@ public class SceneSelectionPanel : MenuPanel
             var index = i;
             CreateSceneButton(label, ChangeScene, index);
         }
-
-        if (SceneManager.sceneCountInBuildSettings <= 1) return;
-        _sceneButtons[1].interactable = false;
     }
 
     public void CreateSceneButton<T>(string label, Action<T> callback, T argument)
@@ -41,8 +38,6 @@ public class SceneSelectionPanel : MenuPanel
     {
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
-        _sceneButtons[currentIndex].interactable = true;
-        _sceneButtons[index].interactable = false;
         _handMenuController.UnregisterDynamicPanels();
         SceneManager.LoadSceneAsync(index);
     }
