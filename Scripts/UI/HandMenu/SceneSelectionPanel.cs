@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,18 +18,23 @@ public class SceneSelectionPanel : MenuPanel
         _sceneButtons.Add(default); // Dummy object to occupy the first index in the list so the button indexes match with the scene indexes
         for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            var buttonObject = Instantiate(buttonPrefab, scrollviewContent);
-            buttonObject.GetComponentInChildren<TextMeshProUGUI>().text =
-                System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
-            var button = buttonObject.GetComponent<Button>();
+            var label = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
             var index = i;
-            button.onClick.AddListener(()=> { ChangeScene(index); });
-            _sceneButtons.Add(buttonObject.GetComponent<Button>());
-            _handMenuController.AddButtonSoundFeedback(button);
+            CreateSceneButton(label, ChangeScene, index);
         }
 
         if (SceneManager.sceneCountInBuildSettings <= 1) return;
         _sceneButtons[1].interactable = false;
+    }
+
+    public void CreateSceneButton<T>(string label, Action<T> callback, T argument)
+    {
+        var buttonObject = Instantiate(buttonPrefab, scrollviewContent);
+        buttonObject.GetComponentInChildren<TextMeshProUGUI>().text = label;
+        var button = buttonObject.GetComponent<Button>();
+        button.onClick.AddListener(() => callback.Invoke(argument));
+        _sceneButtons.Add(button);
+        _handMenuController.AddButtonSoundFeedback(button);
     }
 
     private void ChangeScene(int index)
