@@ -26,7 +26,7 @@ public class SceneSelectionPanel : MenuPanel
         }
     }
 
-    public void CreateSceneButton<T>(string label, Action<T> callback, T argument)
+    public Button CreateSceneButton<T>(string label, Action<T> callback, T argument)
     {
         var buttonObject = Instantiate(buttonPrefab, scrollviewContent);
         buttonObject.GetComponentInChildren<TextMeshProUGUI>().text = label;
@@ -34,6 +34,7 @@ public class SceneSelectionPanel : MenuPanel
         button.onClick.AddListener(() => callback.Invoke(argument));
         _sceneButtons.Add(button);
         _handMenuController.AddButtonSoundFeedback(button);
+        return button;
     }
 
     private void ChangeScene(int index)
