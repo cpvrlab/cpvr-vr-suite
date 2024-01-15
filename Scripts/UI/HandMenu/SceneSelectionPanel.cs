@@ -11,6 +11,8 @@ public class SceneSelectionPanel : MenuPanel
     [SerializeField] private Transform scrollviewContent;
     private readonly List<Button> _sceneButtons = new();
 
+    public IEnumerable<Button> SceneButtons {get => _sceneButtons.AsReadOnly();}
+
     protected override void Start()
     {
         base.Start();
