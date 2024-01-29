@@ -31,11 +31,13 @@ public class SettingsPanel : MenuPanel
         m_fpsToggle.onValueChanged.AddListener(value => 
         {
             PlayerPrefs.SetInt("showFPS", value ? 1 : 0);
+            m_debugDisplay.ActivateFpsText(value);
         });
 
         m_debugToggle.onValueChanged.AddListener(value => 
         {
             PlayerPrefs.SetInt("showDebug", value ? 1 : 0);
+            m_debugDisplay.ActivateDebugLogText(value);
         });
 
         m_gazeToggle.onValueChanged.AddListener(value =>
