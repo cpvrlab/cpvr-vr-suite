@@ -7,7 +7,7 @@ public class DebugDisplay : MonoBehaviour
     [SerializeField] private TMP_Text _fpsText;
     [SerializeField] private TMP_Text _debugLogText;
 
-    private Dictionary<string, string> _debugLogs = new ();
+    private Dictionary<string, string> _debugLogs = new();
 
     private void Start()
     {
@@ -27,28 +27,31 @@ public class DebugDisplay : MonoBehaviour
     }
 
     private void HandleLog(string logString, string stackTrace, LogType type)
+    {
+        if (type == LogType.Log ||
+        type == LogType.Exception ||
+        type == LogType.Warning ||
+        type == LogType.Error)
         {
-            if (type == LogType.Log || type == LogType.Exception)
-            {
-                var splitString = logString.Split(char.Parse(":"));
-                var debugKey = splitString[0];
-                var debugValue = splitString.Length > 1 ? splitString[1] : "";
+            var splitString = logString.Split(char.Parse(":"));
+            var debugKey = splitString[0];
+            var debugValue = splitString.Length > 1 ? splitString[1] : "";
 
-                if (_debugLogs.ContainsKey(debugKey))
-                    _debugLogs[debugKey] = debugValue;
-                else
-                    _debugLogs.Add(debugKey, debugValue);
-            }
-
-            var displayText = "";
-            foreach (KeyValuePair<string, string> log in _debugLogs)
-            {
-                if (log.Value == "")
-                    displayText += log.Key + "\n";
-                else
-                    displayText += log.Key + ": " + log.Value + "\n";
-            }
-
-            _debugLogText.text = displayText;
+            if (_debugLogs.ContainsKey(debugKey))
+                _debugLogs[debugKey] = debugValue;
+            else
+                _debugLogs.Add(debugKey, debugValue);
         }
+
+        var displayText = "";
+        foreach (KeyValuePair<string, string> log in _debugLogs)
+        {
+            if (log.Value == "")
+                displayText += log.Key + "\n";
+            else
+                displayText += log.Key + ": " + log.Value + "\n";
+        }
+
+        _debugLogText.text = displayText;
+    }
 }
