@@ -4,29 +4,35 @@ using UnityEngine;
 
 public class DebugDisplay : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _fpsText;
-    [SerializeField] private TMP_Text _debugLogText;
+    [SerializeField] TMP_Text m_fpsText;
+    [SerializeField] TMP_Text m_debugLogText;
 
-    private Dictionary<string, string> _debugLogs = new();
+    readonly Dictionary<string, string> m_debugLogs = new();
 
-    private void Start()
+    void Start()
     {
-        activateFpsText(PlayerPrefs.GetInt("showFPS") == 1);
-        activateDebugLogText(PlayerPrefs.GetInt("showDebug") == 1);
+        ActivateFpsText(PlayerPrefs.GetInt("showFPS") == 1);
+        ActivateDebugLogText(PlayerPrefs.GetInt("showDebug") == 1);
     }
 
-    public void activateFpsText(bool value) => _fpsText.gameObject.SetActive(value);
+    public void ActivateFpsText(bool value) => m_fpsText.gameObject.SetActive(value);
 
-    public void activateDebugLogText(bool value)
+    public void ActivateDebugLogText(bool value)
     {
-        _debugLogText.gameObject.SetActive(value);
+        m_debugLogText.gameObject.SetActive(value);
         if (value)
             Application.logMessageReceived += HandleLog;
         else
             Application.logMessageReceived -= HandleLog;
     }
 
-    private void HandleLog(string logString, string stackTrace, LogType type)
+    public void ClearDebugLog()
+    {
+        m_debugLogs.Clear();
+        m_debugLogText.text = "";
+    }
+
+    void HandleLog(string logString, string stackTrace, LogType type)
     {
         if (type == LogType.Log ||
         type == LogType.Exception ||
@@ -37,14 +43,14 @@ public class DebugDisplay : MonoBehaviour
             var debugKey = splitString[0];
             var debugValue = splitString.Length > 1 ? splitString[1] : "";
 
-            if (_debugLogs.ContainsKey(debugKey))
-                _debugLogs[debugKey] = debugValue;
+            if (m_debugLogs.ContainsKey(debugKey))
+                m_debugLogs[debugKey] = debugValue;
             else
-                _debugLogs.Add(debugKey, debugValue);
+                m_debugLogs.Add(debugKey, debugValue);
         }
 
         var displayText = "";
-        foreach (KeyValuePair<string, string> log in _debugLogs)
+        foreach (KeyValuePair<string, string> log in m_debugLogs)
         {
             if (log.Value == "")
                 displayText += log.Key + "\n";
@@ -52,6 +58,6 @@ public class DebugDisplay : MonoBehaviour
                 displayText += log.Key + ": " + log.Value + "\n";
         }
 
-        _debugLogText.text = displayText;
+        m_debugLogText.text = displayText;
     }
 }

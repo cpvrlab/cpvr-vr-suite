@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class SettingsPanel : MenuPanel
 {
-    [SerializeField] Toggle _fpsToggle;
-    [SerializeField] Toggle _debugToggle;
-    [SerializeField] Toggle _gazeToggle;
-    [SerializeField] Toggle _panelToggle;
-    [SerializeField] TMP_InputField _inputField;
-    [SerializeField] TMP_Text _infoText;
+    [SerializeField] DebugDisplay m_debugDisplay;
+    [SerializeField] Toggle m_fpsToggle;
+    [SerializeField] Toggle m_debugToggle;
+    [SerializeField] Toggle m_gazeToggle;
+    [SerializeField] Toggle m_panelToggle;
+    [SerializeField] TMP_InputField m_inputField;
+    [SerializeField] Button m_clearDebugLogButton;
+    [SerializeField] TMP_Text m_infoText;
     public string InfoText 
     { 
-        get => _infoText.text;
-        set => _infoText.text = value;
+        get => m_infoText.text;
+        set => m_infoText.text = value;
     }
 
     void Awake()
@@ -26,38 +28,40 @@ public class SettingsPanel : MenuPanel
     {
         base.Start();
         
-        _fpsToggle.onValueChanged.AddListener(value => 
+        m_fpsToggle.onValueChanged.AddListener(value => 
         {
             PlayerPrefs.SetInt("showFPS", value ? 1 : 0);
         });
 
-        _debugToggle.onValueChanged.AddListener(value => 
+        m_debugToggle.onValueChanged.AddListener(value => 
         {
             PlayerPrefs.SetInt("showDebug", value ? 1 : 0);
         });
 
-        _gazeToggle.onValueChanged.AddListener(value =>
+        m_gazeToggle.onValueChanged.AddListener(value =>
         {
             PlayerPrefs.SetInt("useGaze", value ? 1 : 0);
         });
 
-        _panelToggle.onValueChanged.AddListener(value =>
+        m_panelToggle.onValueChanged.AddListener(value =>
         {
             if (_handMenuController == null) return;
             _handMenuController.openLastPanel = value;
             PlayerPrefs.SetInt("reopenPanel", value ? 1 : 0);
         });
 
-        _inputField.onDeselect.AddListener(value => 
+        m_inputField.onDeselect.AddListener(value => 
         {
             if (!MailSender.IsValidEmail(value)) return;
             PlayerPrefs.SetString("emailAddress", value);
         });
 
-        _fpsToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showFPS") == 1);
-        _debugToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showDebug") == 1);
-        _gazeToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("useGaze") == 1);
-        _panelToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("reopenPanel") == 1);
-        _inputField.text = PlayerPrefs.GetString("emailAddress");
+        m_clearDebugLogButton.onClick.AddListener(() => m_debugDisplay.ClearDebugLog());
+
+        m_fpsToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showFPS") == 1);
+        m_debugToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showDebug") == 1);
+        m_gazeToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("useGaze") == 1);
+        m_panelToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("reopenPanel") == 1);
+        m_inputField.text = PlayerPrefs.GetString("emailAddress");
     }
 }
