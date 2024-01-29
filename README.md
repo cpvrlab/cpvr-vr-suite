@@ -34,6 +34,7 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
    </manifest>
    ```
    4. Go to **Project Settings -> Player -> Publishing Settings** and make sure that the Checkbox for **Custom Main Manifest** is checked
+   5. A custom AndroidManifest.xml is provided within the package but needs to manually be moved to the appropriate location.
 
 ### Scene setup
 
