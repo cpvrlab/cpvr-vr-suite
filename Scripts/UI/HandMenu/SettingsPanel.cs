@@ -1,5 +1,4 @@
-using System;
-using System.Net.Mail;
+using cpvrlab_vr_suite.Scripts.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,7 +50,7 @@ public class SettingsPanel : MenuPanel
 
         _inputField.onDeselect.AddListener(value => 
         {
-            if (!IsValidEmail(value)) return;
+            if (!MailSender.IsValidEmail(value)) return;
             PlayerPrefs.SetString("emailAddress", value);
         });
 
@@ -60,19 +59,5 @@ public class SettingsPanel : MenuPanel
         _gazeToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("useGaze") == 1);
         _panelToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("reopenPanel") == 1);
         _inputField.text = PlayerPrefs.GetString("emailAddress");
-    }
-
-    private static bool IsValidEmail(string email)
-    {
-        if (string.IsNullOrEmpty(email)) return false;
-        try
-        {
-            var mailAddress = new MailAddress(email);
-            return true;
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
     }
 }

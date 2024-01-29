@@ -31,7 +31,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
                 mail.To.Add(new MailAddress(receiver));
                 mail.Subject = "VR4Architects Screenshot";
                 mail.Body = message;
-            
+
                 var memoryStream = new MemoryStream(screenshot.EncodeToPNG());
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 var data = new Attachment(memoryStream, "Screenshot");
@@ -77,7 +77,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
                 mail.To.Add(new MailAddress(receiver));
                 mail.Subject = subject;
                 mail.Body = message;
-            
+
                 var attachment = new Attachment(attachmentPath, MediaTypeNames.Application.Octet);
                 var disposition = attachment.ContentDisposition;
                 disposition.CreationDate = File.GetCreationTime(attachmentPath);
@@ -95,6 +95,20 @@ namespace cpvrlab_vr_suite.Scripts.Util
             catch (Exception e)
             {
                 Debug.Log(e);
+                return false;
+            }
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email)) return false;
+            try
+            {
+                var mailAddress = new MailAddress(email);
+                return true;
+            }
+            catch (FormatException)
+            {
                 return false;
             }
         }
