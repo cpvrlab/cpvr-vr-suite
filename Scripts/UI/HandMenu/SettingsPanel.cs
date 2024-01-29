@@ -6,12 +6,23 @@ using UnityEngine.UI;
 
 public class SettingsPanel : MenuPanel
 {
-    [SerializeField] private Toggle _fpsToggle;
-    [SerializeField] private Toggle _debugToggle;
-    [SerializeField] private Toggle _gazeToggle;
-    [SerializeField] private Toggle _panelToggle;
-    [SerializeField] private TMP_InputField _inputField;
+    [SerializeField] Toggle _fpsToggle;
+    [SerializeField] Toggle _debugToggle;
+    [SerializeField] Toggle _gazeToggle;
+    [SerializeField] Toggle _panelToggle;
+    [SerializeField] TMP_InputField _inputField;
+    [SerializeField] TMP_Text _infoText;
+    public string InfoText 
+    { 
+        get => _infoText.text;
+        set => _infoText.text = value;
+    }
 
+    void Awake()
+    {
+        InfoText = "Unity version: " + Application.unityVersion;
+    }
+    
     protected override void Start()
     {
         base.Start();
