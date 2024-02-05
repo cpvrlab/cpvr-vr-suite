@@ -7,13 +7,12 @@ using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
-using UnityEngine.XR.OpenXR;
-using UnityEngine.XR.OpenXR.Features.MetaQuestSupport;
 
 static class VRSuiteProjectValidation
 {
     const string k_DisplayName = "CPVRlab VR Suite Package";
     const string k_Category = "CPVRlab VR Suite Package";
+    const string k_SampleName = "AndroidManifest";
     const string k_XRITKPackageName = "com.unity.xr.interaction.toolkit";
     const string k_StarterAssetsSampleName = "Starter Assets";
     const string k_HandsInteractionSampleName = "Hands Interaction Demo";
@@ -151,10 +150,27 @@ static class VRSuiteProjectValidation
         new BuildValidationRule
         {
             IsRuleEnabled = () => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android,
-            Message = "[Project Settings > Player] 'Internet Access' needs to be set to 'Require' in order to send screenshots via email.",
+            Message = $"[{k_DisplayName}] {k_SampleName} sample must be imported or updated to use this package.",
+            Category = k_Category,
+            CheckPredicate = () => TryFindSample(k_DisplayName, string.Empty, k_SampleName, out var sample) && sample.isImported,
+            FixIt = () =>
+            {
+                if (TryFindSample(k_DisplayName, string.Empty, k_SampleName, out var sample))
+                {
+                    sample.Import(Sample.ImportOptions.OverridePreviousImports);
+                }
+            },
+            FixItAutomatic = true,
+            Error = true
+        },
+        new BuildValidationRule
+        {
+            IsRuleEnabled = () => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android,
+            Message = "[Project Settings > Player > Other Settings] 'Internet Access' needs to be set to 'Require'.",
             Category = k_Category,
             CheckPredicate = () => EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android || PlayerSettings.Android.forceInternetPermission == true,
             FixIt = () => PlayerSettings.Android.forceInternetPermission = true,
+            FixItAutomatic = true,
             Error = false
         }
     };
