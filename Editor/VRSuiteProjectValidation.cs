@@ -150,7 +150,7 @@ static class VRSuiteProjectValidation
         new BuildValidationRule
         {
             IsRuleEnabled = () => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android,
-            Message = $"[{k_DisplayName}] {k_SampleName} sample must be imported or updated to use this package.",
+            Message = $"{k_SampleName} sample must be imported or updated to use this package.",
             Category = k_Category,
             CheckPredicate = () => TryFindSample(k_DisplayName, string.Empty, k_SampleName, out var sample) && sample.isImported,
             FixIt = () =>
