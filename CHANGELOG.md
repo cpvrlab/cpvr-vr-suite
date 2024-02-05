@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [3.1.2] - 2024-02-05
 - Added script *DisableOtherCameras.cs* to deactivate all Cameras except the Rig Camera on scene load.
 - Moved the custom AndroidManifest to a sample so it exists in the Assets folder after importing the package.
+- Added validation rule to check wheter the AndroidManifest sample has been imported or not.
 
 ## [3.1.0] - 2023-10-16
 - Added dynamic handmenu panels which can be placed in a scene and get loaded when the scene is entered and unloaded when leaving the scene
