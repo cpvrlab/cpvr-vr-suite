@@ -9,6 +9,13 @@
     "com.unity.xr.interaction.toolkit": "2.5.2",
     "com.unity.xr.hands": "1.3.0"
   },
+  "samples" : [
+    {
+      "displayName": "AndroidManifest",
+      "description": "Contains an AndroidManifest.xml file which enables Android features that are required by this package",
+      "path": "Samples~/AndroidManifest"
+    }
+  ],
   "keywords": [
     "Virtual Reality"
   ],
