@@ -1,12 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-
 public class RigManager : Singleton<RigManager>
 {
-    [SerializeField] private GameObject _xrOrigin;
-    public GameObject XrOrigin { get => _xrOrigin; }
+    public UnityEvent enableInteractor;
+    public UnityEvent enableTeleport;
+    
+    [SerializeField] GameObject m_xrOrigin;
+    public GameObject XrOrigin { get => m_xrOrigin; }
 
-    private void Start()
+    void Start()
     {
         if (SceneManager.sceneCountInBuildSettings <= 1) return;
         SceneManager.LoadSceneAsync(1);
