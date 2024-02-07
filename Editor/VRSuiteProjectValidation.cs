@@ -149,22 +149,6 @@ static class VRSuiteProjectValidation
         },
         new BuildValidationRule
         {
-            IsRuleEnabled = () => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android && PackageVersionUtility.IsPackageInstalled(k_Category),
-            Message = $"{k_SampleName} sample must be imported or updated to use this package.",
-            Category = k_Category,
-            CheckPredicate = () => TryFindSample(k_DisplayName, string.Empty, k_SampleName, out var sample) && sample.isImported,
-            FixIt = () =>
-            {
-                if (TryFindSample(k_DisplayName, string.Empty, k_SampleName, out var sample))
-                {
-                    sample.Import(Sample.ImportOptions.OverridePreviousImports);
-                }
-            },
-            FixItAutomatic = true,
-            Error = false
-        },
-        new BuildValidationRule
-        {
             IsRuleEnabled = () => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android,
             Message = "[Project Settings > Player > Other Settings] 'Internet Access' needs to be set to 'Require'.",
             Category = k_Category,
