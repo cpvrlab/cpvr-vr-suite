@@ -39,11 +39,13 @@ public class SceneSelectionPanel : MenuPanel
         return button;
     }
 
+    public void RemoveDynamicPanels() => _handMenuController.UnregisterDynamicPanels();
+
     void ChangeScene(int index)
     {
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
-        _handMenuController.UnregisterDynamicPanels();
+        RemoveDynamicPanels();
         SceneManager.LoadSceneAsync(index);
     }
 
