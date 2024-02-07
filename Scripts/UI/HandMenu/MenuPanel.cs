@@ -44,7 +44,7 @@ public class MenuPanel : MonoBehaviour
 
         if (_panelType == PanelType.Dynamic)
         {
-            _handMenuController = FindFirstObjectByType<HandMenuController>();
+            _handMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
             if (_handMenuController == null)
             {
                 Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
