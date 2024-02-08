@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [3.1.4] - 2024-02-07
 - Removed faulty evaluation rule
+- Fixed bug when adding a dynamic panel to an inactive menu
+- Added ability to screenfade
 
 ## [3.1.2] - 2024-02-05
 - Added script *DisableOtherCameras.cs* to deactivate all Cameras except the Rig Camera on scene load.
