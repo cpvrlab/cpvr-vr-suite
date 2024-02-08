@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -41,11 +42,12 @@ public class SceneSelectionPanel : MenuPanel
 
     public void RemoveDynamicPanels() => _handMenuController.UnregisterDynamicPanels();
 
-    void ChangeScene(int index)
+    async void ChangeScene(int index)
     {
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
         RemoveDynamicPanels();
+        await Task.Delay(1000);
         SceneManager.LoadSceneAsync(index);
     }
 
