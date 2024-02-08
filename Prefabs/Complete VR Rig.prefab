@@ -836,6 +836,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_xrOrigin: {fileID: 319686131049333654}
+  m_fadeImage: {fileID: 7513710717321573408}
 --- !u!114 &8750104053167305363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3160,8 +3161,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelType: 0
   _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  _scrollviewContent: {fileID: 3898035280263641741}
-  _buttonPrefab: {fileID: 8380809415929934673, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
+  m_scrollviewContent: {fileID: 3898035280263641741}
+  m_buttonPrefab: {fileID: 8380809415929934673, guid: c705ad1e2ff19e5499b62f2a7f9fadd6, type: 3}
 --- !u!1 &3940088443026833575
 GameObject:
   m_ObjectHideFlags: 0
@@ -5312,8 +5313,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelType: 0
   _sprite: {fileID: 21300000, guid: 01c9a8bf23c12eb4f9de8510786d3b52, type: 3}
-  buttonPrefab: {fileID: 6268896315730717319, guid: 177da058cfbe13042a53a0513ba572b3, type: 3}
-  scrollviewContent: {fileID: 407544903487856099}
+  m_fadeOnSceneChange: 0
+  m_buttonPrefab: {fileID: 6268896315730717319, guid: 177da058cfbe13042a53a0513ba572b3, type: 3}
+  m_scrollviewContent: {fileID: 407544903487856099}
 --- !u!1 &6736367373829951523
 GameObject:
   m_ObjectHideFlags: 0

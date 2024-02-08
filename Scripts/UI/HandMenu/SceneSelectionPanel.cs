@@ -10,9 +10,10 @@ public class SceneSelectionPanel : MenuPanel
 {
     public delegate void OnEnableHandler();
     public OnEnableHandler onEnableHandler;
-    [SerializeField] private GameObject buttonPrefab;
-    [SerializeField] private Transform scrollviewContent;
-    private readonly List<Button> m_sceneButtons = new();
+    [SerializeField] bool m_fadeOnSceneChange;
+    [SerializeField] GameObject m_buttonPrefab;
+    [SerializeField] Transform m_scrollviewContent;
+    readonly List<Button> m_sceneButtons = new();
 
     public IEnumerable<Button> SceneButtons {get => m_sceneButtons.AsReadOnly();}
 
@@ -31,7 +32,7 @@ public class SceneSelectionPanel : MenuPanel
 
     public Button CreateSceneButton<T>(string label, Action<T> callback, T argument)
     {
-        var buttonObject = Instantiate(buttonPrefab, scrollviewContent);
+        var buttonObject = Instantiate(m_buttonPrefab, m_scrollviewContent);
         buttonObject.GetComponentInChildren<TextMeshProUGUI>().text = label;
         var button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => callback.Invoke(argument));
@@ -47,8 +48,14 @@ public class SceneSelectionPanel : MenuPanel
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
         RemoveDynamicPanels();
-        await Task.Delay(1000);
+
+        if (m_fadeOnSceneChange)
+            await RigManager.Instance.Fade(Color.black, 2f);
+        
         SceneManager.LoadSceneAsync(index);
+        
+        if (m_fadeOnSceneChange)
+            await RigManager.Instance.Fade(Color.clear, 2f);
     }
 
     void OnEnable() => onEnableHandler?.Invoke();
