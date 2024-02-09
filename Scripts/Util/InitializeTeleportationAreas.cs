@@ -19,13 +19,12 @@ public class InitializeTeleportationAreas : MonoBehaviour
                                     go.layer == LayerMask.NameToLayer("Non-Teleport")).ToList();
 
         var teleportAreaCounter = 0;
-        var teleportColliderCounter = 0;
         foreach (var go in allTeleportObjects)
         {
             if (!go.TryGetComponent<Collider>(out var _))
             {
-                go.AddComponent<MeshCollider>();
-                teleportColliderCounter++;
+                Debug.LogWarning($"GameObject {go.name} has no collider attached to it. Teleport will not be available on this object.");
+                continue;
             }
             
             if (!go.TryGetComponent<TeleportationArea>(out var _))
@@ -38,20 +37,16 @@ public class InitializeTeleportationAreas : MonoBehaviour
         }
         
         Debug.Log($"{allTeleportObjects.Count} Teleport Layer Objects found");
-        Debug.Log($"{teleportColliderCounter} Teleport colliders added");
         Debug.Log($"{teleportAreaCounter} Teleport areas added");
         
-        var nonTeleportColliderCounter = 0;
-
         foreach (var go in allNonTeleportObjects)
         {
             if (!go.TryGetComponent<Collider>(out var _))
             {
-                go.AddComponent<MeshCollider>();
-                nonTeleportColliderCounter++;
+                Debug.LogWarning($"GameObject {go.name} has no collider attached to it. Non-Teleport will not be available on this object.");
+                continue;
             }
         }
         Debug.Log($"{allNonTeleportObjects.Count} Non-Teleport Layer Objects found");
-        Debug.Log($"{nonTeleportColliderCounter} Non-Teleport colliders added");
     }
 }
