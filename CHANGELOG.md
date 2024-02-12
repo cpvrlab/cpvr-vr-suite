@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.5] - 2024-02-12
+- Reduced minimal OpenXR version dependency to 1.8.2 in order to make it compatible with PICOs Unity OpenXR Package
+
 ## [3.1.4] - 2024-02-07
 - Removed faulty evaluation rule
 - Fixed bug when adding a dynamic panel to an inactive menu
