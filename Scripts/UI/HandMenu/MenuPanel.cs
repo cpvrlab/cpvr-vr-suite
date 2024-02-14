@@ -8,12 +8,12 @@ public enum PanelType
 
 public class MenuPanel : MonoBehaviour
 {
-    protected HandMenuController _handMenuController;
-    [SerializeField] private PanelType _panelType = PanelType.Static;
-    [SerializeField] private Sprite _sprite;
+    protected HandMenuController handMenuController;
+    [SerializeField] PanelType m_panelType = PanelType.Static;
+    [SerializeField] Sprite m_sprite;
 
-    public Sprite Sprite { get => _sprite; private set => _sprite = value; }
-    public PanelType PanelType { get => _panelType; private set => _panelType = value; }
+    public Sprite Sprite { get => m_sprite; private set => m_sprite = value; }
+    public PanelType PanelType { get => m_panelType; private set => m_panelType = value; }
 
     protected virtual void Start()
     {
@@ -22,8 +22,8 @@ public class MenuPanel : MonoBehaviour
 
     public void OnBackClicked()
     {
-        if (_handMenuController == null) return;
-        _handMenuController.OpenMainPanel();
+        if (handMenuController == null) return;
+        handMenuController.OpenMainPanel();
     }
 
     public void OnQuitClicked()
@@ -35,22 +35,22 @@ public class MenuPanel : MonoBehaviour
 #endif
     }
 
-    private void Init()
+    void Init()
     {
-        if (_panelType == PanelType.Static)
+        if (m_panelType == PanelType.Static)
         {
-            _handMenuController = transform.parent.GetComponent<HandMenuController>();
+            handMenuController = transform.parent.GetComponent<HandMenuController>();
         }
 
-        if (_panelType == PanelType.Dynamic)
+        if (m_panelType == PanelType.Dynamic)
         {
-            _handMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
-            if (_handMenuController == null)
+            handMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
+            if (handMenuController == null)
             {
                 Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
                 return;
             }
-            _handMenuController.RegisterPanel(this);
+            handMenuController.RegisterPanel(this);
         }
     }
 }

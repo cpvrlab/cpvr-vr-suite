@@ -84,12 +84,10 @@ public class HandMenuController : MonoBehaviour
 
         panel.transform.SetParent(transform);
         panel.transform.SetPositionAndRotation(_panels.First().transform.position, _panels.First().transform.rotation);
+        panel.transform.localScale = Vector3.one;
 
-        // Dirty solution to edge case. Scale gets set to 0 if the panel is added to an inactive menu
-        // because the parent has a scale of 0 when it deactivates
         if (!gameObject.activeInHierarchy)
         {
-            panel.transform.localScale = Vector3.one;
             panel.GetComponent<RectTransform>().localPosition = new Vector3(0, 50, 0);
         }
 

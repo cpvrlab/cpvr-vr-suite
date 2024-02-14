@@ -37,11 +37,11 @@ public class SceneSelectionPanel : MenuPanel
         var button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => callback.Invoke(argument));
         m_sceneButtons.Add(button);
-        _handMenuController.AddButtonSoundFeedback(button);
+        handMenuController.AddButtonSoundFeedback(button);
         return button;
     }
 
-    public void RemoveDynamicPanels() => _handMenuController.UnregisterDynamicPanels();
+    public void RemoveDynamicPanels() => handMenuController.UnregisterDynamicPanels();
 
     async void ChangeScene(int index)
     {

@@ -47,8 +47,8 @@ public class SettingsPanel : MenuPanel
 
         m_panelToggle.onValueChanged.AddListener(value =>
         {
-            if (_handMenuController == null) return;
-            _handMenuController.openLastPanel = value;
+            if (handMenuController == null) return;
+            handMenuController.openLastPanel = value;
             PlayerPrefs.SetInt("reopenPanel", value ? 1 : 0);
         });
 

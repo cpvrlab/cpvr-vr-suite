@@ -8,7 +8,7 @@ public class MainPanel : MenuPanel
     [SerializeField] GameObject m_buttonPrefab;
     readonly Dictionary<MenuPanel, Button> m_menuButtonDictionary = new ();
 
-    protected override void Start() => _handMenuController = transform.parent.GetComponent<HandMenuController>();
+    protected override void Start() => handMenuController = transform.parent.GetComponent<HandMenuController>();
 
     public void AddPanelButton(MenuPanel panel)
     {
@@ -25,8 +25,8 @@ public class MainPanel : MenuPanel
         if (button.transform.GetChild(0).TryGetComponent<Image>(out var image) && panel.Sprite != null)
             image.sprite = panel.Sprite;
 
-        button.onClick.AddListener(() => _handMenuController.OpenPanel(panel));
-        _handMenuController.AddButtonSoundFeedback(button);
+        button.onClick.AddListener(() => handMenuController.OpenPanel(panel));
+        handMenuController.AddButtonSoundFeedback(button);
         m_menuButtonDictionary.Add(panel, button);
     }
 
