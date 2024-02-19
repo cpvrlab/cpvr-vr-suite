@@ -10,8 +10,9 @@ public class MainHandUIController : HandUIController
     readonly Button m_sceneSelectionButton;
     readonly Button m_settingsButton;
     readonly Button m_quitButton;
+    bool m_initialized = false;
 
-    public MainHandUIController(View view,
+    public MainHandUIController(HandView view,
                                 HandMenuManager canvasManager,
                                 Transform scrollviewContent,
                                 GameObject buttonPrefab,
@@ -33,6 +34,14 @@ public class MainHandUIController : HandUIController
         m_quitButton.onClick.AddListener(() => QuitGame());
     }
 
+    public void Initialize()
+    {
+        if (m_initialized) return;
+        
+        SetButtonSprite(m_sceneSelectionButton, m_settingsButton);
+        m_initialized = true;
+    }
+
     public void SetScreenshotButtonState() => m_screenshotButton.interactable = !string.IsNullOrEmpty(PlayerPrefs.GetString("emailAddress"));
     
     public override void AddUIElementSoundFeedback(EventTrigger.Entry hover, EventTrigger.Entry click, EventTrigger.Entry deselect)
@@ -41,5 +50,17 @@ public class MainHandUIController : HandUIController
         AddSoundFeedback(m_sceneSelectionButton.gameObject, click, hover);
         AddSoundFeedback(m_settingsButton.gameObject, click, hover);
         AddSoundFeedback(m_quitButton.gameObject, click, hover);   
+    }
+
+    void SetButtonSprite(params Button[] buttons)
+    {
+        if (buttons.Length == 0) return;
+
+        foreach (var button in buttons)
+        {
+            if (button.transform.GetChild(0).TryGetComponent<Image>(out var image) &&
+                canvasManager.TryGetController<SceneSelectionController>(out var controller))
+                image.sprite = controller.View.Sprite;
+        }
     }
 }

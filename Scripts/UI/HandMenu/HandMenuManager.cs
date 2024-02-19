@@ -31,6 +31,9 @@ public sealed class HandMenuManager : CanvasManager
             foreach (var controller in controllers.OfType<HandUIController>())
                 controller.AddUIElementSoundFeedback(m_hover, m_click, m_deselect);
         }
+        
+        if (TryGetController<MainHandUIController>(out var mainController))
+            mainController.Initialize();
 
         m_openLastView = PlayerPrefs.GetInt("reopenView") == 1;
     }

@@ -1,6 +1,7 @@
 public abstract class Controller
 {
     protected View view;
+    public View View { get => view; }
     protected CanvasManager canvasManager;
 
     public Controller(View view, CanvasManager canvasManager)

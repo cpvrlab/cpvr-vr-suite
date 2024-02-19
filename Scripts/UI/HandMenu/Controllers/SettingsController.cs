@@ -6,7 +6,7 @@ public class SettingsController : HandUIController
     readonly Button m_backButton;
     readonly Button m_quitButton;
 
-    public SettingsController(View view,
+    public SettingsController(HandView view,
                             HandMenuManager canvasManager,
                             Button backButton,
                             Button quitButton) 

@@ -6,7 +6,7 @@ public class SceneSelectionController : HandUIController
     readonly Button m_backButton;
     readonly Button m_quitButton;
 
-    public SceneSelectionController(View view,
+    public SceneSelectionController(HandView view,
                                     HandMenuManager canvasManager,
                                     Button backButton,
                                     Button quitButton) 

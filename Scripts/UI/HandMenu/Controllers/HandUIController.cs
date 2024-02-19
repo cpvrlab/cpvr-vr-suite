@@ -4,7 +4,10 @@ using UnityEngine.EventSystems;
 public abstract class HandUIController : Controller
 {
     protected new readonly HandMenuManager canvasManager;
-    public HandUIController(View view, HandMenuManager canvasManager) : base(view, canvasManager)
+    protected new readonly HandView view;
+    public new HandView View { get => view; }
+    
+    public HandUIController(HandView view, HandMenuManager canvasManager) : base(view, canvasManager)
     {
         this.canvasManager = canvasManager;
     }
