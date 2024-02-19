@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public enum PanelType
-{
-    Static,
-    Dynamic
-}
-
 public class MenuPanel : MonoBehaviour
 {
     protected HandMenuController _handMenuController;

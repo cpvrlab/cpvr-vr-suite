@@ -7,7 +7,17 @@ public abstract class Controller
     {
         this.view = view;
         this.canvasManager = canvasManager;
+        this.canvasManager.RegisterController(this);
     }
 
     public void SetViewActiveState(bool state) => view.gameObject.SetActive(state);
+
+    protected void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

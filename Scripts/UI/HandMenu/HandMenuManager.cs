@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -5,9 +6,9 @@ using UnityEngine.EventSystems;
 public sealed class HandMenuManager : CanvasManager
 {
     [Header("Audio")]
-    [SerializeField] SoundClip _hoverClip;
-    [SerializeField] SoundClip _clickClip;
-    [SerializeField] bool _playHoverSound;
+    [SerializeField] SoundClip m_hoverClip;
+    [SerializeField] SoundClip m_clickClip;
+    [SerializeField] bool m_playHoverSound;
 
     [Header("Events")]
     [SerializeField] UnityEvent m_onEnable;
@@ -15,31 +16,21 @@ public sealed class HandMenuManager : CanvasManager
 
     bool m_openLastView;
     public bool OpenLastView { get => m_openLastView; }
-    Controller m_lastController = null;
+    HandUIController m_lastController = null;
     EventTrigger.Entry m_hover;
     EventTrigger.Entry m_click;
     EventTrigger.Entry m_deselect;
-
-    void Awake()
-    {
-        // m_hover = new EventTrigger.Entry();
-        // m_hover.eventID = EventTriggerType.PointerEnter;
-        // m_hover.callback.AddListener(_ => { PlaySound(_hoverClip); });
-
-        // m_click = new EventTrigger.Entry();
-        // m_click.eventID = EventTriggerType.Select;
-        // m_click.callback.AddListener(_ => { PlaySound(_clickClip); });
-
-        // m_deselect = new EventTrigger.Entry();
-        // m_deselect.eventID = EventTriggerType.Deselect;
-        // m_deselect.callback.AddListener(_ => { PlaySound(_clickClip); });
-    }
 
     protected override void Start()
     {
         base.Start();
 
-        // TODO: Set controller sound feedback
+        if (AudioManager.Instance != null)
+        {
+            SetupAudioEvents();
+            foreach (var controller in controllers.OfType<HandUIController>())
+                controller.AddUIElementSoundFeedback(m_hover, m_click, m_deselect);
+        }
 
         m_openLastView = PlayerPrefs.GetInt("reopenView") == 1;
     }
@@ -55,23 +46,62 @@ public sealed class HandMenuManager : CanvasManager
 
     void OnDisable() => m_onDisable?.Invoke();
 
-    public void OpenView(Controller controller)
+    public void OpenView(HandUIController controller)
     {
         CloseAllPanels();
         controller.SetViewActiveState(true);
         m_lastController = controller;
     }
 
+    public void OpenView<T>() where T : HandUIController
+    {
+        if (TryGetController<T>(out var controller))
+        {
+            CloseAllPanels();
+            controller.SetViewActiveState(true);
+            m_lastController = controller;
+        }
+    }
+
     public void OpenMainView()
     {
         CloseAllPanels();
-        TryGetController<MainHandUIController>(out var mainController);
-        OpenView(mainController);
+        if (TryGetController<MainHandUIController>(out var mainController))
+            OpenView(mainController);
     }
 
     void CloseAllPanels()
     {
         foreach (var controller in controllers) 
             controller.SetViewActiveState(false);
+    }
+
+    void SetupAudioEvents()
+    {
+        if (AudioManager.Instance == null) return;
+
+        if (m_hoverClip != null && m_playHoverSound)
+        {
+            m_hover = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerEnter
+            };
+            m_hover.callback.AddListener(_ => AudioManager.Instance.PlaySoundClip(m_hoverClip, transform));
+        }
+
+        if (m_clickClip != null)
+        {
+            m_click = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.Select
+            };
+            m_click.callback.AddListener(_ => AudioManager.Instance.PlaySoundClip(m_clickClip, transform));
+
+            m_deselect = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.Deselect
+            };
+            m_deselect.callback.AddListener(_ => AudioManager.Instance.PlaySoundClip(m_clickClip, transform));
+        }
     }
 }
