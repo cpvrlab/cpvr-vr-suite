@@ -54,8 +54,10 @@ public class SettingsPanel : MenuPanel
 
         m_inputField.onDeselect.AddListener(value => 
         {
-            if (!MailSender.IsValidEmail(value)) return;
-            PlayerPrefs.SetString("emailAddress", value);
+            if (MailSender.IsValidEmail(value))
+                PlayerPrefs.SetString("emailAddress", value);
+            else if (MailSender.IsValidEmail(PlayerPrefs.GetString("emailAddress")))
+                m_inputField.text = PlayerPrefs.GetString("emailAddress");
         });
 
         m_clearDebugLogButton.onClick.AddListener(() => m_debugDisplay.ClearDebugLog());

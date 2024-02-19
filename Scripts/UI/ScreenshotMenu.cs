@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using cpvrlab_vr_suite.Scripts.Util;
 using TMPro;
