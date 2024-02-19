@@ -26,17 +26,9 @@ public class MainHandUIController : HandUIController
         m_screenshotButton = screenshotButton;
         SetScreenshotButtonState();
         m_sceneSelectionButton = sceneSelectionButton;
-        m_sceneSelectionButton.onClick.AddListener(() =>
-        {
-            if (canvasManager.TryGetController<SceneSelectionController>(out var controller))
-                canvasManager.OpenView(controller);
-        });
+        m_sceneSelectionButton.onClick.AddListener(() => canvasManager.OpenView<SceneSelectionController>());
         m_settingsButton = settingsButton;
-        m_settingsButton.onClick.AddListener(() =>
-        {
-            if (canvasManager.TryGetController<SettingsController>(out var controller))
-                canvasManager.OpenView(controller);
-        });
+        m_settingsButton.onClick.AddListener(() => canvasManager.OpenView<SettingsController>());
         m_quitButton = quitButton;
         m_quitButton.onClick.AddListener(() => QuitGame());
     }
@@ -48,8 +40,6 @@ public class MainHandUIController : HandUIController
         AddSoundFeedback(m_screenshotButton.gameObject, click, hover);
         AddSoundFeedback(m_sceneSelectionButton.gameObject, click, hover);
         AddSoundFeedback(m_settingsButton.gameObject, click, hover);
-        AddSoundFeedback(m_quitButton.gameObject, click, hover);
-        
-        Debug.Log("Soundfeedback added!");
+        AddSoundFeedback(m_quitButton.gameObject, click, hover);   
     }
 }
