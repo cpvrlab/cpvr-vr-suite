@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class CanvasManager : MonoBehaviour
 {
+    [SerializeField] UIManager m_uiManager;
     protected readonly List<Controller> controllers = new();
     public IEnumerable<Controller> Controllers { get => controllers.AsReadOnly(); }
 
@@ -25,7 +26,8 @@ public abstract class CanvasManager : MonoBehaviour
     public bool TryGetController<T>(out T controller, bool fullLookup = false) where T : Controller
     {
         controller = controllers.OfType<T>().FirstOrDefault();
-        // TODO: Add fullLookup
+        if (fullLookup && m_uiManager != null)
+            m_uiManager.TryGetController(this, out controller);
         return controller != null;
     }
 }

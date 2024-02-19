@@ -26,6 +26,15 @@ public class MainHandUIController : HandUIController
         m_buttonPrefab = buttonPrefab;
         m_screenshotButton = screenshotButton;
         SetScreenshotButtonState();
+        m_screenshotButton.onClick.AddListener(async () =>
+        {
+            if (canvasManager.TryGetController<InfoController>(out var controller, true))
+            {
+                m_screenshotButton.interactable = false;
+                await controller.TakeScreenshot(PlayerPrefs.GetString("emailAddress"));
+                m_screenshotButton.interactable = true;
+            }
+        });
         m_sceneSelectionButton = sceneSelectionButton;
         m_sceneSelectionButton.onClick.AddListener(() => canvasManager.OpenView<SceneSelectionController>());
         m_settingsButton = settingsButton;

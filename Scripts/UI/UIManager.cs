@@ -1,34 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public sealed class UIManager : Singleton<UIManager>
+public sealed class UIManager : MonoBehaviour
 {
     [SerializeField] List<CanvasManager> m_canvasManagers = new();
 
-    protected override void Awake()
+    public bool TryGetController<T>(CanvasManager caller, out T controller) where T : Controller
     {
-        base.Awake();
-        SceneManager.activeSceneChanged += (_, _) => GatherAllCanvasManagers();
-    }
-
-    void GatherAllCanvasManagers()
-    {
-        CleanUpManagers();
-        foreach (var cm in FindObjectsOfType<CanvasManager>())
-        {
-            if (cm != null && !m_canvasManagers.Contains(cm))
-                m_canvasManagers.Add(cm);
-        }
-    }
-
-    void CleanUpManagers()
-    {
+        controller = null;
+        var result = false;
         foreach (var cm in m_canvasManagers)
         {
-            if (cm == null)
-                m_canvasManagers.Remove(cm);
+            if (cm == caller) continue;
+            if (cm.TryGetController(out controller))
+            {
+                result = true;
+                break;
+            }
         }
+        return result;
     }
 }

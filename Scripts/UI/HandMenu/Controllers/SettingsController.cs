@@ -38,8 +38,16 @@ public class SettingsController : HandUIController
         m_clearDebugButton = clearDebugButton;
         m_backButton = backButton;
         m_quitButton = quitButton;
-        m_fpsToggle.interactable = false;
-        m_debugToggle.interactable = false;
+        m_fpsToggle.onValueChanged.AddListener(value => 
+        {
+            if (canvasManager.TryGetController<InfoController>(out var controller, true))
+                controller.SetFPSTextState(value);
+        });
+        m_debugToggle.onValueChanged.AddListener(value =>
+        {
+            if (canvasManager.TryGetController<InfoController>(out var controller, true))
+                controller.SetDebugLogTextState(value);
+        });
         m_gazeToggle.onValueChanged.AddListener(value => PlayerPrefs.SetInt("useGaze", value ? 1 : 0));
         m_viewToggle.onValueChanged.AddListener(value =>
         {
@@ -52,10 +60,17 @@ public class SettingsController : HandUIController
                 PlayerPrefs.SetString("emailAddress", value);
             else if (MailSender.IsValidEmail(PlayerPrefs.GetString("emailAddress")))
                 m_emailInputField.text = PlayerPrefs.GetString("emailAddress");
+
+            if (canvasManager.TryGetController<MainHandUIController>(out var controller))
+                controller.SetScreenshotButtonState();
         });
+        m_infoText.text = "Unity version: " + Application.unityVersion;
         m_clearDebugButton.interactable = false;
         m_backButton.onClick.AddListener(() => Back());
         m_quitButton.onClick.AddListener(() => QuitGame());
+
+        m_fpsToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showFPS") == 1);
+        m_debugToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showDebug") == 1);
     }
 
     public override void AddUIElementSoundFeedback(EventTrigger.Entry hover, EventTrigger.Entry click, EventTrigger.Entry deselect)
