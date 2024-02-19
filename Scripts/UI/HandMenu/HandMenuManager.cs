@@ -15,7 +15,11 @@ public sealed class HandMenuManager : CanvasManager
     [SerializeField] UnityEvent m_onDisable;
 
     bool m_openLastView;
-    public bool OpenLastView { get => m_openLastView; }
+    public bool OpenLastView 
+    {
+        get => m_openLastView; 
+        set => m_openLastView = value;
+    }
     HandUIController m_lastController = null;
     EventTrigger.Entry m_hover;
     EventTrigger.Entry m_click;

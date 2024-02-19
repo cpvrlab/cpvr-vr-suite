@@ -11,7 +11,7 @@ public abstract class Controller
         this.canvasManager.RegisterController(this);
     }
 
-    public void SetViewActiveState(bool state) => view.gameObject.SetActive(state);
+    public virtual void SetViewActiveState(bool state) => view.gameObject.SetActive(state);
 
     protected void QuitGame()
     {
