@@ -1,9 +1,13 @@
 public abstract class Controller
 {
-    View m_view;
+    protected View view;
+    protected CanvasManager canvasManager;
 
-    public Controller(View view)
+    public Controller(View view, CanvasManager canvasManager)
     {
-        m_view = view;
+        this.view = view;
+        this.canvasManager = canvasManager;
     }
+
+    public void SetViewActiveState(bool state) => view.gameObject.SetActive(state);
 }
