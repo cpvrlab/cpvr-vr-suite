@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,8 +23,8 @@ public class MainPanel : MenuPanel
 
         var button = Instantiate(m_buttonPrefab, m_scrollviewContent).GetComponent<Button>();
 
-        if (button.transform.GetChild(0).TryGetComponent<Image>(out var image) && panel.Sprite != null)
-            image.sprite = panel.Sprite;
+        if (button.transform.GetChild(0).TryGetComponent<TMP_Text>(out var text))
+            text.text = "Toggle Scene Objects";
 
         button.onClick.AddListener(() => handMenuController.OpenPanel(panel));
         handMenuController.AddButtonSoundFeedback(button);
