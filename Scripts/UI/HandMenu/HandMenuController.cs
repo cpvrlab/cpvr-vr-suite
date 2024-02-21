@@ -161,14 +161,14 @@ public class HandMenuController : MonoBehaviour
         uiInteraction.triggers.Add(_click);
     }
 
-    private void AddToggleSoundFeedback(Toggle toggle)
+    public void AddToggleSoundFeedback(Toggle toggle)
     {
         var uiInteraction = toggle.gameObject.AddComponent<EventTrigger>();
         if (_playHoverSound) uiInteraction.triggers.Add(_hover);
         uiInteraction.triggers.Add(_click); 
     }
 
-    private void AddInputFieldSoundFeedback(TMP_InputField inputField)
+    public void AddInputFieldSoundFeedback(TMP_InputField inputField)
     {
         var uiInteraction = inputField.gameObject.AddComponent<EventTrigger>();
         if (_playHoverSound) uiInteraction.triggers.Add(_hover);
