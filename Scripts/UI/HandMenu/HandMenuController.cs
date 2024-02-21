@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HandMenuController : MonoBehaviour
@@ -20,27 +21,29 @@ public class HandMenuController : MonoBehaviour
     [SerializeField] private List<MenuPanel> _panels;
     
     [HideInInspector] public bool openLastPanel;
-    private MenuPanel _lastPanel = null;
-    private EventTrigger.Entry _hover;
-    private EventTrigger.Entry _click;
-    private EventTrigger.Entry _deselect;
+    MenuPanel m_lastPanel = null;
+    EventTrigger.Entry m_hover;
+    EventTrigger.Entry m_click;
+    EventTrigger.Entry m_deselect;
 
-    private void Awake()
+    void Awake()
     {
-        _hover = new EventTrigger.Entry();
-        _hover.eventID = EventTriggerType.PointerEnter;
-        _hover.callback.AddListener(_ => { PlaySound(_hoverClip); });
+        m_hover = new EventTrigger.Entry();
+        m_hover.eventID = EventTriggerType.PointerEnter;
+        m_hover.callback.AddListener(_ => { PlaySound(_hoverClip); });
 
-        _click = new EventTrigger.Entry();
-        _click.eventID = EventTriggerType.Select;
-        _click.callback.AddListener(_ => { PlaySound(_clickClip); });
+        m_click = new EventTrigger.Entry();
+        m_click.eventID = EventTriggerType.Select;
+        m_click.callback.AddListener(_ => { PlaySound(_clickClip); });
 
-        _deselect = new EventTrigger.Entry();
-        _deselect.eventID = EventTriggerType.Deselect;
-        _deselect.callback.AddListener(_ => { PlaySound(_clickClip); });
+        m_deselect = new EventTrigger.Entry();
+        m_deselect.eventID = EventTriggerType.Deselect;
+        m_deselect.callback.AddListener(_ => { PlaySound(_clickClip); });
+
+        SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
     }
 
-    private void Start()
+    void Start()
     {
         _panels.ForEach(panel => 
         {
@@ -51,16 +54,16 @@ public class HandMenuController : MonoBehaviour
         openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         _onEnable?.Invoke();
-        if (openLastPanel && _lastPanel != null && _panels.Contains(_lastPanel))
-            OpenPanel(_lastPanel);
+        if (openLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
+            OpenPanel(m_lastPanel);
         else
             OpenMainPanel();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         _onDisable?.Invoke();
     }
@@ -69,7 +72,7 @@ public class HandMenuController : MonoBehaviour
     {
         CloseAllPanels();
         panel.gameObject.SetActive(true);
-        _lastPanel = panel;
+        m_lastPanel = panel;
     }
 
     public void OpenMainPanel()
@@ -114,15 +117,17 @@ public class HandMenuController : MonoBehaviour
             mainPanel.RemovePanelButton(panel);
             _panels.Remove(panel);
             panel.transform.SetParent(null);
+            panel.gameObject.SetActive(false);
+            Destroy(panel.gameObject);
         }
     }
 
-    private void CloseAllPanels()
+    void CloseAllPanels()
     {
         foreach (var panel in _panels) panel.gameObject.SetActive(false);
     }
 
-    private void PlaySound(SoundClip clip)
+    void PlaySound(SoundClip clip)
     {
         var go = Instantiate(new GameObject("SoundFX"), transform);
         var source = go.AddComponent<AudioSource>();
@@ -133,7 +138,7 @@ public class HandMenuController : MonoBehaviour
         Destroy(go, clip.clip.length * 1.1f);
     }
 
-    private void AddUiElementSoundFeedback(MenuPanel panel)
+    void AddUiElementSoundFeedback(MenuPanel panel)
     {        
         var buttons = panel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
@@ -157,22 +162,22 @@ public class HandMenuController : MonoBehaviour
     public void AddButtonSoundFeedback(Button button)
     {
         var uiInteraction = button.gameObject.AddComponent<EventTrigger>();
-        if (_playHoverSound) uiInteraction.triggers.Add(_hover);
-        uiInteraction.triggers.Add(_click);
+        if (_playHoverSound) uiInteraction.triggers.Add(m_hover);
+        uiInteraction.triggers.Add(m_click);
     }
 
     public void AddToggleSoundFeedback(Toggle toggle)
     {
         var uiInteraction = toggle.gameObject.AddComponent<EventTrigger>();
-        if (_playHoverSound) uiInteraction.triggers.Add(_hover);
-        uiInteraction.triggers.Add(_click); 
+        if (_playHoverSound) uiInteraction.triggers.Add(m_hover);
+        uiInteraction.triggers.Add(m_click); 
     }
 
     public void AddInputFieldSoundFeedback(TMP_InputField inputField)
     {
         var uiInteraction = inputField.gameObject.AddComponent<EventTrigger>();
-        if (_playHoverSound) uiInteraction.triggers.Add(_hover);
-        uiInteraction.triggers.Add(_click);
-        uiInteraction.triggers.Add(_deselect);
+        if (_playHoverSound) uiInteraction.triggers.Add(m_hover);
+        uiInteraction.triggers.Add(m_click);
+        uiInteraction.triggers.Add(m_deselect);
     }
 }
