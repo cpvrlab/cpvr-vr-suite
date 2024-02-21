@@ -61,11 +61,23 @@ public class HandMenuController : MonoBehaviour
             OpenPanel(m_lastPanel);
         else
             OpenMainPanel();
+
+        if (RigManager.Instance != null &&
+            RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
+        {
+            gazeManager.BlockInteractor(true);
+        }
     }
 
     void OnDisable()
     {
         _onDisable?.Invoke();
+
+        if (RigManager.Instance != null &&
+            RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
+        {
+            gazeManager.BlockInteractor(false);
+        }
     }
 
     public void OpenPanel(MenuPanel panel)

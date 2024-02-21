@@ -42,7 +42,9 @@ public class SettingsPanel : MenuPanel
 
         m_gazeToggle.onValueChanged.AddListener(value =>
         {
-            PlayerPrefs.SetInt("useGaze", value ? 1 : 0);
+            if (RigManager.Instance != null && 
+                RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
+                gazeManager.SetActiveState(value);
         });
 
         m_panelToggle.onValueChanged.AddListener(value =>
@@ -64,7 +66,9 @@ public class SettingsPanel : MenuPanel
 
         m_fpsToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showFPS") == 1);
         m_debugToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showDebug") == 1);
-        m_gazeToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("useGaze") == 1);
+        m_gazeToggle.SetIsOnWithoutNotify(RigManager.Instance != null && 
+                                        RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager) && 
+                                        gazeManager.Operative);
         m_panelToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("reopenPanel") == 1);
         m_inputField.text = PlayerPrefs.GetString("emailAddress");
     }

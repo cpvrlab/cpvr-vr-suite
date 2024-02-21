@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class RigManager : Singleton<RigManager>
 {
+    [SerializeField] RigOrchestrator m_rigOrchestrator;
+    public RigOrchestrator RigOrchestrator { get => m_rigOrchestrator; }
     public UnityEvent enableInteractor;
     public UnityEvent enableTeleport;
 
