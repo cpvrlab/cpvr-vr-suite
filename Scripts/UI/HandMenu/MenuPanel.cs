@@ -6,7 +6,7 @@ public enum PanelType
     Dynamic
 }
 
-public class MenuPanel : MonoBehaviour
+public abstract class MenuPanel : MonoBehaviour
 {
     protected HandMenuController handMenuController;
     [SerializeField] PanelType m_panelType = PanelType.Static;

@@ -27,6 +27,12 @@ public class SceneSelectionPanel : MenuPanel
             var index = i;
             CreateSceneButton(label, ChangeScene, index);
         }
+
+        SceneManager.activeSceneChanged += (_, scene) =>
+        {
+            if (handMenuController.TryGetMenuPanel<MainPanel>(out var panel))
+                panel.Title = scene.name;
+        };
     }
 
     public Button CreateSceneButton<T>(string label, Action<T> callback, T argument)

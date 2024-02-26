@@ -9,16 +9,16 @@ using UnityEngine.UI;
 
 public class HandMenuController : MonoBehaviour
 {
-    [SerializeField] private SoundClip _hoverClip;
-    [SerializeField] private SoundClip _clickClip;
-    [SerializeField] private bool _playHoverSound;
+    [SerializeField] SoundClip _hoverClip;
+    [SerializeField] SoundClip _clickClip;
+    [SerializeField] bool _playHoverSound;
 
     [Header("Events")]
-    [SerializeField] private UnityEvent _onEnable;
-    [SerializeField] private UnityEvent _onDisable;
+    [SerializeField] UnityEvent _onEnable;
+    [SerializeField] UnityEvent _onDisable;
 
     [Header("UI Panels")] 
-    [SerializeField] private List<MenuPanel> _panels;
+    [SerializeField] List<MenuPanel> _panels;
     
     [HideInInspector] public bool openLastPanel;
     MenuPanel m_lastPanel = null;
@@ -80,6 +80,12 @@ public class HandMenuController : MonoBehaviour
         }
     }
 
+    public bool TryGetMenuPanel<T>(out T panel) where T : MenuPanel
+    {
+        panel = _panels.OfType<T>().FirstOrDefault();
+        return panel != null;
+    }
+    
     public void OpenPanel(MenuPanel panel)
     {
         CloseAllPanels();

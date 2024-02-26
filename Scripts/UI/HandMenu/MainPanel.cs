@@ -5,6 +5,22 @@ using UnityEngine.UI;
 
 public class MainPanel : MenuPanel
 {
+    [SerializeField] TMP_Text m_title;
+    public string Title
+    {
+        get
+        {
+            if (m_title != null)
+                return m_title.text;
+            else
+                return string.Empty;
+        }
+        set
+        {
+            if (m_title != null)
+                m_title.text = value;
+        }
+    }
     [SerializeField] Transform m_scrollviewContent;
     [SerializeField] GameObject m_buttonPrefab;
     readonly Dictionary<MenuPanel, Button> m_menuButtonDictionary = new ();
