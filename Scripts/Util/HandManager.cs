@@ -15,8 +15,8 @@ public enum InteractionMode
 [DefaultExecutionOrder(k_UpdateOrder)]
 public class HandManager : InteractorManager
 {
-    [SerializeField] InteractionMode m_interactionMode = InteractionMode.Teleport;
-    public InteractionMode InteractionMode
+    static InteractionMode m_interactionMode = InteractionMode.Teleport;
+    public static InteractionMode InteractionMode
     {
         get => m_interactionMode;
         set => m_interactionMode = value;
@@ -250,11 +250,14 @@ public class HandManager : InteractorManager
         {
             case InteractionMode.Ray:
                 m_rayInteractor.gameObject.SetActive(!RayBlocked);
+                m_interactionModeChanged?.Invoke(InteractionMode.Ray);
                 break;
             case InteractionMode.Teleport:
-                m_teleportInteractor.gameObject.SetActive(true);
+                m_teleportInteractor.gameObject.SetActive(!TeleportBlocked);
+                m_interactionModeChanged?.Invoke(InteractionMode.Teleport);
                 break;
             case InteractionMode.None:
+                m_interactionModeChanged?.Invoke(InteractionMode.None);
                 break;
             default:
                 throw new NotImplementedException();
