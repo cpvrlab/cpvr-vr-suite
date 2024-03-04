@@ -53,4 +53,6 @@ public class MainPanel : MenuPanel
         m_menuButtonDictionary.Remove(panel);
         Destroy(button.gameObject);
     }
+
+    public void SetHandMenuController(HandMenuController controller) => handMenuController = controller;
 }
