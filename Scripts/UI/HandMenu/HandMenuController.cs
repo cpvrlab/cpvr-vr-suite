@@ -43,16 +43,7 @@ public class HandMenuController : MonoBehaviour
         SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
     }
 
-    void Start()
-    {
-        _panels.ForEach(panel => 
-        {
-            RegisterPanel(panel);
-            AddUiElementSoundFeedback(panel);
-        });
-
-        openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
-    }
+    void Start() => openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
 
     void OnEnable()
     {
@@ -108,11 +99,10 @@ public class HandMenuController : MonoBehaviour
         panel.transform.localScale = Vector3.one;
 
         if (!gameObject.activeInHierarchy)
-        {
             panel.GetComponent<RectTransform>().localPosition = new Vector3(0, 50, 0);
-        }
 
         AddUiElementSoundFeedback(panel);
+        
         if (!_panels.Contains(panel))
         {
             _panels.First().GetComponent<MainPanel>().AddPanelButton(panel);
