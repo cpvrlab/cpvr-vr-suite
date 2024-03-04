@@ -37,7 +37,14 @@ public class RigOrchestrator : MonoBehaviour
         if (TryGetInteractorManager<HandMenuManager>(out var handMenuManager) &&
             handMenuManager.Blocked) return;
 
-        HandManager.InteractionMode = value ? InteractionMode.Ray : InteractionMode.Teleport;
+        if (TryGetInteractorManager<LeftHandManager>(out var leftHandManager))
+            leftHandManager.ToggleHandMenu(value);
+        else
+            Debug.Log("LeftHandManager not found.");
+        if (TryGetInteractorManager<RightHandManager>(out var rightHandManager))
+            rightHandManager.ToggleHandMenu(value);
+        else
+            Debug.Log("RightHandManager not found.");
 
         if (TryGetInteractorManager<GazeManager>(out var gazeManager))
             gazeManager.BlockInteractor(value);

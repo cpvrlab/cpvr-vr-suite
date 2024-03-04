@@ -264,6 +264,14 @@ public class HandManager : InteractorManager
         }
     }
 
+    public void ToggleHandMenu(bool value)
+    {
+        if (value)
+            m_rayInteractor.gameObject.SetActive(true);
+        else if (InteractionMode != InteractionMode.Ray)
+            m_rayInteractor.gameObject.SetActive(false);
+    }
+
     static InputAction GetInputAction(InputActionReference actionReference)
     {
         if (actionReference != null)
