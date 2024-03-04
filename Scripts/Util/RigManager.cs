@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,9 +7,6 @@ public class RigManager : Singleton<RigManager>
 {
     [SerializeField] RigOrchestrator m_rigOrchestrator;
     public RigOrchestrator RigOrchestrator { get => m_rigOrchestrator; }
-    public UnityEvent enableInteractor;
-    public UnityEvent enableTeleport;
-
     [SerializeField] GameObject m_xrOrigin;
     public GameObject XrOrigin { get => m_xrOrigin; }
     [SerializeField] Image m_fadeImage;

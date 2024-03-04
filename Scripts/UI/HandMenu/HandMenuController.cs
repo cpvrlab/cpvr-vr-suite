@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,10 +11,6 @@ public class HandMenuController : MonoBehaviour
     [SerializeField] SoundClip _hoverClip;
     [SerializeField] SoundClip _clickClip;
     [SerializeField] bool _playHoverSound;
-
-    [Header("Events")]
-    [SerializeField] UnityEvent _onEnable;
-    [SerializeField] UnityEvent _onDisable;
 
     [Header("UI Panels")] 
     [SerializeField] List<MenuPanel> _panels;
@@ -56,28 +51,19 @@ public class HandMenuController : MonoBehaviour
 
     void OnEnable()
     {
-        _onEnable?.Invoke();
         if (openLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
             OpenPanel(m_lastPanel);
         else
             OpenMainPanel();
 
-        if (RigManager.Instance != null &&
-            RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
-        {
-            gazeManager.BlockInteractor(true);
-        }
+        if (RigManager.Instance != null)
+            RigManager.Instance.RigOrchestrator.ToggleHandMenu(true);
     }
 
     void OnDisable()
     {
-        _onDisable?.Invoke();
-
-        if (RigManager.Instance != null &&
-            RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
-        {
-            gazeManager.BlockInteractor(false);
-        }
+        if (RigManager.Instance != null)
+            RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
     }
 
     public bool TryGetMenuPanel<T>(out T panel) where T : MenuPanel

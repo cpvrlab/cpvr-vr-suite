@@ -1,0 +1,2 @@
+public class RightHandManager : HandManager
+{}

@@ -6,7 +6,7 @@
             "id": "7bfd7d0c-19e9-4134-a11c-437f35c87c1b",
             "actions": [
                 {
-                    "name": "Teleport Mode activate",
+                    "name": "Interaction Mode activate",
                     "type": "Value",
                     "id": "48ab471f-52f0-4dd1-8aee-fd57848f4192",
                     "expectedControlType": "Axis",
@@ -15,9 +15,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Teleport Select",
+                    "name": "Interaction Mode cancel",
+                    "type": "Value",
+                    "id": "54d4b32a-7ff2-45f3-b19a-94179756b266",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Interaction Select",
                     "type": "Button",
                     "id": "fc157a56-5229-48fe-93e0-3a4a7f754859",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch Interaction Mode activate",
+                    "type": "Button",
+                    "id": "bb95d90c-9095-4a50-b3dd-68c6747fae5b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -29,10 +47,10 @@
                     "name": "",
                     "id": "d2df7af6-5525-49d3-87c7-c4e442221d7a",
                     "path": "<MetaAimHand>{LeftHand}/pinchStrengthIndex",
-                    "interactions": "Press",
+                    "interactions": "Press(pressPoint=0.05)",
                     "processors": "",
                     "groups": "",
-                    "action": "Teleport Mode activate",
+                    "action": "Interaction Mode activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -43,7 +61,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Teleport Select",
+                    "action": "Interaction Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58c8a486-390c-41d0-8ae9-6009ffa687f7",
+                    "path": "<MetaAimHand>{LeftHand}/littlePressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Interaction Mode activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c774ba5-4a61-4507-afa3-89acd9574af2",
+                    "path": "<MetaAimHand>{LeftHand}/pinchStrengthIndex",
+                    "interactions": "Press(pressPoint=0.05,behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interaction Mode cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -54,7 +94,7 @@
             "id": "fde0efe8-9b93-4197-ad0d-b3defc01a327",
             "actions": [
                 {
-                    "name": "Teleport mode activate",
+                    "name": "Interaction Mode activate",
                     "type": "Value",
                     "id": "eb715b12-cc5a-4d77-9bb4-0ab55c692b03",
                     "expectedControlType": "Axis",
@@ -63,9 +103,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Teleport Select",
+                    "name": "Interaction Mode cancel",
+                    "type": "Value",
+                    "id": "b2b0db5d-5915-4861-8a40-02ffaf748880",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Interaction Select",
                     "type": "Button",
                     "id": "bd16ffdd-4d6d-4341-a0ac-058b1a09cce5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch Interaction Mode activate",
+                    "type": "Button",
+                    "id": "747228d3-b1ee-4425-84ad-8b866abfd49f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -77,10 +135,32 @@
                     "name": "",
                     "id": "2285d1a4-31c1-414e-8cb7-823a4efb8981",
                     "path": "<MetaAimHand>{RightHand}/pinchStrengthIndex",
-                    "interactions": "Press(pressPoint=0.25)",
+                    "interactions": "Press(pressPoint=0.05)",
                     "processors": "",
                     "groups": "",
-                    "action": "Teleport mode activate",
+                    "action": "Interaction Mode activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6498a96d-68d8-431c-9ff0-e58be166503b",
+                    "path": "<MetaAimHand>{RightHand}/pinchStrengthIndex",
+                    "interactions": "Press(pressPoint=0.05,behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interaction Mode cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41b73f6f-4f08-4ac9-ab89-4d59b2cb1b0e",
+                    "path": "<MetaAimHand>{RightHand}/littlePressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Interaction Mode activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -91,7 +171,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Teleport Select",
+                    "action": "Interaction Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
