@@ -41,7 +41,7 @@ public class DebugDisplay : MonoBehaviour
         {
             var splitString = logString.Split(char.Parse(":"));
             var debugKey = splitString[0];
-            var debugValue = splitString.Length > 1 ? splitString[1] : "";
+            var debugValue = splitString.Length > 1 ? splitString[1] + " - " + stackTrace : "";
 
             if (m_debugLogs.ContainsKey(debugKey))
                 m_debugLogs[debugKey] = debugValue;

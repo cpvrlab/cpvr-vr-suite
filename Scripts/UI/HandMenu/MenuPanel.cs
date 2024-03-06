@@ -37,20 +37,10 @@ public abstract class MenuPanel : MonoBehaviour
 
     void Init()
     {
-        if (m_panelType == PanelType.Static)
-        {
-            handMenuController = transform.parent.GetComponent<HandMenuController>();
-        }
-
-        if (m_panelType == PanelType.Dynamic)
-        {
-            handMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
-            if (handMenuController == null)
-            {
-                Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
-                return;
-            }
+        handMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
+        if (handMenuController != null)
             handMenuController.RegisterPanel(this);
-        }
+        else
+            Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
     }
 }

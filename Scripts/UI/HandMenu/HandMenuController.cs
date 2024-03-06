@@ -22,6 +22,7 @@ public class HandMenuController : MonoBehaviour
     
     [HideInInspector] public bool openLastPanel;
     MenuPanel m_lastPanel = null;
+    bool m_initialized = false;
     EventTrigger.Entry m_hover;
     EventTrigger.Entry m_click;
     EventTrigger.Entry m_deselect;
@@ -43,16 +44,7 @@ public class HandMenuController : MonoBehaviour
         SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
     }
 
-    void Start()
-    {
-        _panels.ForEach(panel => 
-        {
-            RegisterPanel(panel);
-            AddUiElementSoundFeedback(panel);
-        });
-
-        openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
-    }
+    void Start() => openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
 
     void OnEnable()
     {
@@ -101,18 +93,19 @@ public class HandMenuController : MonoBehaviour
 
     public void RegisterPanel(MenuPanel panel)
     {
-        if (panel.TryGetComponent<MainPanel>(out var _)) return;
+        // if (panel.TryGetComponent<MainPanel>(out var _)) return;
+        if (!m_initialized)
+            InitializeMainPanel();
 
         panel.transform.SetParent(transform);
         panel.transform.SetPositionAndRotation(_panels.First().transform.position, _panels.First().transform.rotation);
         panel.transform.localScale = Vector3.one;
 
         if (!gameObject.activeInHierarchy)
-        {
             panel.GetComponent<RectTransform>().localPosition = new Vector3(0, 50, 0);
-        }
 
         AddUiElementSoundFeedback(panel);
+        
         if (!_panels.Contains(panel))
         {
             _panels.First().GetComponent<MainPanel>().AddPanelButton(panel);
@@ -137,6 +130,16 @@ public class HandMenuController : MonoBehaviour
             panel.transform.SetParent(null);
             panel.gameObject.SetActive(false);
             Destroy(panel.gameObject);
+        }
+    }
+
+    void InitializeMainPanel()
+    {
+        if (_panels.First().TryGetComponent<MainPanel>(out var mainPanel))
+        {
+            m_initialized = true;
+            RegisterPanel(_panels.First());
+            mainPanel.SetHandMenuController(this);
         }
     }
 
