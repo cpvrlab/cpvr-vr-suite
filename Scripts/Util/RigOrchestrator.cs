@@ -34,8 +34,8 @@ public class RigOrchestrator : MonoBehaviour
 
     public void ToggleHandMenu(bool value)
     {
-        if (TryGetInteractorManager<HandMenuManager>(out var handMenuManager) &&
-            handMenuManager.Blocked) return;
+        if (TryGetInteractorManager<HandMenuManager>(out var handMenuManager) ||
+            (handMenuManager != null && handMenuManager.Blocked)) return;
 
         if (TryGetInteractorManager<LeftHandManager>(out var leftHandManager))
             leftHandManager.ToggleHandMenu(value);
