@@ -12,33 +12,28 @@ public class HandMaterialController : MonoBehaviour
     {
         if (m_skinnedMeshRenderer == null) return;
 
+        var materials = m_skinnedMeshRenderer.materials;
         switch (mode)
         {
             case InteractionMode.Ray:
                 if (m_rayMaterial != null && m_skinnedMeshRenderer.materials.Length >= 2)
                 {
-                    var materials = m_skinnedMeshRenderer.materials;
                     materials[1] = m_rayMaterial;
                     m_skinnedMeshRenderer.materials = materials;
-                    Debug.Log($"Event received! {mode}");
                 }
                 break;
             case InteractionMode.Teleport:
                 if (m_teleportMaterial != null && m_skinnedMeshRenderer.materials.Length >= 2)
                 {
-                    var materials = m_skinnedMeshRenderer.materials;
                     materials[1] = m_teleportMaterial;
                     m_skinnedMeshRenderer.materials = materials;
-                    Debug.Log($"Event received! {mode}");
                 }
                 break;
             case InteractionMode.None:
                 if (m_defaultMaterial != null && m_skinnedMeshRenderer.materials.Length >= 2)
                 {
-                    var materials = m_skinnedMeshRenderer.materials;
                     materials[1] = m_defaultMaterial;
                     m_skinnedMeshRenderer.materials = materials;
-                    Debug.Log($"Event received! {mode}");
                 }
                 break;
             default:
