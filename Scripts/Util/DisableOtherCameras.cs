@@ -13,7 +13,7 @@ public class DisableOtherCameras : MonoBehaviour
     {
         if (RigManager.Instance == null) return;
 
-        var rigCamera = RigManager.Instance.XrOrigin.transform.GetChild(0).GetChild(0);
+        var rigCamera = RigManager.Instance.XrOrigin.transform.GetChild(0).GetChild(0).GetChild(0);
         if (!rigCamera.CompareTag("MainCamera")) return;
 
         var allGameObjects = FindObjectsOfType<GameObject>();

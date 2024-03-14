@@ -2,6 +2,34 @@
     "name": "CPVR-specific-Input",
     "maps": [
         {
+            "name": "Hand actions",
+            "id": "8e8a4365-3a27-4ffa-a7b3-85ba4cd09727",
+            "actions": [
+                {
+                    "name": "Switch Interaction Mode activate",
+                    "type": "Button",
+                    "id": "054f4ba7-6595-4c91-95c0-7a5a01c1ba16",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a210de28-3e1a-4519-986d-41e9106dd5b3",
+                    "path": "<MetaAimHand>/middlePressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Interaction Mode activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Lefthand actions",
             "id": "7bfd7d0c-19e9-4134-a11c-437f35c87c1b",
             "actions": [
@@ -31,15 +59,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Switch Interaction Mode activate",
-                    "type": "Button",
-                    "id": "bb95d90c-9095-4a50-b3dd-68c6747fae5b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -62,17 +81,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interaction Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "58c8a486-390c-41d0-8ae9-6009ffa687f7",
-                    "path": "<MetaAimHand>{LeftHand}/littlePressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Switch Interaction Mode activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -119,15 +127,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Switch Interaction Mode activate",
-                    "type": "Button",
-                    "id": "747228d3-b1ee-4425-84ad-8b866abfd49f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -150,17 +149,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interaction Mode cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "41b73f6f-4f08-4ac9-ab89-4d59b2cb1b0e",
-                    "path": "<MetaAimHand>{RightHand}/littlePressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Switch Interaction Mode activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

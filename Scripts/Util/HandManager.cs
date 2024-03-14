@@ -15,65 +15,90 @@ public enum InteractionMode
 [DefaultExecutionOrder(k_UpdateOrder)]
 public class HandManager : InteractorManager
 {
-    static InteractionMode m_interactionMode = InteractionMode.Teleport;
-    public static InteractionMode InteractionMode
+    public Action<GameObject> OnInteractionStarted;
+    public Action<GameObject> OnInteractionEnded;
+    [SerializeField] InteractionMode m_interactionMode = InteractionMode.Teleport;
+    InteractionMode m_previousInteractionMode = InteractionMode.None;
+    public InteractionMode InteractionMode
     {
         get => m_interactionMode;
-        set => m_interactionMode = value;
+        set => ChangeInteractionMode(value);
     }
+    bool m_tempMode;
 
+    #region Inspector references
+    [Header("Left Hand")]
     [Header("Interactors")]
-    [SerializeField] XRRayInteractor m_rayInteractor;
-    [SerializeField] XRRayInteractor m_teleportInteractor;
-    bool m_teleportBlocked;
-    public bool TeleportBlocked 
-    { 
-        get => m_teleportBlocked;
-        set
-        {
-            m_teleportBlocked = value;
-            if (!value && m_teleportInteractor != null)
-                m_teleportInteractor.gameObject.SetActive(false);
-            Debug.Log($"Teleport {(value ? "blocked" : "unblocked")}.");
-        }
-    }
-    bool m_rayBlocked;
-    public bool RayBlocked 
-    { 
-        get => m_rayBlocked;
-        set
-        {
-            m_rayBlocked = value;
-            if (!value && m_rayInteractor != null)
-                m_rayInteractor.gameObject.SetActive(false);
-        }
+    [SerializeField] XRRayInteractor m_leftRayInteractor;
+    [SerializeField] XRRayInteractor m_leftTeleportInteractor;
+    
+    bool m_leftInteractionBlocked;
+    public bool LeftInteractionBlocked
+    {
+        get => m_leftInteractionBlocked;
+        set => m_leftInteractionBlocked = value;
     }
 
-    [Header("Hand Actions")]
-    [SerializeField] InputActionReference m_interactModeActivate;
-    [SerializeField] InputActionReference m_interactModeCancel;
+    [Header("Actions")]
+    [SerializeField] InputActionReference m_leftInteractModeActivate;
+    [SerializeField] InputActionReference m_leftInteractModeCancel;
+
+    [Space]
+    [Header("Right Hand")]
+    [Header("Interactors")]
+    [SerializeField] XRRayInteractor m_rightRayInteractor;
+    [SerializeField] XRRayInteractor m_rightTeleportInteractor;
+
+    [Header("Actions")]
+    [SerializeField] InputActionReference m_rightInteractModeActivate;
+    [SerializeField] InputActionReference m_rightInteractModeCancel;
+    
+    bool m_rightInteractionBlocked;
+    public bool RightInteractionBlocked
+    {
+        get => m_rightInteractionBlocked;
+        set => m_rightInteractionBlocked = value;
+    }
+
+    [Space]
+    [Header("Common Action")]
     [SerializeField] InputActionReference m_switchInteractionMode;
 
     [Header("Interaction Mode Changed Event")]
-    [SerializeField] UnityEvent<InteractionMode> m_interactionModeChanged;
+    public UnityEvent<InteractionMode> OnInteractionModeChanged;
+    #endregion
 
     public const int k_UpdateOrder = XRInteractionUpdateOrder.k_Controllers - 1;
     IEnumerator m_postInteractionEventsRoutine;
-    bool m_postponedDeactivateInteract;
+    bool m_postponedDeactivateInteractLeft;
+    bool m_postponedDeactivateInteractRight;
 
     void SetupInteractorEvents()
     {
-        var interactModeActivateAction = GetInputAction(m_interactModeActivate);
-        if (interactModeActivateAction != null)
+        var leftInteractModeActivateAction = GetInputAction(m_leftInteractModeActivate);
+        if (leftInteractModeActivateAction != null)
         {
-            interactModeActivateAction.performed += OnStartInteraction;
-            interactModeActivateAction.canceled += OnCancelInteraction;
+            leftInteractModeActivateAction.performed += OnStartLeftInteraction;
+            leftInteractModeActivateAction.canceled += OnCancelLeftInteraction;
         }
 
-        var interactionModeCancelAction = GetInputAction(m_interactModeCancel);
-        if (interactionModeCancelAction != null)
+        var leftInteractionModeCancelAction = GetInputAction(m_leftInteractModeCancel);
+        if (leftInteractionModeCancelAction != null)
         {
-            interactionModeCancelAction.performed += OnCancelInteraction;
+            leftInteractionModeCancelAction.performed += OnCancelLeftInteraction;
+        }
+        
+        var rightInteractModeActivateAction = GetInputAction(m_rightInteractModeActivate);
+        if (rightInteractModeActivateAction != null)
+        {
+            rightInteractModeActivateAction.performed += OnStartRightInteraction;
+            rightInteractModeActivateAction.canceled += OnCancelRightInteraction;
+        }
+
+        var rightInteractionModeCancelAction = GetInputAction(m_rightInteractModeCancel);
+        if (rightInteractionModeCancelAction != null)
+        {
+            rightInteractionModeCancelAction.performed += OnCancelRightInteraction;
         }
 
         var switchInteractionModeActivateAction = GetInputAction(m_switchInteractionMode);
@@ -85,17 +110,30 @@ public class HandManager : InteractorManager
 
     void TeardownInteractorEvents()
     {
-        var interactModeActivateAction = GetInputAction(m_interactModeActivate);
-        if (interactModeActivateAction != null)
+        var leftInteractModeActivateAction = GetInputAction(m_leftInteractModeActivate);
+        if (leftInteractModeActivateAction != null)
         {
-            interactModeActivateAction.performed -= OnStartInteraction;
-            interactModeActivateAction.canceled -= OnCancelInteraction;
+            leftInteractModeActivateAction.performed -= OnStartLeftInteraction;
+            leftInteractModeActivateAction.canceled -= OnCancelLeftInteraction;
         }
 
-        var interactionModeCancelAction = GetInputAction(m_interactModeCancel);
-        if (interactionModeCancelAction != null)
+        var leftInteractionModeCancelAction = GetInputAction(m_leftInteractModeCancel);
+        if (leftInteractionModeCancelAction != null)
         {
-            interactionModeCancelAction.performed -= OnCancelInteraction;
+            leftInteractionModeCancelAction.performed -= OnCancelLeftInteraction;
+        }
+        
+        var rightInteractModeActivateAction = GetInputAction(m_rightInteractModeActivate);
+        if (rightInteractModeActivateAction != null)
+        {
+            rightInteractModeActivateAction.performed -= OnStartRightInteraction;
+            rightInteractModeActivateAction.canceled -= OnCancelRightInteraction;
+        }
+
+        var rightInteractionModeCancelAction = GetInputAction(m_rightInteractModeCancel);
+        if (rightInteractionModeCancelAction != null)
+        {
+            rightInteractionModeCancelAction.performed -= OnCancelRightInteraction;
         }
 
         var switchInteractionModeActivateAction = GetInputAction(m_switchInteractionMode);
@@ -105,15 +143,20 @@ public class HandManager : InteractorManager
         }
     }
 
-    void OnStartInteraction(InputAction.CallbackContext context)
+#region Left hand interaction methods
+    void OnStartLeftInteraction(InputAction.CallbackContext context)
     {
+        if (LeftInteractionBlocked) return;
+
+        RightInteractionBlocked = true;
+
         switch (InteractionMode)
         {
             case InteractionMode.Ray:
-                OnStartRay(context);
+                OnStartLeftRay(context);
                 break;
             case InteractionMode.Teleport:
-                OnStartTeleport(context);
+                OnStartLeftTeleport(context);
                 break;
             case InteractionMode.None:
                 break;
@@ -122,39 +165,60 @@ public class HandManager : InteractorManager
         }
     }
 
-    void OnStartTeleport(InputAction.CallbackContext context)
+    void OnStartLeftTeleport(InputAction.CallbackContext context)
     {
-        if (TeleportBlocked) return;
+        m_postponedDeactivateInteractLeft = false;
 
-        m_postponedDeactivateInteract = false;
+        if (m_leftTeleportInteractor != null)
+        {
+            m_leftTeleportInteractor.gameObject.SetActive(true);
+            OnInteractionStarted?.Invoke(m_leftTeleportInteractor.gameObject);
+        }
 
-        if (m_teleportInteractor != null)
-            m_teleportInteractor.gameObject.SetActive(true);
-
-        if (m_rayInteractor != null)
-            m_rayInteractor.gameObject.SetActive(false);
+        if (m_leftRayInteractor != null)
+            m_leftRayInteractor.gameObject.SetActive(false);
     }
 
-    void OnStartRay(InputAction.CallbackContext context)
+    void OnStartLeftRay(InputAction.CallbackContext context)
     {
-        if (RayBlocked) return;
+        if (m_leftRayInteractor != null)
+        {
+            m_leftRayInteractor.gameObject.SetActive(true);
+            OnInteractionStarted?.Invoke(m_leftRayInteractor.gameObject);
+        }
 
-        if (m_rayInteractor != null)
-            m_rayInteractor.gameObject.SetActive(true);
-
-        if (m_teleportInteractor != null)
-            m_teleportInteractor.gameObject.SetActive(false);
+        if (m_leftTeleportInteractor != null)
+            m_leftTeleportInteractor.gameObject.SetActive(false);
     }
 
-    void OnCancelInteraction(InputAction.CallbackContext context)
+    void OnCancelLeftInteraction(InputAction.CallbackContext context)
     {
+        if (InteractionMode == InteractionMode.Ray)
+            OnInteractionEnded?.Invoke(m_leftRayInteractor.gameObject);
+        else if (InteractionMode == InteractionMode.Teleport)
+            OnInteractionEnded?.Invoke(m_leftTeleportInteractor.gameObject);
+        
+        RightInteractionBlocked = false;
+        m_postponedDeactivateInteractLeft = true;
+    }
+
+    #endregion
+
+#region Right hand interaction methods
+
+    void OnStartRightInteraction(InputAction.CallbackContext context)
+    {
+        if (RightInteractionBlocked) return;
+
+        LeftInteractionBlocked = true;
+
         switch (InteractionMode)
         {
             case InteractionMode.Ray:
-                OnCancelRay(context);
+                OnStartRightRay(context);
                 break;
             case InteractionMode.Teleport:
-                OnCancelTeleport(context);
+                OnStartRightTeleport(context);
                 break;
             case InteractionMode.None:
                 break;
@@ -163,47 +227,72 @@ public class HandManager : InteractorManager
         }
     }
 
-    void OnCancelTeleport(InputAction.CallbackContext context)
+    void OnStartRightTeleport(InputAction.CallbackContext context)
     {
-        m_postponedDeactivateInteract = true;
+        m_postponedDeactivateInteractRight = false;
+
+        if (m_rightTeleportInteractor != null)
+        {
+            m_rightTeleportInteractor.gameObject.SetActive(true);
+            OnInteractionStarted?.Invoke(m_rightTeleportInteractor.gameObject);
+        }
+
+        if (m_rightRayInteractor != null)
+            m_rightRayInteractor.gameObject.SetActive(false);
     }
 
-    void OnCancelRay(InputAction.CallbackContext context)
+    void OnStartRightRay(InputAction.CallbackContext context)
     {
-        m_postponedDeactivateInteract = true;
+        if (m_rightRayInteractor != null)
+        {
+            m_rightRayInteractor.gameObject.SetActive(true);
+            OnInteractionStarted?.Invoke(m_rightRayInteractor.gameObject);
+        }
+
+        if (m_rightTeleportInteractor != null)
+            m_rightTeleportInteractor.gameObject.SetActive(false);
     }
+
+    void OnCancelRightInteraction(InputAction.CallbackContext context)
+    {
+        if (InteractionMode == InteractionMode.Ray)
+            OnInteractionEnded?.Invoke(m_rightRayInteractor.gameObject);
+        else if (InteractionMode == InteractionMode.Teleport)
+            OnInteractionEnded?.Invoke(m_rightTeleportInteractor.gameObject);
+        
+        LeftInteractionBlocked = false;
+        m_postponedDeactivateInteractRight = true;
+    }
+
+    #endregion
 
     void OnSwitchInteractionMode(InputAction.CallbackContext context)
     {
-        switch (InteractionMode)
+        if (m_tempMode) return;
+        InteractionMode = m_interactionMode switch
         {
-            case InteractionMode.Ray:
-                InteractionMode = InteractionMode.Teleport;
-                m_interactionModeChanged?.Invoke(InteractionMode.Teleport);
-                break;
-            case InteractionMode.Teleport:
-                InteractionMode = InteractionMode.None;
-                m_interactionModeChanged?.Invoke(InteractionMode.None);
-                break;
-            case InteractionMode.None:
-                InteractionMode = InteractionMode.Ray;
-                m_interactionModeChanged?.Invoke(InteractionMode.Ray);
-                break;
-            default:
-                throw new NotImplementedException();
-        }
-        Debug.Log($"Interaction mode set to: {InteractionMode}");
+            InteractionMode.Ray => InteractionMode.Teleport,
+            InteractionMode.Teleport => InteractionMode.None,
+            InteractionMode.None => InteractionMode.Ray,
+            _ => throw new NotImplementedException(),
+        };
     }
-    
+
     protected void Awake() => m_postInteractionEventsRoutine = OnPostInteractionEvents();
 
     protected void OnEnable()
     {
-        if (m_teleportInteractor != null)
-            m_teleportInteractor.gameObject.SetActive(false);
+        if (m_leftTeleportInteractor != null)
+            m_leftTeleportInteractor.gameObject.SetActive(false);
 
-        if (m_rayInteractor != null)
-            m_rayInteractor.gameObject.SetActive(false);
+        if (m_leftRayInteractor != null)
+            m_leftRayInteractor.gameObject.SetActive(false);
+        
+        if (m_rightTeleportInteractor != null)
+            m_rightTeleportInteractor.gameObject.SetActive(false);
+
+        if (m_rightRayInteractor != null)
+            m_rightRayInteractor.gameObject.SetActive(false);
 
         SetupInteractorEvents();
 
@@ -219,63 +308,74 @@ public class HandManager : InteractorManager
 
     protected void Start()
     {
-        RayBlocked = false;
-        TeleportBlocked = false;
+        RightInteractionBlocked = false;
+        LeftInteractionBlocked = false;
+        OnInteractionModeChanged?.Invoke(m_interactionMode);
     }
-    
+
     IEnumerator OnPostInteractionEvents()
     {
         while (true)
         {
             yield return null;
 
-            if (m_postponedDeactivateInteract)
+            if (m_postponedDeactivateInteractLeft)
             {
-                if (m_teleportInteractor != null)
-                    m_teleportInteractor.gameObject.SetActive(false);
-                
-                if (m_rayInteractor != null)
-                    m_rayInteractor.gameObject.SetActive(false);
+                if (m_leftTeleportInteractor != null)
+                    m_leftTeleportInteractor.gameObject.SetActive(false);
 
-                m_postponedDeactivateInteract = false;
+                if (m_leftRayInteractor != null)
+                    m_leftRayInteractor.gameObject.SetActive(false);
+                
+                m_postponedDeactivateInteractLeft = false;
             }
+
+            if (m_postponedDeactivateInteractRight)
+            {
+                if (m_rightTeleportInteractor != null)
+                    m_rightTeleportInteractor.gameObject.SetActive(false);
+
+                if (m_rightRayInteractor != null)
+                    m_rightRayInteractor.gameObject.SetActive(false);
+
+                m_postponedDeactivateInteractRight = false;
+            }
+
         }
     }
 
-    public void ChangeInteractionMode(InteractionMode mode)
+    void ChangeInteractionMode(InteractionMode mode)
     {
-        InteractionMode = mode;
-
-        switch (InteractionMode)
+        if (m_tempMode)
         {
-            case InteractionMode.Ray:
-                m_rayInteractor.gameObject.SetActive(!RayBlocked);
-                m_interactionModeChanged?.Invoke(InteractionMode.Ray);
-                break;
-            case InteractionMode.Teleport:
-                m_teleportInteractor.gameObject.SetActive(!TeleportBlocked);
-                m_interactionModeChanged?.Invoke(InteractionMode.Teleport);
-                break;
-            case InteractionMode.None:
-                m_interactionModeChanged?.Invoke(InteractionMode.None);
-                break;
-            default:
-                throw new NotImplementedException();
+            m_previousInteractionMode = mode;
         }
+        else
+        {
+            m_previousInteractionMode = m_interactionMode;
+            m_interactionMode = mode;
+        }
+
+        m_leftTeleportInteractor.gameObject.SetActive(false);
+        m_leftRayInteractor.gameObject.SetActive(false);
+        m_rightTeleportInteractor.gameObject.SetActive(false);
+        m_rightRayInteractor.gameObject.SetActive(false);
+
+        Debug.Log($"Interaction mode set to: {mode}");
+        OnInteractionModeChanged?.Invoke(mode);
     }
 
     public void ToggleHandMenu(bool value)
     {
         if (value)
         {
-            m_rayInteractor.gameObject.SetActive(true);
-            TeleportBlocked = true;
+            InteractionMode = InteractionMode.Ray;
+            m_tempMode = true;
         }
         else
         {
-            if (InteractionMode != InteractionMode.Ray)
-                m_rayInteractor.gameObject.SetActive(false);
-            TeleportBlocked = false;
+            m_tempMode = false;
+            InteractionMode = m_previousInteractionMode;
         }
     }
 
