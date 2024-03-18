@@ -25,6 +25,19 @@ public class HandManager : InteractorManager
         set => ChangeInteractionMode(value);
     }
     bool m_tempMode;
+    bool m_teleportBlocked;
+    public bool TeleportBlocked
+    {
+        get => m_teleportBlocked;
+        set => m_teleportBlocked = value;
+    }
+
+    bool m_interactionModeLocked;
+    public bool InteractionModeLocked
+    {
+        get => m_interactionModeLocked;
+        set => m_interactionModeLocked = value;
+    }
 
 #region Inspector references
     [Header("Left Hand")]
@@ -38,7 +51,7 @@ public class HandManager : InteractorManager
         get => m_leftInteractionBlocked;
         set => m_leftInteractionBlocked = value;
     }
-
+    
     [Header("Actions")]
     [SerializeField] InputActionReference m_leftInteractModeActivate;
     [SerializeField] InputActionReference m_leftInteractModeCancel;
@@ -63,13 +76,6 @@ public class HandManager : InteractorManager
     [Space]
     [Header("Common Action")]
     [SerializeField] InputActionReference m_switchInteractionMode;
-
-    bool m_teleportBlocked;
-    public bool TeleportBlocked
-    {
-        get => m_teleportBlocked;
-        set => m_teleportBlocked = value;
-    }
 
     [Header("Interaction Mode Changed Event")]
     public UnityEvent<InteractionMode> OnInteractionModeChanged;
@@ -357,6 +363,8 @@ public class HandManager : InteractorManager
 
     void ChangeInteractionMode(InteractionMode mode)
     {
+        if (m_interactionModeLocked) return;
+        
         if (m_tempMode)
         {
             m_previousInteractionMode = mode;
