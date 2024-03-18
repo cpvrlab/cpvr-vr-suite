@@ -10,6 +10,7 @@ public class SceneSelectionPanel : MenuPanel
     public delegate void OnEnableHandler();
     public OnEnableHandler onEnableHandler;
     [SerializeField] bool m_fadeOnSceneChange;
+    [SerializeField] int m_startSceneIndex = 1;
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] Transform m_scrollviewContent;
     readonly List<Button> m_sceneButtons = new();
@@ -20,8 +21,7 @@ public class SceneSelectionPanel : MenuPanel
     {
         base.Start();
         
-        m_sceneButtons.Add(default); // Dummy object to occupy the first index in the list so the button indexes match with the scene indexes
-        for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
+        for (var i = m_startSceneIndex; i < SceneManager.sceneCountInBuildSettings; i++)
         {
             var label = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
             var index = i;
@@ -48,7 +48,7 @@ public class SceneSelectionPanel : MenuPanel
 
     public void RemoveDynamicPanels() => handMenuController.UnregisterDynamicPanels();
 
-    async void ChangeScene(int index)
+    protected virtual async void ChangeScene(int index)
     {
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
