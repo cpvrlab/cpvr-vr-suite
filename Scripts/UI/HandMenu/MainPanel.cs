@@ -37,14 +37,16 @@ public class MainPanel : MenuPanel
         }
 
 
-        var button = Instantiate(m_buttonPrefab, m_scrollviewContent).GetComponent<Button>();
+        var handButton = Instantiate(m_buttonPrefab, m_scrollviewContent).GetComponent<HandMenuButton>();
 
-        if (button.transform.GetChild(0).TryGetComponent<TMP_Text>(out var text))
-            text.text = "Toggle Scene Objects";
+        if (!string.IsNullOrEmpty(panel.PanelName))
+            handButton.Text = panel.PanelName;
+        if (panel.Sprite != null)
+            handButton.Sprite = panel.Sprite;
 
-        button.onClick.AddListener(() => handMenuController.OpenPanel(panel));
-        handMenuController.AddButtonSoundFeedback(button);
-        m_menuButtonDictionary.Add(panel, button);
+        handButton.Button.onClick.AddListener(() => handMenuController.OpenPanel(panel));
+        handMenuController.AddButtonSoundFeedback(handButton.Button);
+        m_menuButtonDictionary.Add(panel, handButton.Button);
     }
 
     public void RemovePanelButton(MenuPanel panel)

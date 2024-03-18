@@ -38,12 +38,13 @@ public class SceneSelectionPanel : MenuPanel
     public Button CreateSceneButton<T>(string label, Action<T> callback, T argument)
     {
         var buttonObject = Instantiate(m_buttonPrefab, m_scrollviewContent);
-        buttonObject.GetComponentInChildren<TextMeshProUGUI>().text = label;
-        var button = buttonObject.GetComponent<Button>();
-        button.onClick.AddListener(() => callback.Invoke(argument));
-        m_sceneButtons.Add(button);
-        handMenuController.AddButtonSoundFeedback(button);
-        return button;
+        var handButton = buttonObject.GetComponent<HandMenuButton>();
+        handButton.Text = label;
+        handButton.Sprite = null;
+        handButton.Button.onClick.AddListener(() => callback.Invoke(argument));
+        m_sceneButtons.Add(handButton.Button);
+        handMenuController.AddButtonSoundFeedback(handButton.Button);
+        return handButton.Button;
     }
 
     public void RemoveDynamicPanels() => handMenuController.UnregisterDynamicPanels();
