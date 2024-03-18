@@ -26,7 +26,7 @@ public class HandManager : InteractorManager
     }
     bool m_tempMode;
 
-    #region Inspector references
+#region Inspector references
     [Header("Left Hand")]
     [Header("Interactors")]
     [SerializeField] XRRayInteractor m_leftRayInteractor;
