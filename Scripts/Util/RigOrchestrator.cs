@@ -54,6 +54,14 @@ public class RigOrchestrator : MonoBehaviour
             Debug.LogWarning("No GazeManager found.");
     }
 
+    public void BlockTeleport(bool value)
+    {
+        if (TryGetInteractorManager<HandManager>(out var handManager))
+            handManager.TeleportBlocked = value;
+        else
+            Debug.LogWarning("No HandManager found.");
+    }
+    
     public void BlockInteraction(bool value)
     {
         if (TryGetInteractorManager<HandManager>(out var handManager))

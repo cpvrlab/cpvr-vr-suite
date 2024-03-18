@@ -64,6 +64,13 @@ public class HandManager : InteractorManager
     [Header("Common Action")]
     [SerializeField] InputActionReference m_switchInteractionMode;
 
+    bool m_teleportBlocked;
+    public bool TeleportBlocked
+    {
+        get => m_teleportBlocked;
+        set => m_teleportBlocked = value;
+    }
+
     [Header("Interaction Mode Changed Event")]
     public UnityEvent<InteractionMode> OnInteractionModeChanged;
     #endregion
@@ -167,6 +174,8 @@ public class HandManager : InteractorManager
 
     void OnStartLeftTeleport(InputAction.CallbackContext context)
     {
+        if (m_teleportBlocked) return;
+
         m_postponedDeactivateInteractLeft = false;
 
         if (m_leftTeleportInteractor != null)
@@ -229,6 +238,8 @@ public class HandManager : InteractorManager
 
     void OnStartRightTeleport(InputAction.CallbackContext context)
     {
+        if (m_teleportBlocked) return;
+        
         m_postponedDeactivateInteractRight = false;
 
         if (m_rightTeleportInteractor != null)
