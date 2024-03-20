@@ -55,12 +55,15 @@ public class SceneSelectionPanel : MenuPanel
         RemoveDynamicPanels();
 
         if (m_fadeOnSceneChange)
-            await RigManager.Instance.Fade(Color.black, 2f);
+            await RigManager.Instance.Fade(Color.black, 0.75f);
         
-        SceneManager.LoadSceneAsync(index);
-        
-        if (m_fadeOnSceneChange)
-            await RigManager.Instance.Fade(Color.clear, 2f);
+        SceneManager.LoadSceneAsync(index).completed += _ =>
+        {
+            if (m_fadeOnSceneChange)
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                RigManager.Instance.Fade(Color.clear, 0.75f);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        };
     }
 
     void OnEnable() => onEnableHandler?.Invoke();

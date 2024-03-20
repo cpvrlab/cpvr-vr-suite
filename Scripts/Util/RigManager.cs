@@ -29,5 +29,6 @@ public class RigManager : Singleton<RigManager>
             m_fadeImage.color = Color.Lerp(startColor, endColor, t);
             await Task.Yield();
         }
+        m_fadeImage.color = endColor;
     }
 }

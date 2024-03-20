@@ -21,7 +21,8 @@ public class SettingsPanel : MenuPanel
 
     void Awake()
     {
-        InfoText = "Unity version: " + Application.unityVersion;
+        if (string.IsNullOrEmpty(InfoText))
+            InfoText = "Version: " + Application.version;
     }
     
     protected override void Start()
