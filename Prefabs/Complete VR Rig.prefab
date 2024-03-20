@@ -7243,7 +7243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {fileID: 1503067968885376632}
+  m_XRHandTrackingEvents: {fileID: 4406127753044592406}
   m_handedness: 1
   m_yOffset: -0.2
 --- !u!1 &2668493599541200832
@@ -14490,7 +14490,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 304168774659143780}
-  - component: {fileID: 8727146227383656847}
+  - component: {fileID: 1260711991630949545}
   - component: {fileID: 2490681535834087495}
   - component: {fileID: 3595444818968511017}
   m_Layer: 0
@@ -14516,7 +14516,7 @@ Transform:
   - {fileID: 7606318173260441414}
   m_Father: {fileID: 7067807344599086935}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8727146227383656847
+--- !u!114 &1260711991630949545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14525,13 +14525,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4919369826499103263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8693657abb5062a40a80ba3cb86ef181, type: 3}
+  m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_XRHandTrackingEvents: {fileID: 1176804808628581614}
-  m_TargetRotation: {fileID: 1035259176603035509}
-  m_RayInteractor: {fileID: 3567419449604474201}
-  m_RotationSmoothingSpeed: 12
+  m_handedness: 2
+  m_yOffset: -0.2
 --- !u!114 &2490681535834087495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18109,7 +18108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7822358765375777787}
-  - component: {fileID: 4893223033239030893}
+  - component: {fileID: 8880091706740860001}
   - component: {fileID: 5053265426976430125}
   - component: {fileID: 7500804896344179845}
   m_Layer: 0
@@ -18135,7 +18134,7 @@ Transform:
   - {fileID: 8762075780932839909}
   m_Father: {fileID: 1617596521598802417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4893223033239030893
+--- !u!114 &8880091706740860001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18144,13 +18143,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6522424805697095965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8693657abb5062a40a80ba3cb86ef181, type: 3}
+  m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_XRHandTrackingEvents: {fileID: 4406127753044592406}
-  m_TargetRotation: {fileID: 2970199528391787965}
-  m_RayInteractor: {fileID: 6180172969712726359}
-  m_RotationSmoothingSpeed: 12
+  m_handedness: 1
+  m_yOffset: -0.2
 --- !u!114 &5053265426976430125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23846,7 +23844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {fileID: 2479773853663235609}
+  m_XRHandTrackingEvents: {fileID: 1176804808628581614}
   m_handedness: 2
   m_yOffset: -0.2
 --- !u!1 &9135018657985134796
