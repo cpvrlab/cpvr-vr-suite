@@ -20,19 +20,31 @@ public class SceneSelectionPanel : MenuPanel
     {
         base.Start();
         
-        m_sceneButtons.Add(default); // Dummy object to occupy the first index in the list so the button indexes match with the scene indexes
-        for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
-        {
-            var label = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
-            var index = i;
-            CreateSceneButton(label, ChangeScene, index);
-        }
+        InitializeScenes();
 
         SceneManager.activeSceneChanged += (_, scene) =>
         {
             if (handMenuController.TryGetMenuPanel<MainPanel>(out var panel))
                 panel.Title = scene.name;
         };
+    }
+
+    public void InitializeScenes()
+    {
+        for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            var label = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
+            var index = i;
+            CreateSceneButton(label, ChangeScene, index);
+        }
+    }
+
+    public void ClearSceneButtons()
+    {
+        foreach (var button in m_sceneButtons)
+            Destroy(button.gameObject);
+
+        m_sceneButtons.Clear();
     }
 
     public Button CreateSceneButton<T>(string label, Action<T> callback, T argument)
@@ -48,7 +60,7 @@ public class SceneSelectionPanel : MenuPanel
 
     public void RemoveDynamicPanels() => handMenuController.UnregisterDynamicPanels();
 
-    async void ChangeScene(int index)
+    public async void ChangeScene(int index)
     {
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
@@ -57,12 +69,10 @@ public class SceneSelectionPanel : MenuPanel
         if (m_fadeOnSceneChange)
             await RigManager.Instance.Fade(Color.black, 0.75f);
         
-        SceneManager.LoadSceneAsync(index).completed += _ =>
+        SceneManager.LoadSceneAsync(index).completed += async _ =>
         {
             if (m_fadeOnSceneChange)
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                RigManager.Instance.Fade(Color.clear, 0.75f);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                await RigManager.Instance.Fade(Color.clear, 0.75f);
         };
     }
 
