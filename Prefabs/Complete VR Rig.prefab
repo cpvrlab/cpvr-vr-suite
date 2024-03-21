@@ -3545,6 +3545,37 @@ MonoBehaviour:
   m_UIHoverExited:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1173392642286530486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4220612241065652055}
+  m_Layer: 0
+  m_Name: Ray Attach Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4220612241065652055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173392642286530486}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.003, y: 0.0225, z: 0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1503067968885376632}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1196170503343095188
 GameObject:
   m_ObjectHideFlags: 0
@@ -3946,37 +3977,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d33ee41f014ba44bda3493b0264139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1240304447971341156
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8232730994845426377}
-  m_Layer: 0
-  m_Name: Ray Stabilized Attach
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8232730994845426377
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240304447971341156}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2970199528391787965}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1269825660005232215
 GameObject:
   m_ObjectHideFlags: 0
@@ -7198,54 +7198,6 @@ Transform:
   - {fileID: 4929163168382277654}
   m_Father: {fileID: 5670204420270941231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2529392777133124283
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2970199528391787965}
-  - component: {fileID: 3737655597739367683}
-  m_Layer: 0
-  m_Name: Ray Stabilized
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2970199528391787965
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2529392777133124283}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8232730994845426377}
-  m_Father: {fileID: 1617596521598802417}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3737655597739367683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2529392777133124283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_XRHandTrackingEvents: {fileID: 4406127753044592406}
-  m_handedness: 1
-  m_yOffset: -0.2
 --- !u!1 &2668493599541200832
 GameObject:
   m_ObjectHideFlags: 0
@@ -9505,37 +9457,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -380}
   m_SizeDelta: {x: 260, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &3264293857250204580
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1415797868404401699}
-  m_Layer: 0
-  m_Name: Ray Stabilized Attach
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1415797868404401699
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3264293857250204580}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1035259176603035509}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3276051101504109048
 GameObject:
   m_ObjectHideFlags: 0
@@ -14528,7 +14449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_XRHandTrackingEvents: {fileID: 1176804808628581614}
+  m_target: {fileID: 4400068395407156870}
   m_handedness: 2
   m_yOffset: -0.2
 --- !u!114 &2490681535834087495
@@ -15224,7 +15145,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4400068395407156870}
   m_Father: {fileID: 7067807344599086935}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3567419449604474201
@@ -15245,7 +15167,7 @@ MonoBehaviour:
     m_Bits: 55
   m_InteractionLayers:
     m_Bits: 2
-  m_AttachTransform: {fileID: 1415797868404401699}
+  m_AttachTransform: {fileID: 304168774659143780}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
   m_StartingSelectedInteractable: {fileID: 0}
@@ -15315,7 +15237,7 @@ MonoBehaviour:
   m_LineType: 0
   m_BlendVisualLinePoints: 1
   m_MaxRaycastDistance: 10
-  m_RayOriginTransform: {fileID: 1035259176603035509}
+  m_RayOriginTransform: {fileID: 304168774659143780}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 12
   m_Acceleration: 9.8
@@ -15613,7 +15535,7 @@ MonoBehaviour:
   m_StopLineAtSelection: 1
   m_SnapEndpointIfAvailable: 1
   m_LineBendRatio: 0.05
-  m_OverrideInteractorLineOrigin: 1
+  m_OverrideInteractorLineOrigin: 0
   m_LineOriginTransform: {fileID: 304168774659143780}
   m_LineOriginOffset: 0.0375
 --- !u!210 &2984631281017910758
@@ -18076,7 +17998,6 @@ Transform:
   - {fileID: 2479773853663235609}
   - {fileID: 180626667696993508}
   - {fileID: 7005548278826971798}
-  - {fileID: 1035259176603035509}
   - {fileID: 4844725232808874836}
   - {fileID: 304168774659143780}
   - {fileID: 3187768212360299308}
@@ -18127,7 +18048,7 @@ Transform:
   m_GameObject: {fileID: 6522424805697095965}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.003, y: 0.022500038, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -18146,7 +18067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_XRHandTrackingEvents: {fileID: 4406127753044592406}
+  m_target: {fileID: 4220612241065652055}
   m_handedness: 1
   m_yOffset: -0.2
 --- !u!114 &5053265426976430125
@@ -18959,7 +18880,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4220612241065652055}
   m_Father: {fileID: 1617596521598802417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6180172969712726359
@@ -18980,7 +18902,7 @@ MonoBehaviour:
     m_Bits: 55
   m_InteractionLayers:
     m_Bits: 2
-  m_AttachTransform: {fileID: 8232730994845426377}
+  m_AttachTransform: {fileID: 7822358765375777787}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
   m_StartingSelectedInteractable: {fileID: 0}
@@ -19050,7 +18972,7 @@ MonoBehaviour:
   m_LineType: 0
   m_BlendVisualLinePoints: 1
   m_MaxRaycastDistance: 10
-  m_RayOriginTransform: {fileID: 2970199528391787965}
+  m_RayOriginTransform: {fileID: 7822358765375777787}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 12
   m_Acceleration: 9.8
@@ -19348,7 +19270,7 @@ MonoBehaviour:
   m_StopLineAtSelection: 1
   m_SnapEndpointIfAvailable: 1
   m_LineBendRatio: 0.5
-  m_OverrideInteractorLineOrigin: 1
+  m_OverrideInteractorLineOrigin: 0
   m_LineOriginTransform: {fileID: 7822358765375777787}
   m_LineOriginOffset: 0.0375
 --- !u!210 &6765139691921684387
@@ -20791,7 +20713,6 @@ Transform:
   - {fileID: 1503067968885376632}
   - {fileID: 2489684492887889417}
   - {fileID: 2219851669846119761}
-  - {fileID: 2970199528391787965}
   - {fileID: 8141949504025427283}
   - {fileID: 7822358765375777787}
   - {fileID: 807041205261532291}
@@ -20814,6 +20735,37 @@ MonoBehaviour:
   m_rayMaterial: {fileID: 2100000, guid: 33347d8c778632b43a2870ac5c9b8a4e, type: 2}
   m_teleportMaterial: {fileID: 2100000, guid: 8bc94f29c2dcda648a7a133591fc2c38, type: 2}
   m_skinnedMeshRenderer: {fileID: 3272137720737372333}
+--- !u!1 &7362321909917081001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4400068395407156870}
+  m_Layer: 0
+  m_Name: Ray Attach Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4400068395407156870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7362321909917081001}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.003, y: -0.0225, z: 0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2479773853663235609}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7432027469670279307
 GameObject:
   m_ObjectHideFlags: 0
@@ -23799,54 +23751,6 @@ MonoBehaviour:
   m_handMenu: {fileID: 4764398172940457720}
   m_handMenuButton: {fileID: 5718740028036121063}
   m_handButton: {fileID: 1726376400812117654}
---- !u!1 &9021684075714230508
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1035259176603035509}
-  - component: {fileID: 4004738695009271152}
-  m_Layer: 0
-  m_Name: Ray Stabilized
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1035259176603035509
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9021684075714230508}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1415797868404401699}
-  m_Father: {fileID: 7067807344599086935}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4004738695009271152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9021684075714230508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2640cff140654754e88ae9630b598188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_XRHandTrackingEvents: {fileID: 1176804808628581614}
-  m_handedness: 2
-  m_yOffset: -0.2
 --- !u!1 &9135018657985134796
 GameObject:
   m_ObjectHideFlags: 0
