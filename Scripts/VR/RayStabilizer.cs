@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.XR.Hands;
 
 public class RayStabilizer : MonoBehaviour
 {
-    [SerializeField] XRHandTrackingEvents m_XRHandTrackingEvents;
+    [SerializeField] Transform m_target;
     [SerializeField] Handedness m_handedness;
     [SerializeField][Range(-2f, 1f)] float m_yOffset;
     Transform m_headTransform;
@@ -20,6 +19,9 @@ public class RayStabilizer : MonoBehaviour
 
     void Update()
     {
+        if (m_target != null)
+            transform.position = m_target.position;
+
         var offset = GetHeadOffset();
         var direction = GetDirection(offset);
         transform.rotation = Quaternion.LookRotation(direction);
@@ -27,14 +29,8 @@ public class RayStabilizer : MonoBehaviour
 
     void OnEnable()
     {
-        if (m_XRHandTrackingEvents != null)
-                m_XRHandTrackingEvents.jointsUpdated.AddListener(OnJointsUpdated);
-    }
-
-    void OnDisable()
-    {
-        if (m_XRHandTrackingEvents != null)
-                m_XRHandTrackingEvents.jointsUpdated.RemoveListener(OnJointsUpdated);
+        if (m_target != null)
+            transform.position = m_target.position;
     }
 
     Vector3 GetHeadOffset()
@@ -62,20 +58,6 @@ public class RayStabilizer : MonoBehaviour
     }
 
     Vector3 GetDirection(Vector3 offset) => (transform.position - offset).normalized;
-
-    void OnJointsUpdated(XRHandJointsUpdatedEventArgs args)
-    {
-        var thumbTip = args.hand.GetJoint(XRHandJointID.ThumbTip);
-        if (!thumbTip.TryGetPose(out var thumbTipPose))
-            return;
-
-        var indexTip = args.hand.GetJoint(XRHandJointID.IndexTip);
-        if (!indexTip.TryGetPose(out var indexTipPose))
-            return;
-
-        var targetPos = Vector3.Lerp(thumbTipPose.position, indexTipPose.position, 0.5f);
-        transform.localPosition = targetPos;
-    }
 
     void OnDrawGizmos()
     {
