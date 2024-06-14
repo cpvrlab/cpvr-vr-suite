@@ -1,13 +1,16 @@
 {
   "name": "com.bfh.cpvrlab-vr-suite",
-  "version": "3.1.6",
+  "version": "3.2.0",
   "displayName": "CPVRLab VR Suite",
   "description": "This is a package created for and by the CPVRLab of the BFH. It contains scripts, models, materials and prefabs which are commonly used together in new VR projects by members of the CPVRLab",
   "unity": "2022.3",
   "dependencies": {
     "com.unity.xr.openxr": "1.8.2",
-    "com.unity.xr.interaction.toolkit": "2.5.3",
-    "com.unity.xr.hands": "1.4.0"
+    "com.unity.xr.interaction.toolkit": "2.5.4",
+    "com.unity.xr.hands": "1.4.1",
+    "com.unity.xr.meta-openxr": "1.0.1",
+    "com.unity.xr.arfoundation": "5.1.4",
+    "com.unity.netcode.gameobjects": "1.9.1"
   },
   "samples" : [
     {
@@ -17,7 +20,7 @@
     }
   ],
   "keywords": [
-    "Virtual Reality"
+    "Virtual Reality", "Networking", "Multiplayer", "Mixed Reality"
   ],
   "author": {
     "name": "Sascha Ledermann",
