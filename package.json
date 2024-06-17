@@ -17,6 +17,16 @@
       "displayName": "AndroidManifest",
       "description": "Contains an AndroidManifest.xml file which enables Android features that are required by this package",
       "path": "Samples~/AndroidManifest"
+    },
+    {
+      "displayName": "Avatar",
+      "description": "Contains a scene with a VR Avatar",
+      "path": "Samples~/Avatar"
+    },
+    {
+      "displayName": "Networking",
+      "description": "Contains scenes which are setup for local multiplayer",
+      "path": "Samples~/Networking"
     }
   ],
   "keywords": [
