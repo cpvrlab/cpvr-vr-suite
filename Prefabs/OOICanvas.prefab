@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4881b08b081a8d4d9c251aae2673ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoTurnOffDistance: 3
   button: {fileID: 1055430449780192866}
   title: {fileID: 3556355775451553864}
   content: {fileID: 5711627746036210323}
