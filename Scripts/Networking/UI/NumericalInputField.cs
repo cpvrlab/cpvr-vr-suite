@@ -1,28 +1,33 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-namespace UI {
+namespace UI
+{
     /// <summary>
     /// // Keeps the input with numerical string between 0 and 999
     /// </summary>
-    public class NumericalInputField : MonoBehaviour {
-        private TMP_InputField _inputField;
+    public class NumericalInputField : MonoBehaviour
+    {
+        TMP_InputField _inputField;
 
-        [SerializeField] private int maxSize;
+        [SerializeField] int maxSize;
 
-        private void Start() {
+        void Start()
+        {
             _inputField = GetComponent<TMP_InputField>();
 
-            _inputField.onValidateInput += (_, index, addedChar) => {
-                if (index >= maxSize) {
+            _inputField.onValidateInput += (_, index, addedChar) =>
+            {
+                if (index >= maxSize)
+                {
                     return '\0';
                 }
-                
-                if (!Char.IsNumber(addedChar)) {
+
+                if (!char.IsNumber(addedChar))
+                {
                     return '\0';
                 }
-                
+
                 return addedChar;
             };
         }

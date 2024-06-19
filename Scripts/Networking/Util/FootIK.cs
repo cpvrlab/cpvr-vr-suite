@@ -8,22 +8,22 @@ namespace Util {
     /// </summary>
     public class FootIK : MonoBehaviour {
         // Ratio between Leg Length and the Distance between the foot and the model before moving the foot.
-        private const float LegLengthFootMaxDistanceRatio = 0.4f;
+        const float LegLengthFootMaxDistanceRatio = 0.4f;
         
         // Max Y Angle difference before replacing the foot
-        private const float FootMaxAngle = 45;
+        const float FootMaxAngle = 45;
 
         // Time taken to replace the foot in second
-        private const float StepDuration = .4f;
+        const float StepDuration = .4f;
 
         // Highest point during a step.
-        private const float StepHeight = .1f;
+        const float StepHeight = .1f;
 
         // Time before placing the feet in a Idle position in milliseconds
-        private const long MSBeforeIdle = 1500;
+        const long MSBeforeIdle = 1500;
         
         // Max Distance before replacing the foot
-        private float _footMaxDistance = .4f;
+        float _footMaxDistance = .4f;
 
         // IK target
         public Transform target;
@@ -36,26 +36,26 @@ namespace Util {
         [NonSerialized] public bool Stepping;
 
         // Parent bone from where the ray will be casted
-        private Transform _hipBone;
+        Transform _hipBone;
 
         // Default hipHeight
-        private float _hipHeight;
+        float _hipHeight;
 
         // Used for making the foot idle
-        private long _lastFootMovement;
+        long _lastFootMovement;
 
         // Used to compute the current body velocity
-        private Vector3 _lastModelPosition;
-        private Vector3 _velocity;
+        Vector3 _lastModelPosition;
+        Vector3 _velocity;
 
-        private void Start() {
+        void Start() {
             // Get the bone from where the ray will be cast
             _hipBone = transform.parent.parent;
             
             ComputeLength();
         }
 
-        private void FixedUpdate() {
+        void FixedUpdate() {
             // Compute velocity in fixedupdate so the result won't depend on the hardware
             ComputeVelocity();
         }
@@ -77,7 +77,7 @@ namespace Util {
         /// <summary>
         /// Compute the model velocity.
         /// </summary>
-        private void ComputeVelocity() {
+        void ComputeVelocity() {
             Vector3 modelPosition = model.position;
             
             _velocity = (modelPosition - _lastModelPosition)*30;
@@ -89,7 +89,7 @@ namespace Util {
         /// If the position difference between the foot and the upperbody is bigger than FootMaxDistance we replace the foot.
         /// </summary>
         /// <returns>A bool that says if a footstep has started (true) or not (false).</returns>
-        private bool CheckFootDistance() {
+        bool CheckFootDistance() {
             // Vector used to reduce the Y coordinates
             Vector3 flatVector = new Vector3(1, 0, 1);
 
@@ -111,7 +111,7 @@ namespace Util {
         /// If the y angle rotation difference between the foot and the upperbody is bigger than FootMaxAngle we replace the foot.
         /// </summary>
         /// <returns>A bool that says if a footstep has started (true) or not (false).</returns>
-        private bool CheckFootRotation() {
+        bool CheckFootRotation() {
             float yTarget = target.rotation.eulerAngles.y;
             float ySpine = model.rotation.eulerAngles.y;
 
@@ -128,7 +128,7 @@ namespace Util {
         /// <summary>
         /// Check if replacing the foot into a "idle" position is required.
         /// </summary>
-        private void Idle() {
+        void Idle() {
             // Compute if the time since last foot movement is bigger than MSBeforeIdle
             long ticksElapsed = DateTime.Now.Ticks - _lastFootMovement;
             long msElapsed = ticksElapsed / 10000;
@@ -162,7 +162,7 @@ namespace Util {
         /// <summary>
         /// Start a footstep sequence.
         /// </summary>
-        private void StartFootstep() {
+        void StartFootstep() {
             Stepping = true;
 
             // Compute the target position based on the velocity.
@@ -195,7 +195,7 @@ namespace Util {
         /// <param name="finalPosition">Final position of the foot.</param>
         /// <param name="finalAngle">Final Y angle of the foot.</param>
         /// <returns>IEnumerator.</returns>
-        private IEnumerator MoveFoot(Vector3 finalPosition, float finalAngle) {
+        IEnumerator MoveFoot(Vector3 finalPosition, float finalAngle) {
             float timer = 0f;
                 
             Vector3 initialPosition = target.position;
@@ -234,7 +234,7 @@ namespace Util {
         /// </summary>
         /// <param name="x">f(x)</param>
         /// <returns>y</returns>
-        private float LiftFootAnimationCurve(float x) {
+        float LiftFootAnimationCurve(float x) {
             return (float)((-Math.Pow(x * 2 - 1, 2) + 1) * StepHeight);
         }
 
