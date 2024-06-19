@@ -2,6 +2,7 @@ using cpvrlab_vr_suite.Scripts.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
 public class SettingsPanel : MenuPanel
 {
@@ -10,19 +11,25 @@ public class SettingsPanel : MenuPanel
     [SerializeField] Toggle m_debugToggle;
     [SerializeField] Toggle m_gazeToggle;
     [SerializeField] Toggle m_panelToggle;
+    [SerializeField] Toggle m_passthroughToggle;
     [SerializeField] TMP_InputField m_inputField;
     [SerializeField] Button m_clearDebugLogButton;
     [SerializeField] TMP_Text m_infoText;
+
     public string InfoText 
     { 
         get => m_infoText.text;
         set => m_infoText.text = value;
     }
 
+    Passthrough m_passthrough;
+
     void Awake()
     {
         if (string.IsNullOrEmpty(InfoText))
             InfoText = "Version: " + Application.version;
+
+        m_passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
     }
     
     protected override void Start()
@@ -55,6 +62,9 @@ public class SettingsPanel : MenuPanel
             PlayerPrefs.SetInt("reopenPanel", value ? 1 : 0);
         });
 
+        m_passthroughToggle.SetIsOnWithoutNotify(m_passthrough.IsEnabled);
+        m_passthroughToggle.onValueChanged.AddListener(value => m_passthrough.ActivePassthrough(value));
+
         m_inputField.onDeselect.AddListener(value => 
         {
             if (MailSender.IsValidEmail(value))
@@ -72,5 +82,15 @@ public class SettingsPanel : MenuPanel
                                         gazeManager.Operative);
         m_panelToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("reopenPanel") == 1);
         m_inputField.text = PlayerPrefs.GetString("emailAddress");
+    }
+
+    void OnEnable()
+    {
+        m_passthrough.PassthroughValueChanged += value => m_passthroughToggle.SetIsOnWithoutNotify(value);
+    }
+
+    void OnDisable()
+    {
+        m_passthrough.PassthroughValueChanged -= value => m_passthroughToggle.SetIsOnWithoutNotify(value);
     }
 }

@@ -7,29 +7,28 @@ using VR;
 
 namespace Util
 {
+    [RequireComponent(typeof(Camera), typeof(ARCameraManager))]
     public class Passthrough : MonoBehaviour
     {
         public event Action<bool> PassthroughValueChanged;
 
-        [SerializeField] List<string> m_passthroughScenes = new();
         // Passthrough default value for current scene
-        bool m_passthroughInScene;
+        public bool IsEnabled { get; private set; }
+
+        [SerializeField] List<string> m_passthroughScenes = new();
+
         Camera m_camera;
         ARCameraManager m_arCameraManager;
 
         void Awake()
         {
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
-            var cameraGO = RigManager.Instance.RigOrchestrator.Camera;
-            m_camera = cameraGO.GetComponent<Camera>();
-            m_arCameraManager = cameraGO.GetComponent<ARCameraManager>();
+            m_camera = GetComponent<Camera>();
+            m_arCameraManager = GetComponent<ARCameraManager>();
+            IsEnabled = m_arCameraManager.enabled;
         }
 
-        void OnActiveSceneChanged(Scene _, Scene next)
-        {
-            m_passthroughInScene = m_passthroughScenes.Contains(next.name);
-            ActivePassthrough(m_passthroughInScene);
-        }
+        void OnActiveSceneChanged(Scene _, Scene next) => ActivePassthrough(m_passthroughScenes.Contains(next.name));
 
         /// <summary>
         /// Enable/Disable the passthrough and hide/show the scene.
@@ -39,15 +38,12 @@ namespace Util
         public void ActivePassthrough(bool value, bool showScene = true)
         {
             // if we try to set a value that is already set
-            if (m_arCameraManager.enabled == value) return;
+            if (IsEnabled == value) return;
 
             if (value)
-                SceneVisibility(showScene && m_passthroughInScene);
+                SceneVisibility(showScene && value);
             else
                 SceneVisibility(true);
-
-            // If we are trying to deactivate passthrough in a passthrough scene
-            if (!value && m_passthroughInScene) return;
 
             // Change the camera settings to make the passthrough work
             if (value)
@@ -62,6 +58,7 @@ namespace Util
             }
 
             m_arCameraManager.enabled = value;
+            IsEnabled = value;
 
             PassthroughValueChanged?.Invoke(value);
         }
