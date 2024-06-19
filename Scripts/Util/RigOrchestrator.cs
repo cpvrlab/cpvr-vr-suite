@@ -1,16 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.XR.Hands.Samples.VisualizerSample;
 
 public class RigOrchestrator : MonoBehaviour
 {
-    public GameObject Camera { get; private set; }
+    public Transform Origin { get; private set; }
+
+    [field: SerializeField] public GameObject Camera { get; private set; }
+    [field: SerializeField] public SkinnedMeshRenderer LeftHand { get; private set; }
+    [field: SerializeField] public SkinnedMeshRenderer RightHand { get; private set; }
+    [field: SerializeField] public HandVisualizer Visualizer { get; private set; }
+
     readonly List<InteractorManager> m_interactorManagers = new();
 
     void Awake()
     {
-        Camera = GetComponentInChildren<Camera>().gameObject;
-        
+        Origin = transform;
+
         var managers = GetComponentsInChildren<InteractorManager>();
         m_interactorManagers.AddRange(managers);
     }

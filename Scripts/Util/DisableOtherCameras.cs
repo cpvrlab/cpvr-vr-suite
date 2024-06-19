@@ -4,16 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class DisableOtherCameras : MonoBehaviour
 {
-    private void Awake()
+    void Awake()
     {
         SceneManager.activeSceneChanged += (_, activeScene) => DisableCameras(activeScene);
     }
 
-    private void DisableCameras(Scene activeScene)
+    void DisableCameras(Scene activeScene)
     {
         if (RigManager.Instance == null) return;
 
-        var rigCamera = RigManager.Instance.XrOrigin.transform.GetChild(0).GetChild(0).GetChild(0);
+        var rigCamera = RigManager.Instance.RigOrchestrator.Camera;
         if (!rigCamera.CompareTag("MainCamera")) return;
 
         var allGameObjects = FindObjectsOfType<GameObject>();

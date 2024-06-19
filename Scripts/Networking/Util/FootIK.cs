@@ -242,7 +242,7 @@ namespace Util {
         /// Compute the hip height and distance before replacing the foot.
         /// </summary>
         public void ComputeLength() {
-            _hipHeight = XROriginRigReferences.Instance.Origin.InverseTransformPoint(_hipBone.position).y;
+            _hipHeight = RigManager.Instance.RigOrchestrator.Origin.InverseTransformPoint(_hipBone.position).y;
 
             Transform knee = transform.parent;
 

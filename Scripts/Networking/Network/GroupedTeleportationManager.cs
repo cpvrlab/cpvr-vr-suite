@@ -122,15 +122,14 @@ namespace Network {
         }
         
         public void RecenterXROrigin() {
-            Debug.Log("RecenterXROrigin()");
+            Debug.Log("Recenter XROrigin()");
             Vector3 localOrigin = _markers[0];
             Vector3 localForward = (_markers[1] - _markers[0]).normalized;
             float angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.up);
             
-            Transform xrOriginTransform = XROriginRigReferences.Instance.Origin;
+            var xrOriginTransform = RigManager.Instance.RigOrchestrator.Origin;
             
-            xrOriginTransform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
-            xrOriginTransform.position = transform.position;
+            xrOriginTransform.SetPositionAndRotation(transform.position, Quaternion.AngleAxis(angle, Vector3.up));
             xrOriginTransform.position = xrOriginTransform.TransformPoint(-localOrigin);
         }
 

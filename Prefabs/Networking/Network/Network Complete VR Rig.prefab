@@ -188,13 +188,32 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnQuitClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 9079678413108982262, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
+        type: 3}
+      propertyPath: <Camera>k__BackingField
+      value: 
+      objectReference: {fileID: 3735949230561234017}
+    - target: {fileID: 9079678413108982262, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
+        type: 3}
+      propertyPath: <LeftHand>k__BackingField
+      value: 
+      objectReference: {fileID: 2822730188095419273}
+    - target: {fileID: 9079678413108982262, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
+        type: 3}
+      propertyPath: <RightHand>k__BackingField
+      value: 
+      objectReference: {fileID: 5861952845958084885}
+    - target: {fileID: 9079678413108982262, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
+        type: 3}
+      propertyPath: <Visualizer>k__BackingField
+      value: 
+      objectReference: {fileID: 7275803171633264799}
     - target: {fileID: 9094817773015767662, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 5794018865603022516, guid: 251f94e1976e3ed4c99bcf2ca0eebe95, type: 3}
     - {fileID: 1399791657614159982, guid: 251f94e1976e3ed4c99bcf2ca0eebe95, type: 3}
     - {fileID: 5965836576355732241, guid: 251f94e1976e3ed4c99bcf2ca0eebe95, type: 3}
     m_RemovedGameObjects: []
@@ -204,10 +223,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1274799050579552608}
-    - targetCorrespondingSourceObject: {fileID: 1215921502653316839, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2461192102804836612}
     - targetCorrespondingSourceObject: {fileID: 4151315849115395909, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
         type: 3}
       insertIndex: -1
@@ -268,7 +283,6 @@ MonoBehaviour:
   m_sprite: {fileID: 0}
   m_panelName: 
   m_fadeOnSceneChange: 0
-  m_startSceneIndex: 3
   m_buttonPrefab: {fileID: 6268896315730717319, guid: 177da058cfbe13042a53a0513ba572b3,
     type: 3}
   m_scrollviewContent: {fileID: 4658168672836341537}
@@ -292,32 +306,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPersistent: 0
   passthroughScenes: []
---- !u!114 &2461192102804836612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917266697344980419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5edbc9c085e4973be957549023a7fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isPersistent: 0
-  head: {fileID: 2991139782189988784}
-  leftHand: {fileID: 2822730188095419273}
-  rightHand: {fileID: 5861952845958084885}
-  handVisualizer: {fileID: 7275803171633264799}
 --- !u!137 &2822730188095419273 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3272137720737372333, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
-    type: 3}
-  m_PrefabInstance: {fileID: 739907335489055524}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2991139782189988784 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2577752258728874132, guid: 251f94e1976e3ed4c99bcf2ca0eebe95,
     type: 3}
   m_PrefabInstance: {fileID: 739907335489055524}
   m_PrefabAsset: {fileID: 0}

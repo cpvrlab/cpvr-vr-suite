@@ -3842,7 +3842,6 @@ GameObject:
   - component: {fileID: 6697294400037324917}
   - component: {fileID: 1060156070882387425}
   - component: {fileID: 812029952153188941}
-  - component: {fileID: 5794018865603022516}
   - component: {fileID: 9079678413108982262}
   m_Layer: 2
   m_Name: XR Origin
@@ -3983,18 +3982,6 @@ MonoBehaviour:
   m_AimAssistRequiredSpeed: 0.25
   m_AimAssistPercent: 0.8
   m_AimAssistMaxSpeedPercent: 10
---- !u!114 &5794018865603022516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215921502653316839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8269b22aa2d413439d7b3a999592126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9079678413108982262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4007,6 +3994,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d33ee41f014ba44bda3493b0264139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Camera>k__BackingField: {fileID: 0}
+  <LeftHand>k__BackingField: {fileID: 0}
+  <RightHand>k__BackingField: {fileID: 0}
+  <Visualizer>k__BackingField: {fileID: 0}
 --- !u!1 &1269825660005232215
 GameObject:
   m_ObjectHideFlags: 0
@@ -6732,7 +6723,6 @@ MonoBehaviour:
   m_sprite: {fileID: 0}
   m_panelName: 
   m_fadeOnSceneChange: 0
-  m_startSceneIndex: 1
   m_buttonPrefab: {fileID: 6268896315730717319, guid: 177da058cfbe13042a53a0513ba572b3,
     type: 3}
   m_scrollviewContent: {fileID: 5395750472244306949}

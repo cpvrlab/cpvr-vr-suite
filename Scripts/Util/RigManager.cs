@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 public class RigManager : Singleton<RigManager>
 {
-    [SerializeField] RigOrchestrator m_rigOrchestrator;
-    public RigOrchestrator RigOrchestrator { get => m_rigOrchestrator; }
-    [SerializeField] GameObject m_xrOrigin;
-    public GameObject XrOrigin { get => m_xrOrigin; }
+    [field: SerializeField] public RigOrchestrator RigOrchestrator { get; private set; }
     [SerializeField] Image m_fadeImage;
 
     void Start()

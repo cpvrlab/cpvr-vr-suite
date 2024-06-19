@@ -70,7 +70,7 @@ namespace Network {
         /// <param name="value">If avatars are visible of not.</param>
         public void SetPlayersVisibility(bool value) {
             // Enable/disable the hands renderer from XRRig
-            XROriginRigReferences.Instance.handVisualizer.drawMeshes = !value;
+            RigManager.Instance.RigOrchestrator.Visualizer.drawMeshes = !value;
             
             GameObject[] avatars = GameObject.FindGameObjectsWithTag("Avatar");
             
