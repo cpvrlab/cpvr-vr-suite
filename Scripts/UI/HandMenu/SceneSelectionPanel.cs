@@ -10,6 +10,7 @@ public class SceneSelectionPanel : MenuPanel
     public delegate void OnEnableHandler();
     public OnEnableHandler onEnableHandler;
     [SerializeField] bool m_fadeOnSceneChange;
+    [SerializeField] int m_startSceneIndex = 1;
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] Transform m_scrollviewContent;
     readonly List<Button> m_sceneButtons = new();

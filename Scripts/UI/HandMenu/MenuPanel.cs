@@ -11,8 +11,9 @@ public abstract class MenuPanel : MonoBehaviour
     protected HandMenuController handMenuController;
     [SerializeField] PanelType m_panelType = PanelType.Static;
     [SerializeField] Sprite m_sprite;
-
     public Sprite Sprite { get => m_sprite; private set => m_sprite = value; }
+    [SerializeField] string m_panelName;
+    public string PanelName { get => m_panelName; private set => m_panelName = value; }
     public PanelType PanelType { get => m_panelType; private set => m_panelType = value; }
 
     protected virtual void Start()

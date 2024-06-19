@@ -40,7 +40,7 @@ public class MainPanel : MenuPanel
         var button = Instantiate(m_buttonPrefab, m_scrollviewContent).GetComponent<Button>();
 
         if (button.transform.GetChild(0).TryGetComponent<TMP_Text>(out var text))
-            text.text = "Toggle Scene Objects";
+            text.text = !string.IsNullOrEmpty(panel.PanelName) ? panel.PanelName : "Toggle Scene Objects";
 
         button.onClick.AddListener(() => handMenuController.OpenPanel(panel));
         handMenuController.AddButtonSoundFeedback(button);
