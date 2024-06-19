@@ -8,7 +8,7 @@ namespace UI {
     /// Ask for a network scene change.
     /// </summary>
     public class NetworkSceneSelectionPanel : SceneSelectionPanel {
-        protected override void ChangeScene(int index) {
+        public override void ChangeScene(int index) {
             if (NetworkManager.Singleton.SceneManager == null) {
                 Debug.Log("You're not connected to any game yet.");
                 //base.ChangeScene(index);

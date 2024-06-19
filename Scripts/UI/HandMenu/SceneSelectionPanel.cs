@@ -10,7 +10,6 @@ public class SceneSelectionPanel : MenuPanel
     public delegate void OnEnableHandler();
     public OnEnableHandler onEnableHandler;
     [SerializeField] bool m_fadeOnSceneChange;
-    [SerializeField] int m_startSceneIndex = 1;
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] Transform m_scrollviewContent;
     readonly List<Button> m_sceneButtons = new();
@@ -61,7 +60,7 @@ public class SceneSelectionPanel : MenuPanel
 
     public void RemoveDynamicPanels() => handMenuController.UnregisterDynamicPanels();
 
-    public async void ChangeScene(int index)
+    public virtual async void ChangeScene(int index)
     {
         var currentIndex = SceneManager.GetActiveScene().buildIndex;
         if (index == currentIndex) return;
