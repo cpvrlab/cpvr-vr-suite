@@ -10,7 +10,8 @@
     "com.unity.xr.hands": "1.4.1",
     "com.unity.xr.meta-openxr": "1.0.1",
     "com.unity.xr.arfoundation": "5.1.4",
-    "com.unity.netcode.gameobjects": "1.9.1"
+    "com.unity.netcode.gameobjects": "1.9.1",
+    "com.unity.multiplayer.tools": "1.1.1"
   },
   "samples" : [
     {
