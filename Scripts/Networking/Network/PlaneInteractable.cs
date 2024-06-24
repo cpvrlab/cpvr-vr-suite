@@ -12,41 +12,48 @@ namespace Network
     public class PlaneInteractable : XRBaseInteractable
     {
         // Prefab of the markers
-        [SerializeField] private GameObject markerPrefab;
+        [SerializeField] GameObject markerPrefab;
 
         // GameObject used as reticle.
-        [SerializeField] private GameObject reticle;
+        [SerializeField] GameObject reticlePrefab;
+        GameObject reticle;
 
-        private int _markerIndex;
+        int _markerIndex;
 
         // The marker list
-        private readonly GameObject[] _markers = new GameObject[2];
+        readonly GameObject[] _markers = new GameObject[2];
 
-        private bool _calibrating;
+        bool _calibrating;
 
         // Marker's visibility
-        private bool _markerVisible;
+        bool _markerVisible;
 
-        private void Start()
+        void Start()
         {
-            reticle.GetComponent<MarkerBehaviour>().IsReticle = true;
+            if (reticle == null)
+            {
+                reticle = Instantiate(reticlePrefab, transform);
+                reticle.SetActive(false);
+            }
 
-            // Set ourself as the child of the origin so that we are always beneath the player after teleportation.
-            transform.parent = RigManager.Instance.RigOrchestrator.Origin;
+            reticle.GetComponent<MarkerBehaviour>().IsReticle = true;
         }
 
-        private void Update()
+        void Update()
         {
-            if (!_calibrating) return;
-
             UpdateReticle();
         }
 
         /// <summary>
         /// Hide/Show and place the reticle if a RayInteractor is hovering with the plane.
         /// </summary>
-        private void UpdateReticle()
+        void UpdateReticle()
         {
+            if (!_calibrating) return;
+
+            if (reticle == null)
+                reticle = Instantiate(reticlePrefab, transform);
+
             XRRayInteractor interactor = interactorsHovering.FirstOrDefault(it => it is XRRayInteractor) as XRRayInteractor;
 
             if (interactor == null || !interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
@@ -96,7 +103,7 @@ namespace Network
         /// </summary>
         /// <param name="position">Position of the marker.</param>
         /// <param name="index">Index of the marker (0 or 1) inside the array.</param>
-        private void CreateMarker(Vector3 position, int index)
+        void CreateMarker(Vector3 position, int index)
         {
             // Create a marker and place it
             GameObject marker = Instantiate(markerPrefab, RigManager.Instance.RigOrchestrator.Origin);
@@ -117,7 +124,7 @@ namespace Network
         /// Add a marker at the current index.
         /// </summary>
         /// <param name="position">Position of the marker.</param>
-        private void AddMarker(Vector3 position)
+        void AddMarker(Vector3 position)
         {
             // Spawning a marker at the hit position
             if (_markers[_markerIndex] == null)
@@ -163,7 +170,7 @@ namespace Network
         /// <summary>
         /// Update the markers visibility.
         /// </summary>
-        private void UpdateMarkersVisibility()
+        void UpdateMarkersVisibility()
         {
             // If we are calibrating or if the player wants the markers to be shown.
             bool visible = _calibrating || _markerVisible;

@@ -1,4 +1,5 @@
 using System.Linq;
+using cpvr_vr_suite.Scripts.VR;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,13 +16,16 @@ public class NetworkPanel : MenuPanel
     [SerializeField] TMP_InputField m_joincodeInputField;
     [SerializeField] Button m_clientButton;
     [SerializeField] TMP_Text m_infoText;
+
     [Header("Lobby Content")]
     [SerializeField] GameObject m_lobbyContent;
     [SerializeField] Lobby m_lobby;
+    [SerializeField] CalibrationManager m_calibrationManager;
     [SerializeField] TMP_Text m_joincodeText;
     [SerializeField] Button m_calibrationButton;
     [SerializeField] Button m_exitButton;
 
+    bool m_isCalibrating;
 
     void Awake()
     {
@@ -96,12 +100,29 @@ public class NetworkPanel : MenuPanel
         m_mainContent.SetActive(true);
         m_lobbyContent.SetActive(false);
         m_title.text = "Multiplayer";
-        UpdateInfoText(string.Empty);     
+        UpdateInfoText(string.Empty);
     }
 
     void Calibrate()
     {
+        m_isCalibrating = !m_isCalibrating;
+        var buttonText = m_calibrationButton.transform.GetChild(0).GetComponent<TMP_Text>();
 
+        if (m_isCalibrating)
+        {
+            buttonText.text = "Finish calibration";
+        }
+        else
+        {
+            buttonText.text = "Calibrate";
+        }
+
+        if (RigManager.Instance.RigOrchestrator.TryGetInteractorManager(out HandManager handManager))
+        {
+            handManager.InteractionModeLocked = m_isCalibrating;
+        }
+            
+        m_calibrationManager.Calibrate();
     }
 
     void UpdateInfoText(string content) => m_infoText.text = content;
