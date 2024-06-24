@@ -1,12 +1,14 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LobbyEntry : MonoBehaviour
 {
     [SerializeField] TMP_Text m_playernameText;
     [SerializeField] Button m_kickButton;
-    
+
     ulong m_clientId;
     bool m_isSelf;
     bool m_isHost;
@@ -17,7 +19,7 @@ public class LobbyEntry : MonoBehaviour
         m_isSelf = isSelf;
         m_isHost = isHost;
 
-        // TODO: Setup Kick button callback
+        m_kickButton.onClick.AddListener(() => Destroy(gameObject));
     }
 
     public void SetName(string name)
@@ -37,4 +39,6 @@ public class LobbyEntry : MonoBehaviour
     }
 
     public void SetKickButtonVisibility(bool value) => m_kickButton.gameObject.SetActive(value);
+
+    public void AddListener(Action action) => m_kickButton.onClick.AddListener(new UnityAction(action));
 }
