@@ -17,8 +17,7 @@ public class NetworkPanel : MenuPanel
     [SerializeField] TMP_Text m_infoText;
     [Header("Lobby Content")]
     [SerializeField] GameObject m_lobbyContent;
-    [SerializeField] GameObject m_playerContainer;
-    [SerializeField] GameObject m_playerEntryPrefab;
+    [SerializeField] Lobby m_lobby;
     [SerializeField] TMP_Text m_joincodeText;
     [SerializeField] Button m_calibrationButton;
     [SerializeField] Button m_exitButton;
