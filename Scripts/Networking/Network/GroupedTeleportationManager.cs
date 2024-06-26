@@ -21,9 +21,7 @@ namespace Network
 
         // If we are teleporting locally.
         // Should be 'true' if no calibration is used.
-        [SerializeField] bool localTeleportation;
-
-        [SerializeField] Toggle localTeleportationToggle;
+        [field: SerializeField] public bool LocalTeleportation { get; private set; }
 
         // The teleport ray shared between players.
         [SerializeField] LineRenderer lineRenderer;
@@ -62,9 +60,6 @@ namespace Network
             ComponentLocatorUtility<NetworkTeleportationProvider>.TryFindComponent(out _networkTeleportationProvider);
             _networkTeleportationProvider.localTeleportation = false;
 
-            localTeleportationToggle.interactable = true;
-            localTeleportationToggle.isOn = localTeleportation;
-
             _ownerId.OnValueChanged += (_, newOwnerId) =>
             {
                 // Disable the LineRenderer for the owner and enable/disable the renderer for the others
@@ -100,7 +95,7 @@ namespace Network
         {
             messagePayload.ReadValueSafe(out ForceNetworkSerializeByMemcpy<Vector3> teleportPosition);
 
-            SetNewPosition(teleportPosition, !localTeleportation);
+            SetNewPosition(teleportPosition, !LocalTeleportation);
         }
 
         /// <summary>
@@ -167,7 +162,7 @@ namespace Network
         /// <param name="status">If we are teleporting locally or not.</param>
         public void SetLocalTeleportation(bool status)
         {
-            localTeleportation = status;
+            LocalTeleportation = status;
             _networkTeleportationProvider.localTeleportation = status;
             if (!status)
             {

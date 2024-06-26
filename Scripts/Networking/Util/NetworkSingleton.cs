@@ -21,6 +21,14 @@ namespace Util {
             }
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            if (Instance != null)
+                Instance = null;
+        }
+
         protected virtual void OnApplicationQuit()
         {
             Instance = null;

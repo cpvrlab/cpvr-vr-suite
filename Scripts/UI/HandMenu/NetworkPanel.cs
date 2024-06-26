@@ -1,5 +1,6 @@
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
+using Network;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class NetworkPanel : MenuPanel
     [SerializeField] TMP_InputField m_joincodeInputField;
     [SerializeField] Button m_clientButton;
     [SerializeField] TMP_Text m_infoText;
+    [SerializeField] GroupedTeleportationManager m_groupedTeleportationManagerPrefab;
 
     [Header("Lobby Content")]
     [SerializeField] GameObject m_lobbyContent;
@@ -24,6 +26,7 @@ public class NetworkPanel : MenuPanel
     [SerializeField] TMP_Text m_joincodeText;
     [SerializeField] Button m_calibrationButton;
     [SerializeField] Button m_exitButton;
+    [SerializeField] Toggle m_localTeleportToggle;
 
     bool m_isCalibrating;
 
@@ -31,11 +34,13 @@ public class NetworkPanel : MenuPanel
     {
         // Setup UI Elements
         m_hostButton.onClick.AddListener(StartHost);
+        m_hostButton.onClick.AddListener(SetGroupedTeleportManager);
 
         m_lanToggle.isOn = true;
         m_lanToggle.interactable = false;
 
         m_clientButton.onClick.AddListener(StartClient);
+        m_clientButton.onClick.AddListener(SetGroupedTeleportManager);
 
         UpdateInfoText(string.Empty);
 
@@ -94,9 +99,24 @@ public class NetworkPanel : MenuPanel
         }
     }
 
+    void SetGroupedTeleportManager()
+    {
+        if (GroupedTeleportationManager.Instance == null)
+        {
+            Instantiate(m_groupedTeleportationManagerPrefab);
+            m_localTeleportToggle.SetIsOnWithoutNotify(GroupedTeleportationManager.Instance.LocalTeleportation);
+            m_localTeleportToggle.onValueChanged.AddListener(value => GroupedTeleportationManager.Instance.SetLocalTeleportation(value));
+        }
+    }
+
     void Shutdown()
     {
         NetworkManager.Singleton.Shutdown();
+        if (GroupedTeleportationManager.Instance != null)
+        {
+            m_localTeleportToggle.onValueChanged.RemoveAllListeners();
+            Destroy(GroupedTeleportationManager.Instance.gameObject);
+        }
         m_mainContent.SetActive(true);
         m_lobbyContent.SetActive(false);
         m_title.text = "Multiplayer";
