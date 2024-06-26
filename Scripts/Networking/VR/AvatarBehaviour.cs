@@ -56,6 +56,11 @@ namespace V3.Scripts.VR
                 m_orchestrator = RigManager.Instance.RigOrchestrator;
         }
 
+        void OnEnable()
+        {
+            RigManager.Instance.OnHeightCalibrationEnded += ScaleAvatar;
+        }
+
         public override void OnNetworkSpawn()
         {
             // Disable local avatar      
@@ -102,7 +107,7 @@ namespace V3.Scripts.VR
                     _heightData.Add(m_orchestrator.Origin.transform.InverseTransformPoint(m_orchestrator.Camera.transform.position).y + .1f * _avatarScale);
                     if (_frameInState > 250)
                     { // 5 seconds
-                        ScaleAvatar();
+                        ScaleAvatar(_heightData.Average());
                         _heightCalibrationState = HeightCalibrationState.Done;
                         _frameInState = 0;
                         _heightData.Clear();
@@ -171,10 +176,9 @@ namespace V3.Scripts.VR
         /// <summary>
         /// Scale the avatar based on the height datas gathered.
         /// </summary>
-        void ScaleAvatar()
+        void ScaleAvatar(float height)
         {
-            float newHeight = _heightData.Average();
-            _avatarScale = newHeight / 1.8f; // avatar is normally made for 1.8m
+            _avatarScale = height / 1.8f; // avatar is normally made for 1.8m
             armature.localScale = Vector3.one * _avatarScale;
 
             foreach (LimbIK limbIK in GetComponentsInChildren<LimbIK>())
@@ -189,8 +193,6 @@ namespace V3.Scripts.VR
 
             AvatarBodySync avatarBodySync = GetComponent<AvatarBodySync>();
             avatarBodySync.SetAvatarScale(_avatarScale);
-
-            avatarMenuPanel.CalibrationFinished(newHeight);
         }
 
         /// <summary>

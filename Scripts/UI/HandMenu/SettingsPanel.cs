@@ -12,6 +12,8 @@ public class SettingsPanel : MenuPanel
     [SerializeField] Toggle m_gazeToggle;
     [SerializeField] Toggle m_panelToggle;
     [SerializeField] Toggle m_passthroughToggle;
+    [SerializeField] TMP_Text m_characterHeightText;
+    [SerializeField] Button m_calibrateHeightButton;
     [SerializeField] TMP_InputField m_inputField;
     [SerializeField] Button m_clearDebugLogButton;
     [SerializeField] TMP_Text m_infoText;
@@ -65,6 +67,11 @@ public class SettingsPanel : MenuPanel
         m_passthroughToggle.SetIsOnWithoutNotify(m_passthrough.IsEnabled);
         m_passthroughToggle.onValueChanged.AddListener(value => m_passthrough.ActivePassthrough(value));
 
+        if (RigManager.Instance.HeightCalculated)
+            SetHeightText(RigManager.Instance.Height);
+        m_calibrateHeightButton.onClick.AddListener(RigManager.Instance.CalibrateHeight);
+        m_calibrateHeightButton.onClick.AddListener(() => Debug.Log("Calibration button clicked!"));
+
         m_inputField.onDeselect.AddListener(value => 
         {
             if (MailSender.IsValidEmail(value))
@@ -87,10 +94,17 @@ public class SettingsPanel : MenuPanel
     void OnEnable()
     {
         m_passthrough.PassthroughValueChanged += value => m_passthroughToggle.SetIsOnWithoutNotify(value);
+        RigManager.Instance.OnHeightCalibrationStarted += () => m_calibrateHeightButton.interactable = false;
+        RigManager.Instance.OnHeightCalibrationEnded += SetHeightText;
+        RigManager.Instance.OnHeightCalibrationEnded += (_) => m_calibrateHeightButton.interactable = true;
     }
 
     void OnDisable()
     {
         m_passthrough.PassthroughValueChanged -= value => m_passthroughToggle.SetIsOnWithoutNotify(value);
+        RigManager.Instance.OnHeightCalibrationStarted -= () => m_calibrateHeightButton.interactable = false;
+        RigManager.Instance.OnHeightCalibrationEnded -= (_) => m_calibrateHeightButton.interactable = true;
     }
+
+    void SetHeightText(float height) => m_characterHeightText.text = "Character height: " + height.ToString("0.00") + "m";
 }

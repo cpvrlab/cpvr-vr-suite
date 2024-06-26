@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,8 +16,11 @@ public class RigManager : Singleton<RigManager>
     [field: SerializeField] public RigOrchestrator RigOrchestrator { get; private set; }
     [SerializeField] Image m_fadeImage;
 
+    bool m_isCalibrating;
+
     void Start()
     {
+        CalibrateHeight();
         if (SceneManager.sceneCountInBuildSettings <= 1) return;
         SceneManager.LoadSceneAsync(1);
     }
@@ -34,8 +38,24 @@ public class RigManager : Singleton<RigManager>
 
     public async void CalibrateHeight()
     {
+        if (m_isCalibrating) return;
+
+        Debug.Log("Started calibration.");
         OnHeightCalibrationStarted?.Invoke();
-        await Task.Delay(0);
+        m_isCalibrating = true;
+
+        var heightData = new float[150];
+        for (int i = 0; i < heightData.Length; i++)
+        {
+            Debug.Log($"Collected height datapoint nr: {i+1}");
+            heightData[i] = RigOrchestrator.Origin.transform.InverseTransformPoint(RigOrchestrator.Camera.transform.position).y + .1f;
+            await Task.Delay(20);
+        }
+        Height = heightData.Average();
+        HeightCalculated = true;
+        m_isCalibrating = false;
+
+        Debug.Log("Finished calibration.");
         OnHeightCalibrationEnded?.Invoke(Height);
     }
 }
