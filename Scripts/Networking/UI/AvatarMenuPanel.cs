@@ -2,11 +2,13 @@ using TMPro;
 using UnityEngine.UI;
 using V3.Scripts.VR;
 
-namespace UI {
+namespace UI
+{
     /// <summary>
     /// Used to recalibrate the height of the avatar if needed.
     /// </summary>
-    public class AvatarMenuPanel : MenuPanel { 
+    public class AvatarMenuPanel : MenuPanel
+    {
         public AvatarBehaviour avatarBehaviour;
 
         public Button calibrateHeightButton;
@@ -15,8 +17,10 @@ namespace UI {
         /// <summary>
         /// Recalibrate height.
         /// </summary>
-        public void CalibrateHeight() {
-            if(avatarBehaviour.CalibrateHeight()) {
+        public void CalibrateHeight()
+        {
+            if (avatarBehaviour.CalibrateHeight())
+            {
                 heightLabel.text = "Calibrating...";
                 calibrateHeightButton.interactable = false;
             }
@@ -26,9 +30,10 @@ namespace UI {
         /// Display the calibrated height.
         /// </summary>
         /// <param name="height">New height.</param>
-        public void CalibrationFinished(float height) {
+        public void CalibrationFinished(float height)
+        {
             calibrateHeightButton.interactable = true;
-            heightLabel.text = "Height: " + (height+.05).ToString("0.00") + "m";
+            heightLabel.text = "Height: " + (height + .05).ToString("0.00") + "m";
         }
     }
 }

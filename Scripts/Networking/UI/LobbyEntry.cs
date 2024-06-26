@@ -9,13 +9,13 @@ public class LobbyEntry : MonoBehaviour
     [SerializeField] TMP_Text m_playernameText;
     [SerializeField] Button m_kickButton;
 
-    ulong m_clientId;
+    public ulong ClientId { get; private set; }
     bool m_isSelf;
     bool m_isHost;
 
     public void Initialise(ulong clientId, bool isSelf = false, bool isHost = false)
     {
-        m_clientId = clientId;
+        ClientId = clientId;
         m_isSelf = isSelf;
         m_isHost = isHost;
 

@@ -200,9 +200,8 @@ namespace V3.Scripts.VR
         public bool CalibrateHeight()
         {
             if (_heightCalibrationState != HeightCalibrationState.Done)
-            {
                 return false;
-            }
+            
             _heightCalibrationState = HeightCalibrationState.Initializing;
             return true;
         }

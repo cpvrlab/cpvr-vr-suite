@@ -117,6 +117,7 @@ public class NetworkPanel : MenuPanel
             m_localTeleportToggle.onValueChanged.RemoveAllListeners();
             Destroy(GroupedTeleportationManager.Instance.gameObject);
         }
+        m_lobby.RemoveAllEntries();
         m_mainContent.SetActive(true);
         m_lobbyContent.SetActive(false);
         m_title.text = "Multiplayer";
@@ -146,4 +147,6 @@ public class NetworkPanel : MenuPanel
     }
 
     void UpdateInfoText(string content) => m_infoText.text = content;
+
+    public void SetJoincode(string content) => m_joincodeText.text = "Lobby Code: " + content;
 }
