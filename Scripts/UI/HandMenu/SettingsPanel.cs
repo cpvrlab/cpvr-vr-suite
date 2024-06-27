@@ -103,6 +103,7 @@ public class SettingsPanel : MenuPanel
     {
         m_passthrough.PassthroughValueChanged -= value => m_passthroughToggle.SetIsOnWithoutNotify(value);
         RigManager.Instance.OnHeightCalibrationStarted -= () => m_calibrateHeightButton.interactable = false;
+        RigManager.Instance.OnHeightCalibrationEnded += SetHeightText;
         RigManager.Instance.OnHeightCalibrationEnded -= (_) => m_calibrateHeightButton.interactable = true;
     }
 

@@ -44,12 +44,12 @@ public class RigManager : Singleton<RigManager>
         OnHeightCalibrationStarted?.Invoke();
         m_isCalibrating = true;
 
-        var heightData = new float[150];
+        var heightData = new float[75];
         for (int i = 0; i < heightData.Length; i++)
         {
             Debug.Log($"Collected height datapoint nr: {i+1}");
             heightData[i] = RigOrchestrator.Origin.transform.InverseTransformPoint(RigOrchestrator.Camera.transform.position).y + .1f;
-            await Task.Delay(20);
+            await Task.Delay(10);
         }
         Height = heightData.Average();
         HeightCalculated = true;
