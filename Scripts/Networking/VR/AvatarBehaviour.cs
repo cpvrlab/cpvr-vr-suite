@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using UI;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -30,14 +28,7 @@ namespace V3.Scripts.VR
         // Used to scale the avatar
         public Transform armature;
 
-        // Used to calibrate the height
-        public AvatarMenuPanel avatarMenuPanel;
-        // Calibrate on spawn
-        HeightCalibrationState _heightCalibrationState = HeightCalibrationState.Waiting;
-        int _frameInState;
-        readonly List<float> _heightData = new();
         float _avatarScale = 1f;
-
         SkinnedMeshRenderer _bodyRenderer;
 
         // Materials used to display in which interaction mode we are using the bracelet.
@@ -60,6 +51,11 @@ namespace V3.Scripts.VR
         {
             RigManager.Instance.OnHeightCalibrationEnded += ScaleAvatar;
         }
+        
+        void OnDisable()
+        {
+            RigManager.Instance.OnHeightCalibrationEnded -= ScaleAvatar;
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -69,13 +65,11 @@ namespace V3.Scripts.VR
 
             // Initialize network avatar
             InitAvatar();
+            m_orchestrator.Visualizer.drawMeshes = false;
 
             // Subscribe for interactionMode change to display it through the watch color.
             if (IsOwner)
             {
-                // Disable the hands renderer from XRRig
-                m_orchestrator.Visualizer.drawMeshes = false;
-
                 if (m_orchestrator.TryGetInteractorManager(out HandManager handManager))
                 {
                     handManager.OnInteractionModeChanged.AddListener(OnInteractionModeChanged);
@@ -83,42 +77,20 @@ namespace V3.Scripts.VR
             }
             else
             {
-                Destroy(avatarMenuPanel.transform.parent.gameObject);
                 enabled = false;
             }
+
+            ScaleAvatar(RigManager.Instance.Height);
         }
 
-        void FixedUpdate()
+        public override void OnNetworkDespawn()
         {
-            if (_heightCalibrationState == HeightCalibrationState.Done) return;
-
-            _frameInState++;
-
-            switch (_heightCalibrationState)
+            if (IsOwner)
             {
-                case HeightCalibrationState.Waiting:
-                    if (_frameInState > 50)
-                    { // 1 seconds
-                        _heightCalibrationState = HeightCalibrationState.Initializing;
-                        _frameInState = 0;
-                    }
-                    break;
-                case HeightCalibrationState.Initializing:
-                    _heightData.Add(m_orchestrator.Origin.transform.InverseTransformPoint(m_orchestrator.Camera.transform.position).y + .1f * _avatarScale);
-                    if (_frameInState > 250)
-                    { // 5 seconds
-                        ScaleAvatar(_heightData.Average());
-                        _heightCalibrationState = HeightCalibrationState.Done;
-                        _frameInState = 0;
-                        _heightData.Clear();
-                    }
-                    break;
+                m_orchestrator.Visualizer.drawMeshes = true;
             }
         }
 
-        /// <summary>
-        /// Initialize the differents avatar's parts
-        /// </summary>
         void InitAvatar()
         {
             // Set avatar parts based on clientId
@@ -151,10 +123,6 @@ namespace V3.Scripts.VR
             return parts[partIndex];
         }
 
-        /// <summary>
-        /// Set the shirt's color of the avatar.
-        /// </summary>
-        /// <param name="partIndex">An int calculated from the OwnerClientId.</param>
         void SetColor(int partIndex)
         {
             Material playerMaterial = playerMaterials[partIndex % playerMaterials.Count];
@@ -173,9 +141,6 @@ namespace V3.Scripts.VR
             _bodyRenderer.materials = materials;
         }
 
-        /// <summary>
-        /// Scale the avatar based on the height datas gathered.
-        /// </summary>
         void ScaleAvatar(float height)
         {
             _avatarScale = height / 1.8f; // avatar is normally made for 1.8m
@@ -193,19 +158,6 @@ namespace V3.Scripts.VR
 
             AvatarBodySync avatarBodySync = GetComponent<AvatarBodySync>();
             avatarBodySync.SetAvatarScale(_avatarScale);
-        }
-
-        /// <summary>
-        /// Start the height calibration if it is not already calibrating.
-        /// </summary>
-        /// <returns>A boolean if the calibration has been started or not.</returns>
-        public bool CalibrateHeight()
-        {
-            if (_heightCalibrationState != HeightCalibrationState.Done)
-                return false;
-            
-            _heightCalibrationState = HeightCalibrationState.Initializing;
-            return true;
         }
 
         /// <summary>
