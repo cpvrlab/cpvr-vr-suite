@@ -3,6 +3,7 @@ using cpvr_vr_suite.Scripts.VR;
 using Network;
 using TMPro;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
@@ -29,6 +30,8 @@ public class NetworkPanel : MenuPanel
     [SerializeField] Toggle m_localTeleportToggle;
 
     bool m_isCalibrating;
+    bool m_isConnected;
+    bool m_connecting;
 
     void Awake()
     {
@@ -48,10 +51,12 @@ public class NetworkPanel : MenuPanel
         m_exitButton.onClick.AddListener(Shutdown);
     }
 
-    void OnEnable()
+    protected override void Start()
     {
+        base.Start();
+
         // Check whether the player is already in a lobby or not
-        if (NetworkManager.Singleton.IsListening)
+        if (m_isConnected)
         {
             m_mainContent.SetActive(false);
             m_lobbyContent.SetActive(true);
@@ -64,6 +69,14 @@ public class NetworkPanel : MenuPanel
             m_title.text = "Multiplayer";
             UpdateInfoText(string.Empty);
         }
+
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+    }
+
+    void FixedUpdate()
+    {
+        ConnectingStateChange();
     }
 
     void StartHost()
@@ -73,6 +86,10 @@ public class NetworkPanel : MenuPanel
         {
             m_mainContent.SetActive(false);
             m_lobbyContent.SetActive(true);
+            var ip = NetworkUtil.GetLocalIpAddress();
+            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            transport.ConnectionData.Address = ip;
+            m_isConnected = true;
 
             if (m_lanToggle.isOn)
             {
@@ -87,16 +104,18 @@ public class NetworkPanel : MenuPanel
 
     void StartClient()
     {
-        UpdateInfoText("StartClient clicked!");
+        if (!int.TryParse(m_joincodeInputField.text, out var number) || number <= 0 || number >= 256)
+        {
+            UpdateInfoText("Game Code '" + number + "' invalid.");
+            return;
+        }
+
+        // Set the connection IP Address to be the one from the inputField
+        SetIpAddress(number.ToString());
         if (NetworkManager.Singleton.StartClient())
-        {
-            m_mainContent.SetActive(false);
-            m_lobbyContent.SetActive(true);
-        }
+            UpdateInfoText("Starting client");
         else
-        {
             UpdateInfoText("Failed to join session.");
-        }
     }
 
     void SetGroupedTeleportManager()
@@ -142,11 +161,50 @@ public class NetworkPanel : MenuPanel
         {
             handManager.InteractionModeLocked = m_isCalibrating;
         }
-            
+
         m_calibrationManager.Calibrate();
     }
 
     void UpdateInfoText(string content) => m_infoText.text = content;
 
+    void SetIpAddress(string gameCode)
+    {
+        // Get our ip and format it to the subnet.
+        string currentIP = NetworkUtil.GetLocalIpAddress();
+        string[] numberArray = currentIP.Split(".");
+        string subnet = string.Join(".", numberArray.Take(numberArray.Length - 1).ToArray());
+
+        UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        unityTransport.ConnectionData.Address = subnet + "." + gameCode;
+    }
+
     public void SetJoincode(string content) => m_joincodeText.text = "Lobby Code: " + content;
+
+    void OnClientConnected(ulong _)
+    {
+        m_isConnected = true;
+        m_lobbyContent.SetActive(true);
+        m_mainContent.SetActive(false);
+    }
+
+    void OnClientDisconnected(ulong _)
+    {
+        m_isConnected = false;
+        m_lobbyContent.SetActive(false);
+        m_mainContent.SetActive(true);
+    }
+
+    void ConnectingStateChange()
+    {
+        bool newState = NetworkManager.Singleton.IsListening;
+
+        if (m_connecting == newState) return;
+
+        m_connecting = newState;
+
+        m_clientButton.interactable = !m_connecting;
+        m_clientButton.interactable = !m_connecting;
+
+        UpdateInfoText(m_connecting ? "Connecting..." : "Connection failed.");
+    }
 }
