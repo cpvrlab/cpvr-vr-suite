@@ -17,7 +17,6 @@ namespace Network
 
         public override void OnNetworkSpawn()
         {
-            Debug.Log("Subscribing..");
             joincode.OnValueChanged += (_, newValue) => m_networkPanel.SetJoincode(newValue.ToString());
             NetworkManager.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.OnClientConnectedCallback += OnClientDisconnected;
@@ -26,7 +25,6 @@ namespace Network
 
         public override void OnNetworkDespawn()
         {
-            Debug.Log("Unsubscribing..");
             joincode.OnValueChanged -= (_, newValue) => m_networkPanel.SetJoincode(newValue.ToString());
             NetworkManager.OnClientConnectedCallback -= OnClientConnected;
             NetworkManager.OnClientConnectedCallback -= OnClientDisconnected;
