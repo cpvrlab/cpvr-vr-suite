@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Network;
 using UnityEngine;
 using UnityEngine.XR.Hands.Samples.VisualizerSample;
 
@@ -11,6 +12,7 @@ public class RigOrchestrator : MonoBehaviour
     [field: SerializeField] public SkinnedMeshRenderer LeftHand { get; private set; }
     [field: SerializeField] public SkinnedMeshRenderer RightHand { get; private set; }
     [field: SerializeField] public HandVisualizer Visualizer { get; private set; }
+    [field: SerializeField] public NetworkTeleportationProvider NetworkTeleportationProvider { get; private set; }
 
     readonly List<InteractorManager> m_interactorManagers = new();
 

@@ -37,18 +37,19 @@ public class NetworkPanel : MenuPanel
     {
         // Setup UI Elements
         m_hostButton.onClick.AddListener(StartHost);
-        m_hostButton.onClick.AddListener(SetGroupedTeleportManager);
 
         m_lanToggle.isOn = true;
         m_lanToggle.interactable = false;
 
         m_clientButton.onClick.AddListener(StartClient);
-        m_clientButton.onClick.AddListener(SetGroupedTeleportManager);
 
         UpdateInfoText(string.Empty);
 
         m_calibrationButton.onClick.AddListener(Calibrate);
         m_exitButton.onClick.AddListener(Shutdown);
+
+        m_localTeleportToggle.isOn = false;
+        m_localTeleportToggle.onValueChanged.AddListener(ToggleLocalTeleport);
     }
 
     protected override void Start()
@@ -118,16 +119,6 @@ public class NetworkPanel : MenuPanel
             UpdateInfoText("Failed to join session.");
     }
 
-    void SetGroupedTeleportManager()
-    {
-        if (GroupedTeleportationManager.Instance == null)
-        {
-            Instantiate(m_groupedTeleportationManagerPrefab);
-            m_localTeleportToggle.SetIsOnWithoutNotify(GroupedTeleportationManager.Instance.LocalTeleportation);
-            m_localTeleportToggle.onValueChanged.AddListener(value => GroupedTeleportationManager.Instance.SetLocalTeleportation(value));
-        }
-    }
-
     void Shutdown()
     {
         NetworkManager.Singleton.Shutdown();
@@ -165,6 +156,12 @@ public class NetworkPanel : MenuPanel
         m_calibrationManager.Calibrate();
     }
 
+    void ToggleLocalTeleport(bool value)
+    {
+        if (GroupedTeleportationManager.Instance == null) return;
+        GroupedTeleportationManager.Instance.SetLocalTeleportation(value);
+    }
+    
     void UpdateInfoText(string content) => m_infoText.text = content;
 
     void SetIpAddress(string gameCode)

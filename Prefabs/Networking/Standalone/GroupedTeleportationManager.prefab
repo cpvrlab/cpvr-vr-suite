@@ -179,6 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isPersistent: 1
-  blockTeleportOnSpawn: 1
+  blockTeleportOnSpawn: 0
   <LocalTeleportation>k__BackingField: 0
   lineRenderer: {fileID: 6061194875269111495}

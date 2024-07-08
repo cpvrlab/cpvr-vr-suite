@@ -188,7 +188,7 @@ namespace Network
         /// <returns>An Vector3[2] array containing the markers position or an empty array if the two markers are not yet defined.</returns>
         public Vector3[] GetMarkerPositions()
         {
-            if (_markers.Any(it => it == null)) return Array.Empty<Vector3>();
+            if (_markers.Any(it => it == null)) return null;
 
             return new[] {
                 _markers[0].transform.localPosition,

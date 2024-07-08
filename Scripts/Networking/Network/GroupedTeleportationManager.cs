@@ -6,7 +6,6 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Util;
 
 namespace Network
@@ -27,19 +26,16 @@ namespace Network
         [SerializeField] LineRenderer lineRenderer;
 
         // The NetworkTeleportationProvider that gets the input from the rig.
-        NetworkTeleportationProvider _networkTeleportationProvider;
-
-        // If the game has not started yet we block the teleportation.
-        readonly NetworkVariable<bool> _gameStarted = new();
+        NetworkTeleportationProvider m_networkTeleportationProvider;
 
         // If someone is currently teleporting.
-        readonly NetworkVariable<bool> _owned = new();
+        readonly NetworkVariable<bool> m_owned = new();
 
         // Who is currently teleporting.
-        readonly NetworkVariable<ulong> _ownerId = new(ulong.MaxValue);
+        readonly NetworkVariable<ulong> m_ownerId = new(ulong.MaxValue);
 
         // Points that define the ray (Sync across network)
-        readonly NetworkVariable<PositionsData> _positionsData = new(new PositionsData
+        readonly NetworkVariable<PositionsData> m_positionsData = new(new PositionsData
         {
             Positions = Array.Empty<Vector3>()
         });
@@ -53,27 +49,25 @@ namespace Network
 
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
-
             RigManager.Instance.RigOrchestrator.BlockTeleport(blockTeleportOnSpawn);
 
-            ComponentLocatorUtility<NetworkTeleportationProvider>.TryFindComponent(out _networkTeleportationProvider);
-            _networkTeleportationProvider.localTeleportation = false;
+            m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;
+            m_networkTeleportationProvider.localTeleportation = false;
 
-            _ownerId.OnValueChanged += (_, newOwnerId) =>
+            m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
                 // Disable the LineRenderer for the owner and enable/disable the renderer for the others
                 lineRenderer.enabled = newOwnerId != NetworkManager.Singleton.LocalClientId &&
                                        newOwnerId != ulong.MaxValue;
             };
 
-            _owned.OnValueChanged += (_, newValue) =>
+            m_owned.OnValueChanged += (_, newValue) =>
             {
                 RigManager.Instance.RigOrchestrator.BlockTeleport(newValue);
             };
 
             // Update the line renderer points
-            _positionsData.OnValueChanged += (_, newValue) => UpdateLineRenderer(newValue.Positions);
+            m_positionsData.OnValueChanged += (_, newValue) => UpdateLineRenderer(newValue.Positions);
 
             // On network spawn, subscribe to TeleportOccuredMessage
             NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler("TeleportPositionMessage",
@@ -151,23 +145,14 @@ namespace Network
             lineRenderer.SetPositions(positions);
         }
 
-        public bool IsOwned()
-        {
-            return _owned.Value;
-        }
+        public bool IsOwned() => m_owned.Value;
 
-        /// <summary>
-        /// Enable/Disable local teleporting.
-        /// </summary>
-        /// <param name="status">If we are teleporting locally or not.</param>
         public void SetLocalTeleportation(bool status)
         {
             LocalTeleportation = status;
-            _networkTeleportationProvider.localTeleportation = status;
+            m_networkTeleportationProvider.localTeleportation = status;
             if (!status)
-            {
                 RecenterXROrigin();
-            }
         }
 
         /// <summary>
@@ -175,9 +160,7 @@ namespace Network
         /// </summary>
         public void ClaimOwnership()
         {
-            if (!_gameStarted.Value) return;
-
-            if (_owned.Value) return;
+            if (m_owned.Value) return;
 
             ClaimOwnershipRpc();
         }
@@ -188,7 +171,7 @@ namespace Network
         /// <param name="valid">If the teleportation is valid and thus, should be done or not.</param>
         public void ReleaseOwnership(bool valid)
         {
-            if (!_owned.Value || _ownerId.Value != NetworkManager.Singleton.LocalClientId) return;
+            if (!m_owned.Value || m_ownerId.Value != NetworkManager.Singleton.LocalClientId) return;
 
             ReleaseOwnershipRpc(valid);
         }
@@ -199,7 +182,7 @@ namespace Network
         /// <param name="data">New positions.</param>
         public void SetPositionsData(PositionsData data)
         {
-            if (!_owned.Value || NetworkManager.Singleton.LocalClientId != _ownerId.Value) return;
+            if (!m_owned.Value || NetworkManager.Singleton.LocalClientId != m_ownerId.Value) return;
 
             SetPositionsDataRpc(data);
         }
@@ -216,10 +199,9 @@ namespace Network
         [Rpc(SendTo.Server, RequireOwnership = false)]
         void ClaimOwnershipRpc(RpcParams rpcParams = default)
         {
-            if (_owned.Value) return;
-
-            _ownerId.Value = rpcParams.Receive.SenderClientId;
-            _owned.Value = true;
+            if (m_owned.Value) return;
+            m_ownerId.Value = rpcParams.Receive.SenderClientId;
+            m_owned.Value = true;
         }
 
         /// <summary>
@@ -231,9 +213,9 @@ namespace Network
         void SetPositionsDataRpc(PositionsData data, RpcParams rpcParams = default)
         {
             // if the ray is not currently owned or if the clientId trying to set the new positions is not the owner of the ray we cancel.
-            if (!_owned.Value || rpcParams.Receive.SenderClientId != _ownerId.Value) return;
+            if (!m_owned.Value || rpcParams.Receive.SenderClientId != m_ownerId.Value) return;
 
-            _positionsData.Value = data;
+            m_positionsData.Value = data;
         }
 
         /// <summary>
@@ -245,16 +227,16 @@ namespace Network
         void ReleaseOwnershipRpc(bool valid, RpcParams rpcParams = default)
         {
             // if the ray is not currently owned or if the clientId trying to set the new positions is not the owner of the ray we cancel.
-            if (!_owned.Value || _ownerId.Value != rpcParams.Receive.SenderClientId) return;
+            if (!m_owned.Value || m_ownerId.Value != rpcParams.Receive.SenderClientId) return;
 
             // We reset the ownership of the ray.
-            _ownerId.Value = ulong.MaxValue;
-            _owned.Value = false;
+            m_ownerId.Value = ulong.MaxValue;
+            m_owned.Value = false;
 
             if (!valid) return;
 
             // We send the teleport position.
-            Vector3 teleportPosition = _positionsData.Value.Positions.Last();
+            Vector3 teleportPosition = m_positionsData.Value.Positions.Last();
 
             SendTeleportPositionRpc(teleportPosition);
         }
@@ -275,12 +257,6 @@ namespace Network
                 writer.WriteValueSafe(messageContent);
                 customMessagingManager.SendNamedMessageToAll("TeleportPositionMessage", writer);
             }
-        }
-
-        [Rpc(SendTo.Server)]
-        public void GameStartRpc()
-        {
-            _gameStarted.Value = true;
         }
     }
 }
