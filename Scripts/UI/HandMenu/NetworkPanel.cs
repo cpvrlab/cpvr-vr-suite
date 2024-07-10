@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
 using Network;
@@ -71,8 +72,8 @@ public class NetworkPanel : MenuPanel
             UpdateInfoText(string.Empty);
         }
 
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        NetworkManager.Singleton.OnClientStarted += OnClientStarted;
+        NetworkManager.Singleton.OnClientStopped += OnClientStopped;
     }
 
     void FixedUpdate()
@@ -127,7 +128,6 @@ public class NetworkPanel : MenuPanel
             m_localTeleportToggle.onValueChanged.RemoveAllListeners();
             Destroy(GroupedTeleportationManager.Instance.gameObject);
         }
-        m_lobby.RemoveAllEntries();
         m_mainContent.SetActive(true);
         m_lobbyContent.SetActive(false);
         m_title.text = "Multiplayer";
@@ -140,18 +140,12 @@ public class NetworkPanel : MenuPanel
         var buttonText = m_calibrationButton.transform.GetChild(0).GetComponent<TMP_Text>();
 
         if (m_isCalibrating)
-        {
             buttonText.text = "Finish calibration";
-        }
         else
-        {
             buttonText.text = "Calibrate";
-        }
 
         if (RigManager.Instance.RigOrchestrator.TryGetInteractorManager(out HandManager handManager))
-        {
             handManager.InteractionModeLocked = m_isCalibrating;
-        }
 
         m_calibrationManager.Calibrate();
     }
@@ -177,14 +171,14 @@ public class NetworkPanel : MenuPanel
 
     public void SetJoincode(string content) => m_joincodeText.text = "Lobby Code: " + content;
 
-    void OnClientConnected(ulong _)
+    void OnClientStarted()
     {
         m_isConnected = true;
         m_lobbyContent.SetActive(true);
         m_mainContent.SetActive(false);
     }
 
-    void OnClientDisconnected(ulong _)
+    void OnClientStopped(bool obj)
     {
         m_isConnected = false;
         m_lobbyContent.SetActive(false);

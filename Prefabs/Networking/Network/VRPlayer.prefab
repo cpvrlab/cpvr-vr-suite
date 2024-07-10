@@ -285,7 +285,6 @@ MonoBehaviour:
     shoes:
     - {fileID: 1869995051081408993}
   armature: {fileID: 1204883437909025026}
-  avatarMenuPanel: {fileID: 0}
   interactionModeNoneMaterial: {fileID: 2100000, guid: eaced977a5bc231408d518582ebc1123,
     type: 2}
   interactionModeTeleportMaterial: {fileID: 2100000, guid: f6a86fede32df344eaa1c8e69f07d284,
@@ -358,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1626069758
+  GlobalObjectIdHash: 148115771
   InScenePlacedSourceGlobalObjectIdHash: 1341864655
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
