@@ -16,9 +16,9 @@ namespace Network
     /// </summary>
     public class GroupedTeleportationManager : NetworkSingleton<GroupedTeleportationManager>
     {
-        [SerializeField] bool blockTeleportOnSpawn = true;
         [field: SerializeField] public bool LocalTeleportation { get; private set; }
-        [SerializeField] LineRenderer lineRenderer;
+        [SerializeField] bool m_blockTeleportOnSpawn = true;
+        [SerializeField] LineRenderer m_lineRenderer;
 
         NetworkTeleportationProvider m_networkTeleportationProvider;
         readonly NetworkVariable<bool> m_owned = new();
@@ -28,16 +28,16 @@ namespace Network
             Positions = Array.Empty<Vector3>()
         });
 
-        Vector3[] _markers = new Vector3[2];
+        Vector3[] m_markers = new Vector3[2];
 
         public override void OnNetworkSpawn()
         {
-            RigManager.Instance.RigOrchestrator.BlockTeleport(blockTeleportOnSpawn);
+            RigManager.Instance.RigOrchestrator.BlockTeleport(m_blockTeleportOnSpawn);
 
             if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
             {
-                _markers[0] = pos1; 
-                _markers[1] = pos2;
+                m_markers[0] = pos1; 
+                m_markers[1] = pos2;
                 RecenterXROrigin();
             }
 
@@ -47,7 +47,7 @@ namespace Network
             m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
                 // Disable the LineRenderer for the owner and enable/disable the renderer for the others
-                lineRenderer.enabled = newOwnerId != NetworkManager.Singleton.LocalClientId &&
+                m_lineRenderer.enabled = newOwnerId != NetworkManager.Singleton.LocalClientId &&
                                        newOwnerId != ulong.MaxValue;
             };
 
@@ -73,19 +73,13 @@ namespace Network
             SetNewPosition(teleportPosition, !LocalTeleportation);
         }
 
-        /// <summary>
-        /// Place the players at (0,0,0) on scene changed.
-        /// </summary>
         void OnLoadEventCompleted(string _, LoadSceneMode __, List<ulong> ___, List<ulong> ____)
         {
             Debug.Log("OnLoadEventCompleted()");
             SetNewPosition(Vector3.zero, true);
         }
 
-        public void SetMarkers(Vector3[] markers)
-        {
-            _markers = markers;
-        }
+        public void SetMarkers(Vector3[] markers) => m_markers = markers;
 
         /// <summary>
         /// Set the new position of the object.
@@ -104,8 +98,8 @@ namespace Network
         public void RecenterXROrigin()
         {
             Debug.Log("Recenter XROrigin()");
-            Vector3 localOrigin = _markers[0];
-            Vector3 localForward = (_markers[1] - _markers[0]).normalized;
+            Vector3 localOrigin = m_markers[0];
+            Vector3 localForward = (m_markers[1] - m_markers[0]).normalized;
             float angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.up);
 
             var xrOriginTransform = RigManager.Instance.RigOrchestrator.Origin;
@@ -120,10 +114,10 @@ namespace Network
         /// <param name="positions">The new positions of the ray.</param>
         void UpdateLineRenderer(Vector3[] positions)
         {
-            if (!lineRenderer.enabled) return;
+            if (!m_lineRenderer.enabled) return;
 
-            lineRenderer.positionCount = positions.Length;
-            lineRenderer.SetPositions(positions);
+            m_lineRenderer.positionCount = positions.Length;
+            m_lineRenderer.SetPositions(positions);
         }
 
         public bool IsOwned() => m_owned.Value;
