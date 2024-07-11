@@ -1726,6 +1726,7 @@ MonoBehaviour:
   <LeftHand>k__BackingField: {fileID: 6113617305097484534}
   <RightHand>k__BackingField: {fileID: 8324841201573539838}
   <Visualizer>k__BackingField: {fileID: 8579912229565278154}
+  <NetworkTeleportationProvider>k__BackingField: {fileID: 0}
 --- !u!1 &712802726915149276
 GameObject:
   m_ObjectHideFlags: 0
@@ -10344,6 +10345,38 @@ Transform:
   - {fileID: 2697618461770911353}
   m_Father: {fileID: 8230705598074992629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3451336556641246871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6617790764090540871}
+  m_Layer: 0
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6617790764090540871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451336556641246871}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7567754772392874179}
+  m_Father: {fileID: 6443901906682328485}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3501479857944099927
 GameObject:
   m_ObjectHideFlags: 0
@@ -12014,7 +12047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4117773465
+  GlobalObjectIdHash: 869588259
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -21940,6 +21973,7 @@ Transform:
   - {fileID: 7881134491605632003}
   - {fileID: 3955633271640686948}
   - {fileID: 2473098301937733942}
+  - {fileID: 6617790764090540871}
   m_Father: {fileID: 649157411430843751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7496241590064915358
@@ -24206,7 +24240,7 @@ Transform:
   - {fileID: 6947300043707241347}
   - {fileID: 8468496307021494312}
   - {fileID: 4496928992470925528}
-  m_Father: {fileID: 2473098301937733942}
+  m_Father: {fileID: 6617790764090540871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2083094197739965452
 MonoBehaviour:
@@ -24548,7 +24582,6 @@ Transform:
   - {fileID: 924733921922461722}
   - {fileID: 7808486160400125172}
   - {fileID: 6042478106504470902}
-  - {fileID: 7567754772392874179}
   m_Father: {fileID: 6443901906682328485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2798193878079899388

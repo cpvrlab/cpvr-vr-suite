@@ -18,9 +18,7 @@ namespace cpvr_vr_suite.Scripts.VR
             m_isCalibrating = !m_isCalibrating;
 
             if (RigManager.Instance.RigOrchestrator.TryGetInteractorManager(out HandManager handManager))
-            {
                 handManager.InteractionModeLocked = m_isCalibrating;
-            }
 
             var passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
             passthrough.ActivePassthrough(m_isCalibrating, !m_isCalibrating);
@@ -31,9 +29,7 @@ namespace cpvr_vr_suite.Scripts.VR
             m_planeInteractable.SetMarkersVisibility(m_isCalibrating);
 
             if (!m_isCalibrating)
-            {
                 SaveCalibration();
-            }
         }
 
         void SaveCalibration()
