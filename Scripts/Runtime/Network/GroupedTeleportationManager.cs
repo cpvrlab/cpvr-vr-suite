@@ -37,7 +37,8 @@ namespace Network
             if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
             {
                 _markers[0] = pos1; 
-                _markers[1] = pos2; 
+                _markers[1] = pos2;
+                RecenterXROrigin();
             }
 
             m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;

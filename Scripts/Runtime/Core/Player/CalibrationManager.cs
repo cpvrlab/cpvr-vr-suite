@@ -23,8 +23,8 @@ namespace cpvr_vr_suite.Scripts.VR
 
             if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
             {
-                m_firstMarker.localPosition = pos1;
-                m_secondMarker.localPosition = pos2;
+                m_firstMarker.position = pos1;
+                m_secondMarker.position = pos2;
             }
         }
 
