@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
 using Network;
@@ -70,7 +71,7 @@ public class NetworkPanel : MenuPanel
             UpdateInfoText(string.Empty);
         }
 
-        NetworkManager.Singleton.OnClientStarted += OnClientStarted;
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientStopped += OnClientStopped;
     }
 
@@ -168,8 +169,10 @@ public class NetworkPanel : MenuPanel
 
     public void SetJoincode(string content) => m_joincodeText.text = "Lobby Code: " + content;
 
-    void OnClientStarted()
+    void OnClientConnected(ulong obj)
     {
+        if (obj != NetworkManager.Singleton.LocalClientId) return;
+        
         m_isConnected = true;
         m_lobbyContent.SetActive(true);
         m_mainContent.SetActive(false);
