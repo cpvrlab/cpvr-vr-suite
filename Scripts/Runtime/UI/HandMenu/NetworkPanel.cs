@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
 using Network;
@@ -57,7 +56,6 @@ public class NetworkPanel : MenuPanel
     {
         base.Start();
 
-        // Check whether the player is already in a lobby or not
         if (m_isConnected)
         {
             m_mainContent.SetActive(false);
@@ -112,7 +110,6 @@ public class NetworkPanel : MenuPanel
             return;
         }
 
-        // Set the connection IP Address to be the one from the inputField
         SetIpAddress(number.ToString());
         if (NetworkManager.Singleton.StartClient())
             UpdateInfoText("Starting client");

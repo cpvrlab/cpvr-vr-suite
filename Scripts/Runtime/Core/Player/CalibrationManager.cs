@@ -5,13 +5,28 @@ using UnityEngine.XR.Interaction.Toolkit;
 using Util;
 using VR;
 
-
 namespace cpvr_vr_suite.Scripts.VR
 {
     public class CalibrationManager : MonoBehaviour
     {
-        [SerializeField] PlaneInteractable m_planeInteractable;
+        [SerializeField] Collider m_planeCollider;
+        [SerializeField] Transform m_firstMarker;
+        [SerializeField] Transform m_secondMarker;
+
         bool m_isCalibrating;
+
+        void Start()
+        {
+            m_isCalibrating = false;
+            m_firstMarker.gameObject.SetActive(false);
+            m_secondMarker.gameObject.SetActive(false);
+
+            if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
+            {
+                m_firstMarker.localPosition = pos1;
+                m_secondMarker.localPosition = pos2;
+            }
+        }
 
         public void Calibrate()
         {
@@ -25,8 +40,9 @@ namespace cpvr_vr_suite.Scripts.VR
 
             SetInteractables(!m_isCalibrating);
 
-            m_planeInteractable.Active(m_isCalibrating);
-            m_planeInteractable.SetMarkersVisibility(m_isCalibrating);
+            m_firstMarker.gameObject.SetActive(m_isCalibrating);
+            m_secondMarker.gameObject.SetActive(m_isCalibrating);
+            m_planeCollider.enabled = m_isCalibrating;
 
             if (!m_isCalibrating)
                 SaveCalibration();
@@ -34,7 +50,7 @@ namespace cpvr_vr_suite.Scripts.VR
 
         void SaveCalibration()
         {
-            Vector3[] coordinates = m_planeInteractable.GetMarkerPositions();
+            Vector3[] coordinates = { m_firstMarker.localPosition, m_secondMarker.localPosition };
 
             MarkerPrefs.SavePrefs(coordinates[0], coordinates[1]);
 

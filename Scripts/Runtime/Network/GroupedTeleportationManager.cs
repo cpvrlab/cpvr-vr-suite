@@ -17,39 +17,28 @@ namespace Network
     public class GroupedTeleportationManager : NetworkSingleton<GroupedTeleportationManager>
     {
         [SerializeField] bool blockTeleportOnSpawn = true;
-
-        // If we are teleporting locally.
-        // Should be 'true' if no calibration is used.
         [field: SerializeField] public bool LocalTeleportation { get; private set; }
-
-        // The teleport ray shared between players.
         [SerializeField] LineRenderer lineRenderer;
 
-        // The NetworkTeleportationProvider that gets the input from the rig.
         NetworkTeleportationProvider m_networkTeleportationProvider;
-
-        // If someone is currently teleporting.
         readonly NetworkVariable<bool> m_owned = new();
-
-        // Who is currently teleporting.
         readonly NetworkVariable<ulong> m_ownerId = new(ulong.MaxValue);
-
-        // Points that define the ray (Sync across network)
         readonly NetworkVariable<PositionsData> m_positionsData = new(new PositionsData
         {
             Positions = Array.Empty<Vector3>()
         });
 
-        // Calibration Data
         Vector3[] _markers = new Vector3[2];
-
-        /*
-         * STARTS METHODS 
-         */
 
         public override void OnNetworkSpawn()
         {
             RigManager.Instance.RigOrchestrator.BlockTeleport(blockTeleportOnSpawn);
+
+            if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
+            {
+                _markers[0] = pos1; 
+                _markers[1] = pos2; 
+            }
 
             m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;
             m_networkTeleportationProvider.localTeleportation = false;
@@ -76,15 +65,6 @@ namespace Network
             NetworkManager.SceneManager.OnLoadEventCompleted += OnLoadEventCompleted;
         }
 
-        /*
-         * TELEPORTATION MOVEMENTS METHODS
-         */
-
-        /// <summary>
-        /// Message handler for TeleportOccured message.
-        /// </summary>
-        /// <param name="senderId">Not used.</param>
-        /// <param name="messagePayload">Where to teleport.</param>
         void ReceiveTeleportPosition(ulong senderId, FastBufferReader messagePayload)
         {
             messagePayload.ReadValueSafe(out ForceNetworkSerializeByMemcpy<Vector3> teleportPosition);
