@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneSelectionPanel : MenuPanel
+public class SceneSelectionPanel : MonoBehaviour
 {
     public delegate void OnEnableHandler();
     public OnEnableHandler onEnableHandler;
+    [SerializeField] HandMenuController m_handmenuController;
     [SerializeField] bool m_fadeOnSceneChange;
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] Transform m_scrollviewContent;
@@ -16,18 +17,7 @@ public class SceneSelectionPanel : MenuPanel
 
     public IEnumerable<Button> SceneButtons {get => m_sceneButtons.AsReadOnly();}
 
-    protected override void Start()
-    {
-        base.Start();
-        
-        InitializeScenes();
-
-        SceneManager.activeSceneChanged += (_, scene) =>
-        {
-            if (handMenuController.TryGetMenuPanel<MainPanel>(out var panel))
-                panel.Title = scene.name;
-        };
-    }
+    void Start() => InitializeScenes();
 
     public void InitializeScenes()
     {
@@ -54,11 +44,11 @@ public class SceneSelectionPanel : MenuPanel
         var button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => callback.Invoke(argument));
         m_sceneButtons.Add(button);
-        handMenuController.AddButtonSoundFeedback(button);
+        m_handmenuController.AddButtonSoundFeedback(button);
         return button;
     }
 
-    public void RemoveDynamicPanels() => handMenuController.UnregisterDynamicPanels();
+    public void RemoveDynamicPanels() => m_handmenuController.UnregisterDynamicPanels();
 
     public virtual async void ChangeScene(int index)
     {

@@ -22,6 +22,7 @@ public class Lobby : NetworkBehaviour
         {
             m_lobbyEntities.OnListChanged += HandleLobbyEntitiesChanged;
 
+            Debug.Log(m_lobbyEntities.Count);
             foreach (var entity in m_lobbyEntities)
             {
                 HandleLobbyEntitiesChanged(new NetworkListEvent<LobbyEntityState>
@@ -34,6 +35,7 @@ public class Lobby : NetworkBehaviour
 
         if (!IsServer) return;
 
+        m_lobbyEntities.Clear();
         VRPlayerBehaviour[] players = FindObjectsByType<VRPlayerBehaviour>(FindObjectsSortMode.None);
         foreach (var player in players)
             HandlePlayerSpawn(player);
@@ -47,16 +49,17 @@ public class Lobby : NetworkBehaviour
         if (IsClient)
         {
             m_lobbyEntities.OnListChanged -= HandleLobbyEntitiesChanged;
-            foreach (var entry in m_lobbyEntries)
+            for (int i = 0; i < m_lobbyEntries.Count; i++)
             {
-                entry.transform.SetParent(null);
-                Destroy(entry.gameObject);
-                m_lobbyEntries.Remove(entry);
+                m_lobbyEntries[i].transform.SetParent(null);
+                Destroy(m_lobbyEntries[i].gameObject);
             }
         }
 
+
         if (!IsServer) return;
 
+        m_lobbyEntries.Clear();
         VRPlayerBehaviour.OnPlayerSpawned -= HandlePlayerSpawn;
         VRPlayerBehaviour.OnPlayerDespawned -= HandlePlayerDespawn;
     }

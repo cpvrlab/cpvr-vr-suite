@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
 using Network;
@@ -9,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-public class NetworkPanel : MenuPanel
+public class NetworkPanel : MonoBehaviour
 {
     [Header("Main Content")]
     [SerializeField] GameObject m_mainContent;
@@ -36,7 +35,6 @@ public class NetworkPanel : MenuPanel
 
     void Awake()
     {
-        // Setup UI Elements
         m_hostButton.onClick.AddListener(StartHost);
 
         m_lanToggle.isOn = true;
@@ -53,10 +51,8 @@ public class NetworkPanel : MenuPanel
         m_localTeleportToggle.onValueChanged.AddListener(ToggleLocalTeleport);
     }
 
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-
         if (m_isConnected)
         {
             m_mainContent.SetActive(false);
@@ -82,7 +78,6 @@ public class NetworkPanel : MenuPanel
 
     void StartHost()
     {
-        UpdateInfoText("Starthost clicked!");
         if (NetworkManager.Singleton.StartHost())
         {
             m_mainContent.SetActive(false);
@@ -105,6 +100,16 @@ public class NetworkPanel : MenuPanel
 
     void StartClient()
     {
+        if (m_joincodeInputField.text == string.Empty)
+        {
+            UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            unityTransport.ConnectionData.Address = "127.0.0.1";
+            if (NetworkManager.Singleton.StartClient())
+                UpdateInfoText("Starting client");
+            else
+                UpdateInfoText("Failed to join session.");
+            return;
+        }
         if (!int.TryParse(m_joincodeInputField.text, out var number) || number <= 0 || number >= 256)
         {
             UpdateInfoText("Game Code '" + number + "' invalid.");
@@ -153,7 +158,7 @@ public class NetworkPanel : MenuPanel
         if (GroupedTeleportationManager.Instance == null) return;
         GroupedTeleportationManager.Instance.SetLocalTeleportation(value);
     }
-    
+
     void UpdateInfoText(string content) => m_infoText.text = content;
 
     void SetIpAddress(string gameCode)
@@ -172,7 +177,7 @@ public class NetworkPanel : MenuPanel
     void OnClientConnected(ulong obj)
     {
         if (obj != NetworkManager.Singleton.LocalClientId) return;
-        
+
         m_isConnected = true;
         m_lobbyContent.SetActive(true);
         m_mainContent.SetActive(false);

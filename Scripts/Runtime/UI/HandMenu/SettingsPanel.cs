@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-public class SettingsPanel : MenuPanel
+public class SettingsPanel : MonoBehaviour
 {
+    [SerializeField] HandMenuController m_handmenuController;
     [SerializeField] DebugDisplay m_debugDisplay;
     [SerializeField] Toggle m_fpsToggle;
     [SerializeField] Toggle m_debugToggle;
@@ -34,10 +35,8 @@ public class SettingsPanel : MenuPanel
         m_passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
     }
     
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-        
         m_fpsToggle.onValueChanged.AddListener(value => 
         {
             PlayerPrefs.SetInt("showFPS", value ? 1 : 0);
@@ -59,8 +58,8 @@ public class SettingsPanel : MenuPanel
 
         m_panelToggle.onValueChanged.AddListener(value =>
         {
-            if (handMenuController == null) return;
-            handMenuController.openLastPanel = value;
+            if (m_handmenuController == null) return;
+            m_handmenuController.openLastPanel = value;
             PlayerPrefs.SetInt("reopenPanel", value ? 1 : 0);
         });
 
@@ -103,7 +102,7 @@ public class SettingsPanel : MenuPanel
     {
         m_passthrough.PassthroughValueChanged -= value => m_passthroughToggle.SetIsOnWithoutNotify(value);
         RigManager.Instance.OnHeightCalibrationStarted -= () => m_calibrateHeightButton.interactable = false;
-        RigManager.Instance.OnHeightCalibrationEnded += SetHeightText;
+        RigManager.Instance.OnHeightCalibrationEnded -= SetHeightText;
         RigManager.Instance.OnHeightCalibrationEnded -= (_) => m_calibrateHeightButton.interactable = true;
     }
 

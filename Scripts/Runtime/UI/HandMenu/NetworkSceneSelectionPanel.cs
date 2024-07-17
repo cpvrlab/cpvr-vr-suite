@@ -17,9 +17,7 @@ namespace UI
             string sceneName = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(index));
 
             if (MyNetworkSceneManager.Instance.LoadScene(sceneName))
-            {
                 RemoveDynamicPanels();
-            }
         }
     }
 }

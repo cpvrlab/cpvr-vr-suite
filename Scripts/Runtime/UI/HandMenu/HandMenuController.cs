@@ -13,10 +13,10 @@ public class HandMenuController : MonoBehaviour
     [SerializeField] bool _playHoverSound;
 
     [Header("UI Panels")] 
-    [SerializeField] List<MenuPanel> _panels;
+    [SerializeField] List<HandmenuPanel> _panels;
     
     [HideInInspector] public bool openLastPanel;
-    MenuPanel m_lastPanel = null;
+    HandmenuPanel m_lastPanel = null;
     bool m_initialized = false;
     EventTrigger.Entry m_hover;
     EventTrigger.Entry m_click;
@@ -57,14 +57,8 @@ public class HandMenuController : MonoBehaviour
         if (RigManager.Instance != null)
             RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
     }
-
-    public bool TryGetMenuPanel<T>(out T panel) where T : MenuPanel
-    {
-        panel = _panels.OfType<T>().FirstOrDefault();
-        return panel != null;
-    }
     
-    public void OpenPanel(MenuPanel panel)
+    public void OpenPanel(HandmenuPanel panel)
     {
         CloseAllPanels();
         panel.gameObject.SetActive(true);
@@ -77,9 +71,8 @@ public class HandMenuController : MonoBehaviour
         OpenPanel(_panels.First());
     }
 
-    public void RegisterPanel(MenuPanel panel)
+    public void RegisterPanel(HandmenuPanel panel)
     {
-        // if (panel.TryGetComponent<MainPanel>(out var _)) return;
         if (!m_initialized)
             InitializeMainPanel();
 
@@ -145,7 +138,7 @@ public class HandMenuController : MonoBehaviour
         Destroy(go, clip.clip.length * 1.1f);
     }
 
-    void AddUiElementSoundFeedback(MenuPanel panel)
+    void AddUiElementSoundFeedback(HandmenuPanel panel)
     {        
         var buttons = panel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
