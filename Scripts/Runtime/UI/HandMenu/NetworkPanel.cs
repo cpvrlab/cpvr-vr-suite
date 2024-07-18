@@ -68,8 +68,7 @@ public class NetworkPanel : MonoBehaviour
             UpdateInfoText(string.Empty);
         }
 
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        NetworkManager.Singleton.OnClientStopped += OnClientStopped;
+        NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
     }
 
     void FixedUpdate()
@@ -169,24 +168,32 @@ public class NetworkPanel : MonoBehaviour
         string[] numberArray = currentIP.Split(".");
         string subnet = string.Join(".", numberArray.Take(numberArray.Length - 1).ToArray());
 
-        UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        var unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         unityTransport.ConnectionData.Address = subnet + "." + gameCode;
     }
 
     public void SetJoincode(string content) => m_joincodeText.text = "Lobby Code: " + content;
 
-    void OnClientConnected(ulong obj)
+    void HandleConnectionEvent(NetworkManager manager, ConnectionEventData data)
     {
-        if (obj != NetworkManager.Singleton.LocalClientId) return;
+        if (data.EventType == ConnectionEvent.ClientConnected && data.ClientId == manager.LocalClientId)
+            OnClientConnected();
+        else if (data.EventType == ConnectionEvent.ClientDisconnected && data.ClientId == manager.LocalClientId)
+            OnClientDisconnected();
+    }
 
+    void OnClientConnected()
+    {
         m_isConnected = true;
+        SetJoincode(m_joincodeInputField.text);
         m_lobbyContent.SetActive(true);
         m_mainContent.SetActive(false);
     }
 
-    void OnClientStopped(bool obj)
+    void OnClientDisconnected()
     {
         m_isConnected = false;
+        SetJoincode(string.Empty);
         m_lobbyContent.SetActive(false);
         m_mainContent.SetActive(true);
     }

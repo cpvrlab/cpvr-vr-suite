@@ -3,21 +3,20 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Lobby : NetworkBehaviour
+public class Lobby : MonoBehaviour
 {
     [SerializeField] LobbyEntry m_lobbyEntryPrefab;
     [SerializeField] Transform m_content;
     readonly List<LobbyEntry> m_lobbyEntries = new();
 
-    public override void OnNetworkSpawn()
+    void OnEnable()
     {
         NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
-        HandlePlayerSpawn(NetworkManager.Singleton.LocalClientId);
     }
 
     void HandleConnectionEvent(NetworkManager manager, ConnectionEventData data)
     {
-        if (!IsHost && data.EventType == ConnectionEvent.ClientConnected)
+        if (!manager.IsHost && data.EventType == ConnectionEvent.ClientConnected)
             foreach (var peerId in data.PeerClientIds)
                 HandlePlayerSpawn(peerId);
 
@@ -29,21 +28,30 @@ public class Lobby : NetworkBehaviour
             case ConnectionEvent.PeerDisconnected:
                 HandlePlayerDespawn(data.ClientId);
                 break;
+            case ConnectionEvent.ClientConnected:
+                HandlePlayerSpawn(manager.LocalClientId);
+                foreach (var peerId in data.PeerClientIds)
+                    HandlePlayerSpawn(peerId);
+                break;
+            case ConnectionEvent.ClientDisconnected:
+                if (data.ClientId != manager.LocalClientId)
+                    break;
+                foreach (var entry in m_lobbyEntries)
+                {
+                    entry.transform.SetParent(null);
+                    Destroy(entry.gameObject);
+                }
+                m_lobbyEntries.Clear();
+                break;
             default:
                 break;
         }
     }
 
-    public override void OnNetworkDespawn()
+    void OnDisable()
     {
-        NetworkManager.Singleton.OnConnectionEvent -= HandleConnectionEvent;
-
-        foreach (var entry in m_lobbyEntries)
-        {
-            entry.transform.SetParent(null);
-            Destroy(entry.gameObject);
-        }
-        m_lobbyEntries.Clear();
+        if (NetworkManager.Singleton != null)
+            NetworkManager.Singleton.OnConnectionEvent -= HandleConnectionEvent;
     }
 
     void HandlePlayerSpawn(ulong clientId)
@@ -57,7 +65,7 @@ public class Lobby : NetworkBehaviour
             m_lobbyEntries.Add(entry);
             entry.SetName("Player " + clientId);
 
-            if (IsHost)
+            if (NetworkManager.Singleton.IsHost)
             {
                 entry.SetKickButtonVisibility(NetworkManager.Singleton.LocalClientId != clientId);
                 entry.AddListener(() => NetworkManager.Singleton.DisconnectClient(entry.ClientId));
