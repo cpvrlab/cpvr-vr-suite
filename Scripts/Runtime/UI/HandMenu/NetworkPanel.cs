@@ -66,10 +66,6 @@ public class NetworkPanel : MonoBehaviour
             m_title.text = "Multiplayer";
             UpdateInfoText(string.Empty);
         }
-    }
-
-    void OnEnable()
-    {
         NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
     }
 

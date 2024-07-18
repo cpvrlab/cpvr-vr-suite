@@ -9,9 +9,15 @@ public class Lobby : MonoBehaviour
     [SerializeField] Transform m_content;
     readonly List<LobbyEntry> m_lobbyEntries = new();
 
-    void OnEnable()
+    void Start()
     {
         NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
+    }
+
+    void OnDisable()
+    {
+        if (NetworkManager.Singleton != null)
+            NetworkManager.Singleton.OnConnectionEvent -= HandleConnectionEvent;
     }
 
     void HandleConnectionEvent(NetworkManager manager, ConnectionEventData data)
@@ -46,12 +52,6 @@ public class Lobby : MonoBehaviour
             default:
                 break;
         }
-    }
-
-    void OnDisable()
-    {
-        if (NetworkManager.Singleton != null)
-            NetworkManager.Singleton.OnConnectionEvent -= HandleConnectionEvent;
     }
 
     void HandlePlayerSpawn(ulong clientId)

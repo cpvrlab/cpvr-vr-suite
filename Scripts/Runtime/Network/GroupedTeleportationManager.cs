@@ -4,6 +4,7 @@ using System.Linq;
 using Serializable;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
@@ -211,9 +212,17 @@ namespace Network
             if (!valid) return;
 
             // We send the teleport position.
-            Vector3 teleportPosition = m_positionsData.Value.Positions.Last();
+            Vector3 teleportPosition = m_positionsData.Value.Positions.Last() + GetOffset();
 
             SendTeleportPositionRpc(teleportPosition);
+        }
+
+        Vector3 GetOffset()
+        {
+            var pos = transform.position;
+            var camera = RigManager.Instance.RigOrchestrator.Camera.transform.position;
+            camera.y = pos.y;
+            return pos - camera;
         }
 
 
