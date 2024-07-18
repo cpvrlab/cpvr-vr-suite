@@ -68,7 +68,7 @@ public class Lobby : MonoBehaviour
             if (NetworkManager.Singleton.IsHost)
             {
                 entry.SetKickButtonVisibility(NetworkManager.Singleton.LocalClientId != clientId);
-                entry.AddListener(() => NetworkManager.Singleton.DisconnectClient(entry.ClientId));
+                entry.AddListener(() => NetworkManager.Singleton.DisconnectClient(entry.ClientId, "Kicked by host"));
             }
 
             m_lobbyEntries.Sort((x, y) => x.ClientId.CompareTo(y.ClientId));

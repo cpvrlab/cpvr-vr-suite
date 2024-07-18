@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
 using Network;
@@ -31,8 +32,6 @@ public class NetworkPanel : MonoBehaviour
     [SerializeField] Toggle m_localTeleportToggle;
 
     bool m_isCalibrating;
-    bool m_isConnected;
-    bool m_connecting;
 
     void Awake()
     {
@@ -54,7 +53,7 @@ public class NetworkPanel : MonoBehaviour
 
     void Start()
     {
-        if (m_isConnected)
+        if (NetworkManager.Singleton.IsConnectedClient)
         {
             m_mainContent.SetActive(false);
             m_lobbyContent.SetActive(true);
@@ -67,17 +66,17 @@ public class NetworkPanel : MonoBehaviour
             m_title.text = "Multiplayer";
             UpdateInfoText(string.Empty);
         }
-
-        NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
     }
 
-    void FixedUpdate()
+    void OnEnable()
     {
-        ConnectingStateChange();
+        NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
     }
 
     void StartHost()
     {
+        StartCoroutine(SuspendInteraction());
+
         if (NetworkManager.Singleton.StartHost())
         {
             m_mainContent.SetActive(false);
@@ -85,12 +84,9 @@ public class NetworkPanel : MonoBehaviour
             var ip = NetworkUtil.GetLocalIpAddress();
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             transport.ConnectionData.Address = ip;
-            m_isConnected = true;
 
             if (m_lanToggle.isOn)
-            {
                 m_joincodeText.text = "Joincode: " + NetworkUtil.GetLocalIpAddress().Split(".").Last();
-            }
         }
         else
         {
@@ -100,6 +96,8 @@ public class NetworkPanel : MonoBehaviour
 
     void StartClient()
     {
+        StartCoroutine(SuspendInteraction());
+
         if (m_joincodeInputField.text == string.Empty)
         {
             UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
@@ -184,7 +182,6 @@ public class NetworkPanel : MonoBehaviour
 
     void OnClientConnected()
     {
-        m_isConnected = true;
         SetJoincode(m_joincodeInputField.text);
         m_lobbyContent.SetActive(true);
         m_mainContent.SetActive(false);
@@ -192,23 +189,24 @@ public class NetworkPanel : MonoBehaviour
 
     void OnClientDisconnected()
     {
-        m_isConnected = false;
+        UpdateInfoText(NetworkManager.Singleton.DisconnectReason);
         SetJoincode(string.Empty);
         m_lobbyContent.SetActive(false);
         m_mainContent.SetActive(true);
     }
 
-    void ConnectingStateChange()
+    IEnumerator SuspendInteraction()
     {
-        bool newState = NetworkManager.Singleton.IsListening;
+        m_clientButton.interactable = false;
+        m_hostButton.interactable = false;
+        yield return new WaitForSeconds(0.5f);
 
-        if (m_connecting == newState) return;
+        while (NetworkManager.Singleton.IsListening && !NetworkManager.Singleton.IsConnectedClient)
+            yield return null;
 
-        m_connecting = newState;
+        UpdateInfoText("Failed to start or join a session.");
 
-        m_clientButton.interactable = !m_connecting;
-        m_clientButton.interactable = !m_connecting;
-
-        UpdateInfoText(m_connecting ? "Connecting..." : "Connection failed.");
+        m_clientButton.interactable = true;
+        m_hostButton.interactable = true;
     }
 }
