@@ -4707,8 +4707,8 @@ MonoBehaviour:
         m_MethodName: OpenPanel
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2959217514013085907}
-          m_ObjectArgumentAssemblyTypeName: MenuPanel, bfh.cpvrlab-vr-suite.scripts
+          m_ObjectArgument: {fileID: 7728441867652045586}
+          m_ObjectArgumentAssemblyTypeName: HandmenuPanel, bfh.cpvrlab-vr-suite.scripts
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15888,9 +15888,9 @@ MonoBehaviour:
     pitch: 0.6
   _playHoverSound: 0
   _panels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7802937060443513117}
+  - {fileID: 5274657607450535601}
+  - {fileID: 7728441867652045586}
   openLastPanel: 0
 --- !u!1 &4922315559856159212
 GameObject:
@@ -20251,8 +20251,8 @@ MonoBehaviour:
         m_MethodName: OpenPanel
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 5904993190095558008}
-          m_ObjectArgumentAssemblyTypeName: MenuPanel, bfh.cpvrlab-vr-suite.scripts
+          m_ObjectArgument: {fileID: 5274657607450535601}
+          m_ObjectArgumentAssemblyTypeName: HandmenuPanel, bfh.cpvrlab-vr-suite.scripts
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
