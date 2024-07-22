@@ -21,7 +21,7 @@ public class NetworkSceneHandler : NetworkBehaviour, ISceneHandler
     {
         if (index == SceneManager.GetActiveScene().buildIndex) return;
 
-        if (NetworkManager.Singleton == null)
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsConnectedClient)
         {
             SceneChangeStarted?.Invoke();
             var sceneChangeOperation = SceneManager.LoadSceneAsync(index);

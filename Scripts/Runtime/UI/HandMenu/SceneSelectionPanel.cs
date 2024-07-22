@@ -16,10 +16,20 @@ public class SceneSelectionPanel : MonoBehaviour
 
     public IEnumerable<Button> SceneButtons { get => m_sceneButtons.AsReadOnly(); }
 
+    void Awake()
+    {
+        m_sceneHandler = m_sceneHandlerContainer.GetComponent<ISceneHandler>();
+    }
+
     void Start()
     {
-        SetSceneHandler(m_sceneHandlerContainer.GetComponent<ISceneHandler>());
         InitializeScenes();
+    }
+
+    void OnEnable()
+    {
+        m_sceneHandler.SceneChangeStarted += FadeOut;
+        m_sceneHandler.SceneChangeCompleted += FadeIn;
     }
 
     void OnDisable()
