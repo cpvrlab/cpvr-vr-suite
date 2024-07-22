@@ -7,17 +7,26 @@ using UnityEngine.UI;
 
 public class SceneSelectionPanel : MonoBehaviour
 {
-    public delegate void OnEnableHandler();
-    public OnEnableHandler onEnableHandler;
-    [SerializeField] HandMenuController m_handmenuController;
+    [SerializeField] GameObject m_sceneHandlerContainer;
     [SerializeField] bool m_fadeOnSceneChange;
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] Transform m_scrollviewContent;
     readonly List<Button> m_sceneButtons = new();
+    ISceneHandler m_sceneHandler;
 
-    public IEnumerable<Button> SceneButtons {get => m_sceneButtons.AsReadOnly();}
+    public IEnumerable<Button> SceneButtons { get => m_sceneButtons.AsReadOnly(); }
 
-    void Start() => InitializeScenes();
+    void Start()
+    {
+        SetSceneHandler(m_sceneHandlerContainer.GetComponent<ISceneHandler>());
+        InitializeScenes();
+    }
+
+    void OnDisable()
+    {
+        m_sceneHandler.SceneChangeStarted -= FadeOut;
+        m_sceneHandler.SceneChangeCompleted -= FadeIn;
+    }
 
     public void InitializeScenes()
     {
@@ -25,7 +34,7 @@ public class SceneSelectionPanel : MonoBehaviour
         {
             var label = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
             var index = i;
-            CreateSceneButton(label, ChangeScene, index);
+            CreateSceneButton(label, m_sceneHandler.ChangeScene, index);
         }
     }
 
@@ -44,27 +53,27 @@ public class SceneSelectionPanel : MonoBehaviour
         var button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => callback.Invoke(argument));
         m_sceneButtons.Add(button);
-        m_handmenuController.AddButtonSoundFeedback(button);
         return button;
     }
 
-    public void RemoveDynamicPanels() => m_handmenuController.UnregisterDynamicPanels();
-
-    public virtual async void ChangeScene(int index)
+    public void SetSceneHandler(ISceneHandler handler)
     {
-        var currentIndex = SceneManager.GetActiveScene().buildIndex;
-        if (index == currentIndex) return;
-        RemoveDynamicPanels();
-
-        if (m_fadeOnSceneChange)
-            await RigManager.Instance.Fade(Color.black, 0.75f);
-        
-        SceneManager.LoadSceneAsync(index).completed += async _ =>
-        {
-            if (m_fadeOnSceneChange)
-                await RigManager.Instance.Fade(Color.clear, 0.75f);
-        };
+        m_sceneHandler = handler;
+        m_sceneHandler.SceneChangeStarted += FadeOut;
+        m_sceneHandler.SceneChangeCompleted += FadeIn;
     }
 
-    void OnEnable() => onEnableHandler?.Invoke();
+    async void FadeOut()
+    {
+        if (!m_fadeOnSceneChange) return;
+
+        await RigManager.Instance.Fade(Color.black, 0.75f);
+    }
+
+    async void FadeIn()
+    {
+        if (!m_fadeOnSceneChange) return;
+
+        await RigManager.Instance.Fade(Color.clear, 0.75f);
+    }
 }

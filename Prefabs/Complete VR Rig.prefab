@@ -6594,6 +6594,7 @@ GameObject:
   - component: {fileID: 8088978238526276089}
   - component: {fileID: 1399791657614159982}
   - component: {fileID: 7435469689956920581}
+  - component: {fileID: 727129710510765460}
   m_Layer: 5
   m_Name: SceneSelectionPanel
   m_TagString: Untagged
@@ -6693,7 +6694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c852e633580f8f42b34f9b178e801fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_handmenuController: {fileID: 6401218602678675292}
+  m_sceneHandlerContainer: {fileID: 2274052045510825468}
   m_fadeOnSceneChange: 0
   m_buttonPrefab: {fileID: 6268896315730717319, guid: 177da058cfbe13042a53a0513ba572b3, type: 3}
   m_scrollviewContent: {fileID: 5395750472244306949}
@@ -6713,6 +6714,18 @@ MonoBehaviour:
   <PanelType>k__BackingField: 0
   <Sprite>k__BackingField: {fileID: 21300000, guid: 01c9a8bf23c12eb4f9de8510786d3b52, type: 3}
   <PanelName>k__BackingField: Scene Selection
+--- !u!114 &727129710510765460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274052045510825468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8381affc24a1f0409c4175ee055b505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2313999110264675513
 GameObject:
   m_ObjectHideFlags: 0

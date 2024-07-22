@@ -36,13 +36,14 @@ public class HandMenuController : MonoBehaviour
         m_deselect.eventID = EventTriggerType.Deselect;
         m_deselect.callback.AddListener(_ => { PlaySound(_clickClip); });
 
-        SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
     }
 
     void Start() => openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
 
     void OnEnable()
     {
+        SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
+
         if (openLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
             OpenPanel(m_lastPanel);
         else
@@ -54,6 +55,8 @@ public class HandMenuController : MonoBehaviour
 
     void OnDisable()
     {
+        SceneManager.activeSceneChanged -= (_,_) => UnregisterDynamicPanels();
+
         if (RigManager.Instance != null)
             RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
     }
