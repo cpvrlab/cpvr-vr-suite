@@ -1784,7 +1784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6bf904e410ee8479f9093d8830d1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocomotionProvider: {fileID: 1448302843527250117}
+  m_LocomotionProvider: {fileID: 0}
   m_MinHeight: 0
   m_MaxHeight: Infinity
 --- !u!114 &39970454068457030
@@ -5806,88 +5806,6 @@ MonoBehaviour:
       followLowerSmoothingValue: 12
       followUpperSmoothingValue: 16
     m_Variable: {fileID: 11400000, guid: 979c1b69d98e91041bc1c5c6e63aab97, type: 2}
---- !u!1 &1883710323609412319
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4440824392557077236}
-  - component: {fileID: 1448302843527250117}
-  m_Layer: 2
-  m_Name: Move
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4440824392557077236
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883710323609412319}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 806122125818173797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1448302843527250117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883710323609412319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b1e8c997df241c1a67045eeac79b41b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 7454378846830008436}
-  m_MoveSpeed: 1
-  m_EnableStrafe: 1
-  m_EnableFly: 0
-  m_UseGravity: 0
-  m_GravityApplicationMode: 0
-  m_ForwardSource: {fileID: 746712438564216277}
-  m_LeftHandMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: fa65baa9-ca16-4d92-8425-3195462c2aea
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
-  m_RightHandMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Hand Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 7c956f1d-8187-437c-8dc4-afdbf8424b34
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
-  m_HeadTransform: {fileID: 746712438564216277}
-  m_LeftControllerTransform: {fileID: 1051500618772990378}
-  m_RightControllerTransform: {fileID: 354228497327383134}
-  m_LeftHandMovementDirection: 0
-  m_RightHandMovementDirection: 0
 --- !u!1 &1925679092107664796
 GameObject:
   m_ObjectHideFlags: 0
@@ -11774,7 +11692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_System: {fileID: 7454378846830008436}
   m_DelayTime: 0
-  localTeleportation: 1
+  <LocalTeleportation>k__BackingField: 1
 --- !u!1 &3870033515772089289
 GameObject:
   m_ObjectHideFlags: 0
@@ -24400,8 +24318,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6724690793316416451}
-  - {fileID: 4440824392557077236}
-  - {fileID: 243845800966000567}
   - {fileID: 6260498553833475265}
   - {fileID: 2867504491621184844}
   m_Father: {fileID: 649157411430843751}
@@ -30011,135 +29927,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &8784772462771049289
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 243845800966000567}
-  - component: {fileID: 9012520053259510668}
-  - component: {fileID: 6984586222357313204}
-  - component: {fileID: 2661842169554408968}
-  m_Layer: 2
-  m_Name: Grab Move
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &243845800966000567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784772462771049289}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 806122125818173797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9012520053259510668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784772462771049289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b94c4c83dec6a94fbaebf543478259e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 7454378846830008436}
-  m_EnableFreeXMovement: 1
-  m_EnableFreeYMovement: 0
-  m_EnableFreeZMovement: 1
-  m_UseGravity: 1
-  m_GravityApplicationMode: 0
-  m_ControllerTransform: {fileID: 1051500618772990378}
-  m_EnableMoveWhileSelecting: 0
-  m_MoveFactor: 1
-  m_GrabMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Grab Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 3d33edcf-0043-45cb-95a7-008204badf83
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -3742484312079769484, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
---- !u!114 &6984586222357313204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784772462771049289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b94c4c83dec6a94fbaebf543478259e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 7454378846830008436}
-  m_EnableFreeXMovement: 1
-  m_EnableFreeYMovement: 0
-  m_EnableFreeZMovement: 1
-  m_UseGravity: 1
-  m_GravityApplicationMode: 0
-  m_ControllerTransform: {fileID: 354228497327383134}
-  m_EnableMoveWhileSelecting: 0
-  m_MoveFactor: 1
-  m_GrabMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Grab Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: de56d195-bf90-4347-9982-6bf8ffa3420c
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 15759602096507913, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
---- !u!114 &2661842169554408968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8784772462771049289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 760ff70c1c91bdd45907d0ff0cdcaf7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 7454378846830008436}
-  m_EnableFreeXMovement: 1
-  m_EnableFreeYMovement: 0
-  m_EnableFreeZMovement: 1
-  m_UseGravity: 1
-  m_GravityApplicationMode: 0
-  m_LeftGrabMoveProvider: {fileID: 9012520053259510668}
-  m_RightGrabMoveProvider: {fileID: 6984586222357313204}
-  m_OverrideSharedSettingsOnInit: 1
-  m_MoveFactor: 1
-  m_RequireTwoHandsForTranslation: 0
-  m_EnableRotation: 1
-  m_EnableScaling: 0
-  m_MinimumScale: 0.2
-  m_MaximumScale: 5
 --- !u!1 &8851611543869099193
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,16 +10,16 @@ public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
 
     public void OnEnable()
     {
-        NetworkController.Instance.NetworkManager.OnClientStarted += OnClientStarted;
-        NetworkController.Instance.NetworkManager.OnClientStopped += OnClientStopped;
+        NetworkController.OnNetworkSessionStarted += OnClientStarted;
+        NetworkController.OnNetworkSessionEnded += OnClientStopped;
     }
 
     public void OnDisable()
     {
         if (NetworkController.Instance != null && NetworkController.Instance.NetworkManager != null)
         {
-            NetworkController.Instance.NetworkManager.OnClientStarted -= OnClientStarted;
-            NetworkController.Instance.NetworkManager.OnClientStopped -= OnClientStopped;
+            NetworkController.OnNetworkSessionStarted -= OnClientStarted;
+            NetworkController.OnNetworkSessionEnded -= OnClientStopped;
         }
     }
 
@@ -28,7 +28,7 @@ public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
         NetworkController.Instance.NetworkManager.SceneManager.OnSceneEvent += HandleSceneEvent;
     }
 
-    void OnClientStopped(bool value)
+    void OnClientStopped()
     {
         if (NetworkController.Instance != null &&
             NetworkController.Instance.NetworkManager != null &&
@@ -40,7 +40,7 @@ public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
     {
         if (index == SceneManager.GetActiveScene().buildIndex) return;
 
-        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsConnectedClient)
+        if (NetworkController.Instance == null || !NetworkController.Instance.NetworkManager.IsConnectedClient)
         {
             SceneChangeStarted?.Invoke();
             var sceneChangeOperation = SceneManager.LoadSceneAsync(index);
@@ -49,7 +49,7 @@ public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
         else
         {
             var sceneName = SceneUtility.GetScenePathByBuildIndex(index);
-            NetworkSceneController.Instance.LoadSceneRpc(sceneName);
+            NetworkController.Instance.NetworkSceneController.LoadSceneRpc(sceneName);
         }
     }
 

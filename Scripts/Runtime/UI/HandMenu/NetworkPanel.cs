@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
-using Network;
 using TMPro;
-using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +28,7 @@ public class NetworkPanel : MonoBehaviour
     [SerializeField] Toggle m_localTeleportToggle;
 
     bool m_isCalibrating;
+    string m_joincode;
 
     void Awake()
     {
@@ -49,38 +48,35 @@ public class NetworkPanel : MonoBehaviour
         m_localTeleportToggle.onValueChanged.AddListener(ToggleLocalTeleport);
     }
 
-    void Start()
+    void OnEnable()
     {
-        if (NetworkManager.Singleton.IsConnectedClient)
-        {
-            m_mainContent.SetActive(false);
-            m_lobbyContent.SetActive(true);
-            m_title.text = "Lobby";
-        }
+        if (NetworkController.Instance.NetworkManager.IsConnectedClient)
+            ClientConnected();
         else
-        {
-            m_mainContent.SetActive(true);
-            m_lobbyContent.SetActive(false);
-            m_title.text = "Multiplayer";
-            UpdateInfoText(string.Empty);
-        }
-        NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
+            ClientDisconnected();
+
+        NetworkController.OnNetworkSessionStarted += ClientConnected;
+        NetworkController.OnNetworkSessionEnded += ClientDisconnected;
+    }
+
+    void OnDisable()
+    {
+        NetworkController.OnNetworkSessionStarted -= ClientConnected;
+        NetworkController.OnNetworkSessionEnded -= ClientDisconnected;
     }
 
     void StartHost()
     {
+        var ip = NetworkUtil.GetLocalIpAddress();
+        if (m_lanToggle.isOn)
+            m_joincode = ip.Split(".").Last();
+            
         StartCoroutine(SuspendInteraction());
 
-        if (NetworkManager.Singleton.StartHost())
+        if (NetworkController.Instance.NetworkManager.StartHost())
         {
-            m_mainContent.SetActive(false);
-            m_lobbyContent.SetActive(true);
-            var ip = NetworkUtil.GetLocalIpAddress();
-            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            var transport = NetworkController.Instance.NetworkManager.GetComponent<UnityTransport>();
             transport.ConnectionData.Address = ip;
-
-            if (m_lanToggle.isOn)
-                m_joincodeText.text = "Joincode: " + NetworkUtil.GetLocalIpAddress().Split(".").Last();
         }
         else
         {
@@ -94,10 +90,13 @@ public class NetworkPanel : MonoBehaviour
 
         if (m_joincodeInputField.text == string.Empty)
         {
-            UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            UnityTransport unityTransport = NetworkController.Instance.NetworkManager.GetComponent<UnityTransport>();
             unityTransport.ConnectionData.Address = "127.0.0.1";
-            if (NetworkManager.Singleton.StartClient())
+            if (NetworkController.Instance.NetworkManager.StartClient())
+            {
+                m_joincode = "localhost";
                 UpdateInfoText("Starting client");
+            }
             else
                 UpdateInfoText("Failed to join session.");
             return;
@@ -109,7 +108,8 @@ public class NetworkPanel : MonoBehaviour
         }
 
         SetIpAddress(number.ToString());
-        if (NetworkManager.Singleton.StartClient())
+        m_joincode = number.ToString();
+        if (NetworkController.Instance.NetworkManager.StartClient())
             UpdateInfoText("Starting client");
         else
             UpdateInfoText("Failed to join session.");
@@ -117,11 +117,8 @@ public class NetworkPanel : MonoBehaviour
 
     void Shutdown()
     {
-        NetworkManager.Singleton.Shutdown();
-        m_mainContent.SetActive(true);
-        m_lobbyContent.SetActive(false);
-        m_title.text = "Multiplayer";
-        UpdateInfoText(string.Empty);
+        NetworkController.Instance.NetworkManager.Shutdown();
+        ClientDisconnected();
     }
 
     void Calibrate()
@@ -142,8 +139,8 @@ public class NetworkPanel : MonoBehaviour
 
     void ToggleLocalTeleport(bool value)
     {
-        if (GroupedTeleportationManager.Instance == null) return;
-        GroupedTeleportationManager.Instance.SetLocalTeleportation(value);
+        if (NetworkController.Instance.GroupedTeleportationManager == null) return;
+        NetworkController.Instance.GroupedTeleportationManager.SetLocalTeleportation(value);
     }
 
     void UpdateInfoText(string content) => m_infoText.text = content;
@@ -155,33 +152,27 @@ public class NetworkPanel : MonoBehaviour
         string[] numberArray = currentIP.Split(".");
         string subnet = string.Join(".", numberArray.Take(numberArray.Length - 1).ToArray());
 
-        var unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        var unityTransport = NetworkController.Instance.NetworkManager.GetComponent<UnityTransport>();
         unityTransport.ConnectionData.Address = subnet + "." + gameCode;
     }
 
     public void SetJoincode(string content) => m_joincodeText.text = "Lobby Code: " + content;
 
-    void HandleConnectionEvent(NetworkManager manager, ConnectionEventData data)
+    void ClientConnected()
     {
-        if (data.EventType == ConnectionEvent.ClientConnected && data.ClientId == manager.LocalClientId)
-            OnClientConnected();
-        else if (data.EventType == ConnectionEvent.ClientDisconnected && data.ClientId == manager.LocalClientId)
-            OnClientDisconnected();
-    }
-
-    void OnClientConnected()
-    {
-        SetJoincode(m_joincodeInputField.text);
+        SetJoincode(m_joincode);
         m_lobbyContent.SetActive(true);
         m_mainContent.SetActive(false);
+        m_title.text = "Lobby";
     }
 
-    void OnClientDisconnected()
+    void ClientDisconnected()
     {
-        UpdateInfoText(NetworkManager.Singleton.DisconnectReason);
+        UpdateInfoText(NetworkController.Instance.NetworkManager.DisconnectReason);
         SetJoincode(string.Empty);
         m_lobbyContent.SetActive(false);
         m_mainContent.SetActive(true);
+        m_title.text = "Multiplayer";
     }
 
     IEnumerator SuspendInteraction()
@@ -190,7 +181,7 @@ public class NetworkPanel : MonoBehaviour
         m_hostButton.interactable = false;
         yield return new WaitForSeconds(0.5f);
 
-        while (NetworkManager.Singleton.IsListening && !NetworkManager.Singleton.IsConnectedClient)
+        while (NetworkController.Instance.NetworkManager.IsListening && !NetworkController.Instance.NetworkManager.IsConnectedClient)
             yield return null;
 
         UpdateInfoText("Failed to start or join a session.");

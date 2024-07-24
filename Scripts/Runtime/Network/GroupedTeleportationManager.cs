@@ -14,7 +14,7 @@ namespace Network
     /// Everything related to the network side of teleportation management.
     /// Gesture and local side is managed by NetworkTeleportationProvider.cs.
     /// </summary>
-    public class GroupedTeleportationManager : NetworkSingleton<GroupedTeleportationManager>
+    public class GroupedTeleportationManager : NetworkBehaviour
     {
         [field: SerializeField] public bool LocalTeleportation { get; private set; }
         [SerializeField] bool m_blockTeleportOnSpawn = true;
@@ -32,6 +32,8 @@ namespace Network
 
         public override void OnNetworkSpawn()
         {
+            NetworkController.Instance.GroupedTeleportationManager = this;
+            
             RigManager.Instance.RigOrchestrator.BlockTeleport(m_blockTeleportOnSpawn);
 
             if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
@@ -42,7 +44,7 @@ namespace Network
             }
 
             m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;
-            m_networkTeleportationProvider.localTeleportation = false;
+            m_networkTeleportationProvider.LocalTeleportation = false;
 
             m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
@@ -123,7 +125,7 @@ namespace Network
         public void SetLocalTeleportation(bool status)
         {
             LocalTeleportation = status;
-            m_networkTeleportationProvider.localTeleportation = status;
+            m_networkTeleportationProvider.LocalTeleportation = status;
             if (!status)
                 RecenterXROrigin();
         }

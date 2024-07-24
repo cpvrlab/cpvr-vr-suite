@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+    public static event Action InstanceReady;
     public static T Instance { get; private set; }
     [SerializeField] private bool _isPersistent;
 
@@ -14,6 +16,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             Instance = this as T;
             if (_isPersistent)
                 DontDestroyOnLoad(this);
+            InstanceReady?.Invoke();
         }
     }
 

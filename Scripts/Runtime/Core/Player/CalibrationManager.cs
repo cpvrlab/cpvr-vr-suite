@@ -1,4 +1,3 @@
-using Network;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -54,8 +53,8 @@ namespace cpvr_vr_suite.Scripts.VR
 
             MarkerPrefs.SavePrefs(coordinates[0], coordinates[1]);
 
-            GroupedTeleportationManager.Instance.SetMarkers(coordinates);
-            GroupedTeleportationManager.Instance.RecenterXROrigin();
+            NetworkController.Instance.GroupedTeleportationManager.SetMarkers(coordinates);
+            NetworkController.Instance.GroupedTeleportationManager.RecenterXROrigin();
         }
 
         void SetInteractables(bool value)
