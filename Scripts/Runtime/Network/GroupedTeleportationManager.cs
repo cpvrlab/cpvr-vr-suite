@@ -4,7 +4,6 @@ using System.Linq;
 using Serializable;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
@@ -89,7 +88,6 @@ namespace Network
         /// <param name="withRecenter">If we should place the player correctly while taking care of calibration.</param>
         void SetNewPosition(Vector3 position, bool withRecenter)
         {
-            Debug.Log("SetNewPosition()");
             transform.position = position;
 
             if (withRecenter)
@@ -98,7 +96,6 @@ namespace Network
 
         public void RecenterXROrigin()
         {
-            Debug.Log("Recenter XROrigin()");
             Vector3 localOrigin = m_markers[0];
             Vector3 localForward = (m_markers[1] - m_markers[0]).normalized;
             float angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.up);

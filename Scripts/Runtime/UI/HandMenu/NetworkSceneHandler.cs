@@ -1,20 +1,39 @@
 using System;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkSceneHandler : NetworkBehaviour, ISceneHandler
+public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
 {
     public event Action SceneChangeStarted;
     public event Action SceneChangeCompleted;
 
-    public override void OnNetworkSpawn()
+    public void OnEnable()
     {
-        NetworkManager.Singleton.SceneManager.OnSceneEvent += HandleSceneEvent;
+        NetworkController.Instance.NetworkManager.OnClientStarted += OnClientStarted;
+        NetworkController.Instance.NetworkManager.OnClientStopped += OnClientStopped;
     }
 
-    public override void OnNetworkDespawn()
+    public void OnDisable()
     {
-        NetworkManager.Singleton.SceneManager.OnSceneEvent -= HandleSceneEvent;
+        if (NetworkController.Instance != null && NetworkController.Instance.NetworkManager != null)
+        {
+            NetworkController.Instance.NetworkManager.OnClientStarted -= OnClientStarted;
+            NetworkController.Instance.NetworkManager.OnClientStopped -= OnClientStopped;
+        }
+    }
+
+    void OnClientStarted()
+    {
+        NetworkController.Instance.NetworkManager.SceneManager.OnSceneEvent += HandleSceneEvent;
+    }
+
+    void OnClientStopped(bool value)
+    {
+        if (NetworkController.Instance != null &&
+            NetworkController.Instance.NetworkManager != null &&
+            NetworkController.Instance.NetworkManager.SceneManager != null)
+        NetworkController.Instance.NetworkManager.SceneManager.OnSceneEvent -= HandleSceneEvent;
     }
 
     public void ChangeScene(int index)
@@ -29,22 +48,16 @@ public class NetworkSceneHandler : NetworkBehaviour, ISceneHandler
         }
         else
         {
-            LoadSceneRpc(index);
+            var sceneName = SceneUtility.GetScenePathByBuildIndex(index);
+            NetworkSceneController.Instance.LoadSceneRpc(sceneName);
         }
     }
 
     void HandleSceneEvent(SceneEvent sceneEvent)
     {
-        if (!IsClient || sceneEvent.ClientId != NetworkManager.Singleton.LocalClientId) return;
         if (sceneEvent.SceneEventType == SceneEventType.Load)
             SceneChangeStarted?.Invoke();
         else if (sceneEvent.SceneEventType == SceneEventType.LoadComplete)
             SceneChangeCompleted?.Invoke();
-    }
-
-    [Rpc(SendTo.Server, RequireOwnership = false)]
-    void LoadSceneRpc(int index)
-    {
-        NetworkManager.Singleton.SceneManager.LoadScene(SceneUtility.GetScenePathByBuildIndex(index), LoadSceneMode.Single);
     }
 }

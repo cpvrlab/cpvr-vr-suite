@@ -63,32 +63,26 @@ namespace V3.Scripts.VR
             foreach (AvatarDefinition avatar in avatars)
                 avatar.DisableAll();
 
-            // Initialize network avatar
             InitAvatar();
             m_orchestrator.Visualizer.drawMeshes = false;
 
-            // Subscribe for interactionMode change to display it through the watch color.
             if (IsOwner)
             {
+                ScaleAvatar(RigManager.Instance.Height);
                 if (m_orchestrator.TryGetInteractorManager(out HandManager handManager))
-                {
                     handManager.OnInteractionModeChanged.AddListener(OnInteractionModeChanged);
-                }
             }
             else
             {
                 enabled = false;
             }
 
-            ScaleAvatar(RigManager.Instance.Height);
         }
 
         public override void OnNetworkDespawn()
         {
             if (IsOwner)
-            {
                 m_orchestrator.Visualizer.drawMeshes = true;
-            }
         }
 
         void InitAvatar()

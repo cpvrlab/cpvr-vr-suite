@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
@@ -20,7 +19,6 @@ public class NetworkPanel : MonoBehaviour
     [SerializeField] TMP_InputField m_joincodeInputField;
     [SerializeField] Button m_clientButton;
     [SerializeField] TMP_Text m_infoText;
-    [SerializeField] GroupedTeleportationManager m_groupedTeleportationManagerPrefab;
 
     [Header("Lobby Content")]
     [SerializeField] GameObject m_lobbyContent;
@@ -120,11 +118,6 @@ public class NetworkPanel : MonoBehaviour
     void Shutdown()
     {
         NetworkManager.Singleton.Shutdown();
-        if (GroupedTeleportationManager.Instance != null)
-        {
-            m_localTeleportToggle.onValueChanged.RemoveAllListeners();
-            Destroy(GroupedTeleportationManager.Instance.gameObject);
-        }
         m_mainContent.SetActive(true);
         m_lobbyContent.SetActive(false);
         m_title.text = "Multiplayer";
