@@ -13,6 +13,7 @@ public class SceneSelectionPanel : MonoBehaviour
     [SerializeField] Transform m_scrollviewContent;
     readonly List<Button> m_sceneButtons = new();
     ISceneHandler m_sceneHandler;
+    HandMenuController m_handMenuController;
 
     public IEnumerable<Button> SceneButtons { get => m_sceneButtons.AsReadOnly(); }
 
@@ -23,6 +24,8 @@ public class SceneSelectionPanel : MonoBehaviour
 
     void Start()
     {
+        if (TryGetComponent<HandmenuPanel>(out var panel))
+            m_handMenuController = panel.HandMenuController;
         InitializeScenes();
     }
 
@@ -63,6 +66,8 @@ public class SceneSelectionPanel : MonoBehaviour
         var button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => callback.Invoke(argument));
         m_sceneButtons.Add(button);
+        if (m_handMenuController != null)
+            m_handMenuController.AddButtonSoundFeedback(button);
         return button;
     }
 

@@ -3,9 +3,10 @@ using UnityEngine.UI;
 
 public class HandMenuManager : InteractorManager
 {
-    [SerializeField] GameObject m_handMenu;
-    [SerializeField] GameObject m_handMenuButton;
-    [SerializeField] Button m_handButton;
+    [field: SerializeField] public GameObject HandMenu { get; private set; }
+    [field: SerializeField] public HandMenuController HandMenuController { get; private set; }
+    [field: SerializeField] public GameObject HandMenuButton { get; private set; }
+    [field: SerializeField] public Button HandButton { get; private set; }
     bool m_operative = true;
     public bool Operative 
     { 
@@ -13,10 +14,10 @@ public class HandMenuManager : InteractorManager
         set
         {
             m_operative = value;
-            if (m_handMenu != null)
-                m_handMenu.SetActive(m_operative && !m_blocked);
-            if (m_handMenuButton != null)
-                m_handMenuButton.SetActive(m_operative && !m_blocked);
+            if (HandMenu != null)
+                HandMenu.SetActive(m_operative && !m_blocked);
+            if (HandMenuButton != null)
+                HandMenuButton.SetActive(m_operative && !m_blocked);
         }
     }
     bool m_blocked = false;
@@ -26,10 +27,10 @@ public class HandMenuManager : InteractorManager
         set
         {
             m_blocked = value;
-            if (m_handMenu != null)
-                m_handMenu.SetActive(m_operative && !m_blocked);
-            if (m_handMenuButton != null)
-                m_handMenuButton.SetActive(m_operative && !m_blocked);
+            if (HandMenu != null)
+                HandMenu.SetActive(m_operative && !m_blocked);
+            if (HandMenuButton != null)
+                HandMenuButton.SetActive(m_operative && !m_blocked);
         } 
     }
 
@@ -37,15 +38,15 @@ public class HandMenuManager : InteractorManager
 
     void Start()
     {
-        if (m_handButton != null)
-            m_handButton.onClick.AddListener(() => m_handMenu.SetActive(!m_handMenu.activeSelf));
+        if (HandButton != null)
+            HandButton.onClick.AddListener(() => HandMenu.SetActive(!HandMenu.activeSelf));
     }
     
     void Initialize()
     {
         Blocked = false;
         Operative = true;
-        m_handMenu.SetActive(Operative && !Blocked);
-        m_handMenuButton.SetActive(Operative && !Blocked);
+        HandMenu.SetActive(Operative && !Blocked);
+        HandMenuButton.SetActive(Operative && !Blocked);
     }
 }

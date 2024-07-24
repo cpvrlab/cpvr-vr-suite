@@ -145,21 +145,15 @@ public class HandMenuController : MonoBehaviour
     {        
         var buttons = panel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
-        {
             AddButtonSoundFeedback(button);
-        }
 
         var toggles = panel.GetComponentsInChildren<Toggle>();
         foreach (var toggle in toggles)
-        {
             AddToggleSoundFeedback(toggle);        
-        }
 
         var inputFields = panel.GetComponentsInChildren<TMP_InputField>();
         foreach (var inputField in inputFields)
-        {
             AddInputFieldSoundFeedback(inputField);
-        }
     }
 
     public void AddButtonSoundFeedback(Button button)
