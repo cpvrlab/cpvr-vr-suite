@@ -19,7 +19,7 @@ public class MainPanel : MonoBehaviour
     }
     [SerializeField] Transform m_scrollviewContent;
     [SerializeField] GameObject m_buttonPrefab;
-    readonly Dictionary<HandmenuPanel, Button> m_menuButtonDictionary = new ();
+    readonly Dictionary<HandmenuPanel, Button> m_menuButtonDictionary = new();
 
     void OnEnable()
     {

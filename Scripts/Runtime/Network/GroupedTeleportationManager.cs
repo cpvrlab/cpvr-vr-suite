@@ -17,7 +17,6 @@ namespace Network
     public class GroupedTeleportationManager : NetworkBehaviour
     {
         [field: SerializeField] public bool LocalTeleportation { get; private set; }
-        [SerializeField] bool m_blockTeleportOnSpawn = true;
         [SerializeField] LineRenderer m_lineRenderer;
 
         NetworkTeleportationProvider m_networkTeleportationProvider;
@@ -34,8 +33,6 @@ namespace Network
         {
             NetworkController.Instance.GroupedTeleportationManager = this;
             
-            RigManager.Instance.RigOrchestrator.BlockTeleport(m_blockTeleportOnSpawn);
-
             if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
             {
                 m_markers[0] = pos1; 
@@ -51,11 +48,6 @@ namespace Network
                 // Disable the LineRenderer for the owner and enable/disable the renderer for the others
                 m_lineRenderer.enabled = newOwnerId != NetworkManager.Singleton.LocalClientId &&
                                        newOwnerId != ulong.MaxValue;
-            };
-
-            m_owned.OnValueChanged += (_, newValue) =>
-            {
-                RigManager.Instance.RigOrchestrator.BlockTeleport(newValue);
             };
 
             // Update the line renderer points

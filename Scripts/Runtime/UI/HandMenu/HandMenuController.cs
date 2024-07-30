@@ -15,7 +15,7 @@ public class HandMenuController : MonoBehaviour
     [Header("UI Panels")] 
     [SerializeField] List<HandmenuPanel> _panels;
     
-    [HideInInspector] public bool openLastPanel;
+    public bool OpenLastPanel { get; set; }
     HandmenuPanel m_lastPanel = null;
     bool m_initialized = false;
     EventTrigger.Entry m_hover;
@@ -38,13 +38,13 @@ public class HandMenuController : MonoBehaviour
 
     }
 
-    void Start() => openLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
+    void Start() => OpenLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
 
     void OnEnable()
     {
         SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
 
-        if (openLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
+        if (OpenLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
             OpenPanel(m_lastPanel);
         else
             OpenMainPanel();

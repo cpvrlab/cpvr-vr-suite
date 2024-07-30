@@ -18,6 +18,7 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] TMP_InputField m_inputField;
     [SerializeField] Button m_clearDebugLogButton;
     [SerializeField] TMP_Text m_infoText;
+    [SerializeField] Passthrough m_passthrough;
 
     public string InfoText 
     { 
@@ -25,14 +26,13 @@ public class SettingsPanel : MonoBehaviour
         set => m_infoText.text = value;
     }
 
-    Passthrough m_passthrough;
 
     void Awake()
     {
+        RigManager.InstanceReady += Init;
+
         if (string.IsNullOrEmpty(InfoText))
             InfoText = "Version: " + Application.version;
-
-        m_passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
     }
     
     void Start()
@@ -59,7 +59,7 @@ public class SettingsPanel : MonoBehaviour
         m_panelToggle.onValueChanged.AddListener(value =>
         {
             if (m_handmenuController == null) return;
-            m_handmenuController.openLastPanel = value;
+            m_handmenuController.OpenLastPanel = value;
             PlayerPrefs.SetInt("reopenPanel", value ? 1 : 0);
         });
 
@@ -90,20 +90,28 @@ public class SettingsPanel : MonoBehaviour
         m_inputField.text = PlayerPrefs.GetString("emailAddress");
     }
 
-    void OnEnable()
+    void Init()
     {
+        m_passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
         m_passthrough.PassthroughValueChanged += value => m_passthroughToggle.SetIsOnWithoutNotify(value);
         RigManager.Instance.OnHeightCalibrationStarted += () => m_calibrateHeightButton.interactable = false;
         RigManager.Instance.OnHeightCalibrationEnded += SetHeightText;
         RigManager.Instance.OnHeightCalibrationEnded += (_) => m_calibrateHeightButton.interactable = true;
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
-        m_passthrough.PassthroughValueChanged -= value => m_passthroughToggle.SetIsOnWithoutNotify(value);
-        RigManager.Instance.OnHeightCalibrationStarted -= () => m_calibrateHeightButton.interactable = false;
-        RigManager.Instance.OnHeightCalibrationEnded -= SetHeightText;
-        RigManager.Instance.OnHeightCalibrationEnded -= (_) => m_calibrateHeightButton.interactable = true;
+        RigManager.InstanceReady -= Init;
+
+        if (m_passthrough != null)
+            m_passthrough.PassthroughValueChanged -= value => m_passthroughToggle.SetIsOnWithoutNotify(value);
+        
+        if (RigManager.Instance != null)
+        {
+            RigManager.Instance.OnHeightCalibrationStarted -= () => m_calibrateHeightButton.interactable = false;
+            RigManager.Instance.OnHeightCalibrationEnded -= SetHeightText;
+            RigManager.Instance.OnHeightCalibrationEnded -= (_) => m_calibrateHeightButton.interactable = true;
+        }
     }
 
     void SetHeightText(float height) => m_characterHeightText.text = "Character height: " + height.ToString("0.00") + "m";

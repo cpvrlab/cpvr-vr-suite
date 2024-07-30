@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0] - 2024-07-30
+- Update to XR Interaction Toolkit 3+
+- Added Input Reader for Hand Gestures
+- Added hand gestures for common interactions
+    - Teleport
+    - Interact
+    - Grab
+- Removed obsolete Scripts
+
 ## [3.1.6] - 2024-02-26
 - Main Panel of the Handmenu will display the current scene in the title.
 

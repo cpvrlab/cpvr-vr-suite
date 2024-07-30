@@ -1,7 +1,8 @@
 using Serializable;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 namespace Network
 {
@@ -15,14 +16,6 @@ namespace Network
 
         void Start()
         {
-            if (RigManager.Instance.RigOrchestrator.TryGetInteractorManager<HandManager>(out var handManager))
-            {
-                handManager.OnInteractionStarted += OnInteractionStarted;
-                handManager.OnInteractionEnded += OnInteractionEnded;
-
-                handManager.OnInteractionModeChanged.AddListener(OnInteractionModeChanged);
-            }
-
             NetworkController.OnNetworkSessionStarted += () => m_inSession = true;
             NetworkController.OnNetworkSessionEnded += () => m_inSession = false;
         }
@@ -42,16 +35,16 @@ namespace Network
                 });
             }
 
-            Vector3 xrOriginPosition = system.xrOrigin.transform.position;
+            Vector3 xrOriginPosition = mediator.xrOrigin.transform.position;
 
             // Let the TeleportationProvider do his work.
             base.Update();
 
             if (LocalTeleportation) return;
-            if (locomotionPhase != LocomotionPhase.Done) return;
+            if (locomotionState != LocomotionState.Ended) return;
 
             // If we have teleported inside the base.Update() we revert
-            system.xrOrigin.transform.position = xrOriginPosition;
+            mediator.xrOrigin.transform.position = xrOriginPosition;
 
             // We tell the TeleportationManager to start a teleportation.
             NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(true);
@@ -64,12 +57,8 @@ namespace Network
         void OnInteractionStarted(GameObject interactorObject)
         {
             if (LocalTeleportation) return;
-
-            if (!interactorObject.name.Contains("Teleport"))
-                return;
-
-            if (NetworkManager.Singleton == null)
-                return;
+            if (!interactorObject.name.Contains("Teleport")) return;
+            if (NetworkManager.Singleton == null) return;
 
             m_currentRayRenderer = interactorObject.GetComponent<LineRenderer>();
 
@@ -95,7 +84,7 @@ namespace Network
             NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
         }
 
-        void OnInteractionModeChanged(InteractionMode _)
+        void OnInteractionModeChanged()
         {
             m_currentRayRenderer = null;
 

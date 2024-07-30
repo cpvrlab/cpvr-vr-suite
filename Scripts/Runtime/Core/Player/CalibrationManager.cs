@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit;
+
 using Util;
 using VR;
 
@@ -30,9 +30,6 @@ namespace cpvr_vr_suite.Scripts.VR
         public void Calibrate()
         {
             m_isCalibrating = !m_isCalibrating;
-
-            if (RigManager.Instance.RigOrchestrator.TryGetInteractorManager(out HandManager handManager))
-                handManager.InteractionModeLocked = m_isCalibrating;
 
             var passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
             passthrough.ActivePassthrough(m_isCalibrating, !m_isCalibrating);
@@ -64,9 +61,9 @@ namespace cpvr_vr_suite.Scripts.VR
             {
                 if (root.TryGetComponent<VRPlayerBehaviour>(out _)) continue;
                 if (root.TryGetComponent<RigManager>(out _)) continue;
-                foreach (var interactable in root.GetComponentsInChildren<XRBaseInteractable>())
+                foreach (var interactable in root.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>())
                     interactable.enabled = value;
-                foreach (var snapVolume in root.GetComponentsInChildren<XRInteractableSnapVolume>())
+                foreach (var snapVolume in root.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactables.XRInteractableSnapVolume>())
                     snapVolume.enabled = value;
             }
         }

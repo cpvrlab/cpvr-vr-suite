@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 
+
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     public static event Action InstanceReady;
     public static T Instance { get; private set; }
-    [SerializeField] private bool _isPersistent;
+    [SerializeField] bool _isPersistent;
 
     protected virtual void Awake()
     {

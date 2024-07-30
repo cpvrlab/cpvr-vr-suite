@@ -59,7 +59,6 @@ namespace V3.Scripts.VR
 
         public override void OnNetworkSpawn()
         {
-            // Disable local avatar      
             foreach (AvatarDefinition avatar in avatars)
                 avatar.DisableAll();
 
@@ -67,16 +66,9 @@ namespace V3.Scripts.VR
             m_orchestrator.Visualizer.drawMeshes = false;
 
             if (IsOwner)
-            {
                 ScaleAvatar(RigManager.Instance.Height);
-                if (m_orchestrator.TryGetInteractorManager(out HandManager handManager))
-                    handManager.OnInteractionModeChanged.AddListener(OnInteractionModeChanged);
-            }
             else
-            {
                 enabled = false;
-            }
-
         }
 
         public override void OnNetworkDespawn()
@@ -152,43 +144,6 @@ namespace V3.Scripts.VR
 
             AvatarBodySync avatarBodySync = GetComponent<AvatarBodySync>();
             avatarBodySync.SetAvatarScale(_avatarScale);
-        }
-
-        /// <summary>
-        /// Display the current interaction mode as a color onto the avatar watch
-        /// </summary>
-        /// <param name="current"></param>
-        void OnInteractionModeChanged(InteractionMode current)
-        {
-            if (_bodyRenderer == null) return;
-
-            Material interactionMode = null;
-
-            switch (current)
-            {
-                case InteractionMode.None:
-                    interactionMode = interactionModeNoneMaterial;
-                    break;
-                case InteractionMode.Teleport:
-                    interactionMode = interactionModeTeleportMaterial;
-                    break;
-                case InteractionMode.Ray:
-                    interactionMode = interactionModeRayMaterial;
-                    break;
-            }
-
-            if (interactionMode == null) return;
-
-            Material[] materials = _bodyRenderer.materials;
-
-            for (int i = 0; i < materials.Length; i++)
-            {
-                if (!materials[i].name.Contains("InteractionMode")) continue;
-                materials[i] = interactionMode;
-                break;
-            }
-
-            _bodyRenderer.materials = materials;
         }
     }
 }

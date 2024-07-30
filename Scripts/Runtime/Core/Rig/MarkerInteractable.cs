@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class MarkerInteractable : XRGrabInteractable
+public class MarkerInteractable : UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable
 {
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
 
-        if (args.interactorObject is not XRRayInteractor interactor) return;
+        if (args.interactorObject is not UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor interactor) return;
         Debug.Log(interactor.transform.name);
-        if (interactor.TryGetComponent<XRInteractorLineVisual>(out var lineVisual) && interactor.TryGetComponent<LineRenderer>(out var renderer))
+        if (interactor.TryGetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals.XRInteractorLineVisual>(out var lineVisual) && interactor.TryGetComponent<LineRenderer>(out var renderer))
         {
             Debug.Log("Disabling renderer");
             lineVisual.enabled = false;
@@ -21,9 +21,9 @@ public class MarkerInteractable : XRGrabInteractable
     {
         base.OnSelectExited(args);
 
-        if (args.interactorObject is not XRRayInteractor interactor) return;
+        if (args.interactorObject is not UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor interactor) return;
         Debug.Log(interactor.transform.name);
-        if (interactor.TryGetComponent<XRInteractorLineVisual>(out var lineVisual) && interactor.TryGetComponent<LineRenderer>(out var renderer))
+        if (interactor.TryGetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals.XRInteractorLineVisual>(out var lineVisual) && interactor.TryGetComponent<LineRenderer>(out var renderer))
         {
             Debug.Log("Enabling renderer");
             lineVisual.enabled = true;

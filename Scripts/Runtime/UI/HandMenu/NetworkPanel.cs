@@ -131,9 +131,6 @@ public class NetworkPanel : MonoBehaviour
         else
             buttonText.text = "Calibrate";
 
-        if (RigManager.Instance.RigOrchestrator.TryGetInteractorManager(out HandManager handManager))
-            handManager.InteractionModeLocked = m_isCalibrating;
-
         m_calibrationManager.Calibrate();
     }
 

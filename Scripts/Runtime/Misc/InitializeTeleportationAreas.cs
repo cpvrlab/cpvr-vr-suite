@@ -27,11 +27,11 @@ public class InitializeTeleportationAreas : MonoBehaviour
                 continue;
             }
             
-            if (!go.TryGetComponent<TeleportationArea>(out var _))
+            if (!go.TryGetComponent<UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation.TeleportationArea>(out var _))
             {
-                var area = go.AddComponent<TeleportationArea>();
+                var area = go.AddComponent<UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation.TeleportationArea>();
                 area.interactionLayers = InteractionLayerMask.GetMask("Teleport");
-                area.selectMode = InteractableSelectMode.Multiple;
+                area.selectMode = UnityEngine.XR.Interaction.Toolkit.Interactables.InteractableSelectMode.Multiple;
                 teleportAreaCounter++;
             }
         }

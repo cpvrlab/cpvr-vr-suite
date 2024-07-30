@@ -9,16 +9,16 @@ namespace cpvr_vr_suite.Scripts.UI
 {
     public class ScreenshotMenu : MonoBehaviour
     {
-        [SerializeField] private TMP_Text countdownText;
-        [SerializeField] private TMP_Text resultText;
-        [SerializeField] private Image flashImage;
-        [SerializeField] private Button screenshotButton;
+        [SerializeField] TMP_Text countdownText;
+        [SerializeField] TMP_Text resultText;
+        [SerializeField] Image flashImage;
+        [SerializeField] Button screenshotButton;
 
         [Header("Screenshot Settings")]
-        [SerializeField] private string emailAddress;
-        [SerializeField] private bool saveImageToGallery;
+        [SerializeField] string emailAddress;
+        [SerializeField] bool saveImageToGallery;
 
-        private void Start()
+        void Start()
         {
             countdownText.text = "";
             resultText.text = "";
@@ -34,7 +34,7 @@ namespace cpvr_vr_suite.Scripts.UI
 
         public void OnScreenshotClicked() => ScreenshotRoutine();
 
-        private async void ScreenshotRoutine()
+        async void ScreenshotRoutine()
         {
             var flashColor = Color.white;
             var filename = $"VR4Architects-{DateTime.Now:yyyyMMdd-HHmmss}";

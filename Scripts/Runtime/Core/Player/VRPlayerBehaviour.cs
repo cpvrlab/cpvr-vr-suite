@@ -36,8 +36,6 @@ namespace VR
         void ReceiveGameStart(ulong senderId, FastBufferReader messagePayload)
         {
             messagePayload.ReadValueSafe(out ForceNetworkSerializeByMemcpy<bool> _);
-
-            RigManager.Instance.RigOrchestrator.BlockTeleport(false);
         }
     }
 }

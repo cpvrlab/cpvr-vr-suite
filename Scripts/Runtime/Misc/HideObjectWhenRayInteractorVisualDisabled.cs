@@ -1,5 +1,7 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals;
+
 
 public class HideObjectWhenRayInteractorVisualDisabled : MonoBehaviour
 {
