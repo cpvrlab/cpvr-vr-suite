@@ -50,7 +50,7 @@ public class NetworkPanel : MonoBehaviour
 
     void OnEnable()
     {
-        if (NetworkController.Instance.NetworkManager.IsConnectedClient)
+        if (NetworkController.Instance != null && NetworkController.Instance.NetworkManager.IsConnectedClient)
             ClientConnected();
         else
             ClientDisconnected();
@@ -168,7 +168,8 @@ public class NetworkPanel : MonoBehaviour
 
     void ClientDisconnected()
     {
-        UpdateInfoText(NetworkController.Instance.NetworkManager.DisconnectReason);
+        if (NetworkController.Instance != null)
+            UpdateInfoText(NetworkController.Instance.NetworkManager.DisconnectReason);
         SetJoincode(string.Empty);
         m_lobbyContent.SetActive(false);
         m_mainContent.SetActive(true);

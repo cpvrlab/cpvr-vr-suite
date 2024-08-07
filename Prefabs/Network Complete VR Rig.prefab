@@ -1784,7 +1784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6bf904e410ee8479f9093d8830d1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocomotionProvider: {fileID: 0}
+  m_LocomotionProvider: {fileID: 3774953243878821244}
   m_MinHeight: 0
   m_MaxHeight: Infinity
 --- !u!114 &39970454068457030

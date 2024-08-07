@@ -11,8 +11,11 @@ public class Lobby : MonoBehaviour
 
     void OnEnable()
     {
-        NetworkController.Instance.NetworkManager.OnConnectionEvent += HandleConnectionEvent;
-        UpdateLobby();
+        if (NetworkController.Instance != null)
+        {
+            NetworkController.Instance.NetworkManager.OnConnectionEvent += HandleConnectionEvent;
+            UpdateLobby();
+        }
     }
 
     void OnDisable()
