@@ -7,5 +7,6 @@ public class InteractorControl
 {
     public GameObject interactor;
     public XRInputButtonReader controlAction;
-    public bool IsActive => controlAction.ReadIsPerformed();
+    public bool IsActive => !blocked && controlAction.ReadIsPerformed();
+    public bool blocked;
 }

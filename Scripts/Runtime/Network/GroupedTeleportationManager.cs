@@ -125,11 +125,12 @@ namespace Network
         /// <summary>
         /// Ask for the teleportation ray.
         /// </summary>
-        public void ClaimOwnership()
+        public bool ClaimOwnership()
         {
-            if (m_owned.Value) return;
+            if (m_owned.Value) return false;
 
             ClaimOwnershipRpc();
+            return true;
         }
 
         /// <summary>
@@ -140,7 +141,8 @@ namespace Network
         {
             if (!m_owned.Value || m_ownerId.Value != NetworkManager.Singleton.LocalClientId) return;
 
-            ReleaseOwnershipRpc(valid);
+            var position = m_positionsData.Value.Positions.Last() + GetOffset();
+            ReleaseOwnershipRpc(valid, position);
         }
 
         /// <summary>
@@ -191,7 +193,7 @@ namespace Network
         /// <param name="valid">If the teleportation is valid and thus, should be done or not.</param>
         /// <param name="rpcParams">Contains the ClientID of who is trying to teleport.</param>
         [Rpc(SendTo.Server, RequireOwnership = false)]
-        void ReleaseOwnershipRpc(bool valid, RpcParams rpcParams = default)
+        void ReleaseOwnershipRpc(bool valid, Vector3 position, RpcParams rpcParams = default)
         {
             // if the ray is not currently owned or if the clientId trying to set the new positions is not the owner of the ray we cancel.
             if (!m_owned.Value || m_ownerId.Value != rpcParams.Receive.SenderClientId) return;
@@ -202,10 +204,7 @@ namespace Network
 
             if (!valid) return;
 
-            // We send the teleport position.
-            Vector3 teleportPosition = m_positionsData.Value.Positions.Last() + GetOffset();
-
-            SendTeleportPositionRpc(teleportPosition);
+            SendTeleportPositionRpc(position);
         }
 
         Vector3 GetOffset()

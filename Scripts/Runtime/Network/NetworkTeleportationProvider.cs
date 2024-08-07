@@ -13,6 +13,10 @@ namespace Network
         bool m_inSession;
 
         [field: SerializeField] public bool LocalTeleportation { get; set; } = true;
+        [field: SerializeField] public GameObject LeftHandTeleport { get; private set; }
+        bool m_leftPreviousState;
+        [field: SerializeField] public GameObject RightHandTeleport { get; private set; }
+        bool m_rightPreviousState;
 
         void Start()
         {
@@ -22,6 +26,25 @@ namespace Network
 
         protected override void Update()
         {
+            if (m_leftPreviousState != LeftHandTeleport.activeSelf)
+            {
+                if (LeftHandTeleport.activeSelf)
+                    OnInteractionStarted(LeftHandTeleport);
+                else
+                    OnInteractionEnded(LeftHandTeleport);
+            }
+
+            if (m_rightPreviousState != RightHandTeleport.activeSelf)
+            {
+                if (RightHandTeleport.activeSelf)
+                    OnInteractionStarted(RightHandTeleport);
+                else
+                    OnInteractionEnded(RightHandTeleport);
+            }
+
+            m_leftPreviousState = LeftHandTeleport.activeSelf;
+            m_rightPreviousState = RightHandTeleport.activeSelf;
+
             if (!LocalTeleportation && 
                 m_inSession &&
                 m_currentRayRenderer != null)
@@ -59,10 +82,9 @@ namespace Network
             if (LocalTeleportation) return;
             if (!interactorObject.name.Contains("Teleport")) return;
             if (NetworkManager.Singleton == null) return;
+            if (!NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership()) return;
 
             m_currentRayRenderer = interactorObject.GetComponent<LineRenderer>();
-
-            NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership();
         }
 
         /// <summary>
@@ -72,24 +94,12 @@ namespace Network
         void OnInteractionEnded(GameObject interactorObject)
         {
             if (LocalTeleportation) return;
-
-            if (!interactorObject.name.Contains("Teleport"))
-                return;
-
-            if (NetworkManager.Singleton == null)
-                return;
+            if (!interactorObject.name.Contains("Teleport")) return;
+            if (NetworkManager.Singleton == null) return;
 
             m_currentRayRenderer = null;
 
             NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
-        }
-
-        void OnInteractionModeChanged()
-        {
-            m_currentRayRenderer = null;
-
-            if (NetworkController.Instance.GroupedTeleportationManager != null)
-                NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
         }
     }
 }
