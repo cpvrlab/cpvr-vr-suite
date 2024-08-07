@@ -10,8 +10,8 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 1. Open the project settings and set up XR Plugin Management
 2. Head to the package manager, add a package via git URL and paste the following URL: https://github.com/cpvrlab/cpvr-vr-suite.git
 3. In the project settings, set OpenXR as Plugin provider and configure the feature groups as well as the interaction profiles for the desired platform
-4. In order to use the overlay keyboard when using a Meta Quest 2 or Pro headset, a custom AndroidManifest.xml and folder structure has to be created.
-   1. Create the following folder structure: **Assets/Plugins/Android**
+4. In order to use the system keyboard when using an Android based headset, a custom AndroidManifest.xml and has to be created.
+   1. Go to **Project Settings -> Player -> Publishing Settings** and make sure that the Checkbox for **Custom Main Manifest** is checked
    2. Create a file within the Android folder named **AndroidManifest.xml**
    3. Paste the following content into the newly created file:
    ```
@@ -33,13 +33,20 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
        <uses-feature android:name="oculus.software.overlay_keyboard" android:required="false"/>
    </manifest>
    ```
-   4. Go to **Project Settings -> Player -> Publishing Settings** and make sure that the Checkbox for **Custom Main Manifest** is checked
-   5. A custom AndroidManifest.xml is provided within the package but needs to manually be moved to the appropriate location.
+   4. A custom AndroidManifest.xml is provided within the package as a sample but needs to manually be moved to the appropriate location.
 
 ### Scene setup
 
-1. Place the **Persistent Objects** prefab in an empty scene and add it to the build index
-2. Add your additional scenes to the build index without the **Persistent Object** prefab, camera or any other XR Rig in them
+1. Place the **Complete VR Rig** prefab in an empty scene and add it to the build index
+2. Add your additional scenes to the build index without the **Complete VR Rig** prefab, camera or any other XR Rig in them
+
+### Networked scene setup
+
+1. Place the **Network VR Rig** prefab in an empty scene and add it to the build index (Make sure the index of this scene is 0)
+2. Create two empty GameObjects in the Hierarchy and name them 'NetworkManager' and 'NetworkController' respectivelly
+    1. Add a NetworkManager Component to the 'NetworkManager' GameObject. Select 'Unity Transport' as Transport and check 'Allow remote connections'. Also add references to the networkprefblist and playerprefab which can be found within the package
+    2. Add a NetworkController Component to the 'NetworkController' GameObject. Add references to the 'NetworkManager', the 'NetworkSceneController'-prefab and the 'GroupedTeleportationManager'-prefab. Also check 'Is Persistent' to make sure the object is carried over to the next scene.
+2. Add your additional scenes to the build index without the **Network VR Rig** prefab, camera or any other XR Rig in them
 
 ### Sending screenshots via Email
 

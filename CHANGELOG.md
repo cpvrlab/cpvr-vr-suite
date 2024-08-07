@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1] - 2024-08-07
+- Updated networked Rig
+- Improved connection handling
+
 ## [4.0.0] - 2024-07-30
 - Update to XR Interaction Toolkit 3+
 - Added Input Reader for Hand Gestures
