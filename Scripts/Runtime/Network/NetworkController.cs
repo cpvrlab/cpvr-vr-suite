@@ -16,6 +16,7 @@ public class NetworkController : Singleton<NetworkController>
 
     public void OnEnable()
     {
+        NetworkManager.OnConnectionEvent += OnClientConnected;
         NetworkManager.OnClientStarted += OnClientStarted;
         NetworkManager.OnClientStopped += _ => OnNetworkSessionEnded?.Invoke();
     }
@@ -24,7 +25,7 @@ public class NetworkController : Singleton<NetworkController>
     {
         if (NetworkManager != null)
         {
-            NetworkManager.OnClientStarted -= OnClientStarted;
+            NetworkManager.OnConnectionEvent -= OnClientConnected;
             NetworkManager.OnClientStopped += _ => OnNetworkSessionEnded?.Invoke();
         }
     }
@@ -33,8 +34,13 @@ public class NetworkController : Singleton<NetworkController>
     {
         if (NetworkManager.IsServer)
             SpawnNetworkObjects();
+    }
 
-        OnNetworkSessionStarted?.Invoke();
+    void OnClientConnected(NetworkManager manager, ConnectionEventData data)
+    {
+        if (data.EventType == ConnectionEvent.ClientConnected &&
+            data.ClientId == manager.LocalClientId)
+            OnNetworkSessionStarted?.Invoke();
     }
 
     void SpawnNetworkObjects()
