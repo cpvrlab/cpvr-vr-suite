@@ -41,6 +41,12 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 1. Place the **Persistent Objects** prefab in an empty scene and add it to the build index
 2. Add your additional scenes to the build index without the **Persistent Object** prefab, camera or any other XR Rig in them
 
+### Networked scene setup
+
+1. Place the **Network Complete VR Rig** prefab in an empty scene alongside the **NetworkManager** and **NetworkController** which can be found in the Network folder within the prefabs.
+2. In the **NetworkController** add a reference to the **NetworkManager** instance in the scene.
+3. Add your additional scenes to the build index without the VR Rig or camera in them.
+
 ### Sending screenshots via Email
 
 In order to send emails via the screenshotmenu a valid EmailLogin.json file must be provided and stored in 'Assets/Resources/Secrets'. It is forbidden to push this file to a repository as it contains the necessary credentials for the sending email account.
