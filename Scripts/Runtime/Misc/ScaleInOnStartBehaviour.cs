@@ -20,10 +20,9 @@ namespace cpvr_vr_suite.Scripts.Util
             foreach (var objToActivate in objectsToShowAfterFadeIn)
                 objToActivate.SetActive(false);
 
-            _initTeleportAreaScript = FindObjectOfType<InitializeTeleportationAreas>();
+            _initTeleportAreaScript = FindFirstObjectByType<InitializeTeleportationAreas>();
         }
 
-        // Start is called before the first frame update
         void Start()
         {
             StartCoroutine(ScaleIn());
