@@ -16,7 +16,7 @@ public class DisableOtherCameras : MonoBehaviour
         var rigCamera = RigManager.Instance.RigOrchestrator.Camera;
         if (!rigCamera.CompareTag("MainCamera")) return;
 
-        var allGameObjects = FindObjectsOfType<GameObject>();
+        var allGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         var allOtherCameras = allGameObjects.Where(
             go => go.scene == activeScene &&
             go.TryGetComponent<Camera>(out var _) &&
