@@ -11,10 +11,12 @@ namespace cpvr_vr_suite.Scripts.Util
         public List<GameObject> objectsToShowAfterFadeIn;
         public float transitionTime = 3.0f;
         
-        private InitializeTeleportationAreas _initTeleportAreaScript; 
+        InitializeTeleportationAreas _initTeleportAreaScript; 
 
-        private void Awake()
+        void Awake()
         {
+            if (Application.isEditor) return;
+
             objectToScaleIn.transform.localScale = new Vector3(1.0f, 0.0f, 1.0f);
 
             foreach (var objToActivate in objectsToShowAfterFadeIn)
@@ -25,11 +27,13 @@ namespace cpvr_vr_suite.Scripts.Util
 
         void Start()
         {
+            if (Application.isEditor) return;
+            
             StartCoroutine(ScaleIn());
         }
 
 
-        private IEnumerator ScaleIn()
+        IEnumerator ScaleIn()
         {
             for (float i = 0; i < transitionTime; i += Time.deltaTime)
             {
