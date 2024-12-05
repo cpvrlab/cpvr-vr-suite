@@ -38,16 +38,15 @@ public class HandMenuController : MonoBehaviour
 
     }
 
-    void Start() => OpenLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
+    void Start()
+    {
+        OpenLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
+        CloseAllPanels();
+    }
 
     void OnEnable()
     {
         SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
-
-        if (OpenLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
-            OpenPanel(m_lastPanel);
-        else
-            OpenMainPanel();
 
         if (RigManager.Instance != null)
             RigManager.Instance.RigOrchestrator.ToggleHandMenu(true);
@@ -56,6 +55,8 @@ public class HandMenuController : MonoBehaviour
     void OnDisable()
     {
         SceneManager.activeSceneChanged -= (_,_) => UnregisterDynamicPanels();
+
+        CloseAllPanels();
 
         if (RigManager.Instance != null)
             RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
@@ -72,6 +73,23 @@ public class HandMenuController : MonoBehaviour
     {
         CloseAllPanels();
         OpenPanel(_panels.First());
+    }
+
+    public void ToggleMenu()
+    {
+        foreach (var panel in _panels)
+        {
+            if (panel.gameObject.activeSelf)
+            {
+                CloseAllPanels();
+                return;
+            }
+        }
+
+        if (OpenLastPanel && m_lastPanel != null && _panels.Contains(m_lastPanel))
+            OpenPanel(m_lastPanel);
+        else
+            OpenMainPanel();
     }
 
     public void RegisterPanel(HandmenuPanel panel)
