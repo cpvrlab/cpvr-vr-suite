@@ -2646,8 +2646,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReferencePerformed: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-    m_InputActionReferenceValue: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferencePerformed: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferenceValue: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualPerformed: 0
     m_ManualValue: 0
@@ -2676,8 +2676,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReferencePerformed: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-    m_InputActionReferenceValue: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferencePerformed: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferenceValue: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualPerformed: 0
     m_ManualValue: 0
@@ -5529,7 +5529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_handTrackingEvents: {fileID: 3539410677894872966}
-  m_handShapeOrPose: {fileID: 11400000, guid: fca3996c9192176458ba5f612a3fccaa, type: 2}
+  m_handShapeOrPose: {fileID: 11400000, guid: 59cfbbbf3585a7a468e0fff0b661d0b4, type: 2}
   m_minimumHoldTime: 0.1
   m_gestureDetectionInterval: 0.1
 --- !u!1 &2159967554067757482
@@ -12697,7 +12697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_handTrackingEvents: {fileID: 7882437829051122720}
-  m_handShapeOrPose: {fileID: 11400000, guid: fca3996c9192176458ba5f612a3fccaa, type: 2}
+  m_handShapeOrPose: {fileID: 11400000, guid: 59cfbbbf3585a7a468e0fff0b661d0b4, type: 2}
   m_minimumHoldTime: 0.1
   m_gestureDetectionInterval: 0.1
 --- !u!1 &4379633505462263652
@@ -13878,8 +13878,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReferencePerformed: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-    m_InputActionReferenceValue: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferencePerformed: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferenceValue: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualPerformed: 0
     m_ManualValue: 0
