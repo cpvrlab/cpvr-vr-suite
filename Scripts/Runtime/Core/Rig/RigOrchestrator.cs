@@ -43,6 +43,8 @@ public class RigOrchestrator : MonoBehaviour
             gazeManager.BlockInteractor(value);
         else
             Debug.LogWarning("No GazeManager found.");
+
+        BlockTeleport(value);
     }
     
     public bool TryGetInteractorManager<T>(out T interactorManager) where T : InteractorManager
@@ -51,9 +53,11 @@ public class RigOrchestrator : MonoBehaviour
         return interactorManager != null;
     }
 
-    public void LockTeleport(bool value)
+    public void BlockTeleport(bool value)
     {
-        LeftHandInteractorManager.BlockTeleport(value);
-        RightHandInteractorManager.BlockTeleport(value);
+        if (LeftHandInteractorManager != null)
+            LeftHandInteractorManager.BlockTeleport(value);
+        if (RightHandInteractorManager != null)            
+            RightHandInteractorManager.BlockTeleport(value);
     }
 }

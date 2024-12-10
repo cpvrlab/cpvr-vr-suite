@@ -13371,9 +13371,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 3857488373785444825}
   <LeftHand>k__BackingField: {fileID: 7681748051823264456}
-  <LeftHandInteractorManager>k__BackingField: {fileID: 0}
+  <LeftHandInteractorManager>k__BackingField: {fileID: 9092280855477019235}
   <RightHand>k__BackingField: {fileID: 5535074808946892890}
-  <RightHandInteractorManager>k__BackingField: {fileID: 0}
+  <RightHandInteractorManager>k__BackingField: {fileID: 3571779411023421362}
   <Visualizer>k__BackingField: {fileID: 3463966210452383525}
   <NetworkTeleportationProvider>k__BackingField: {fileID: 0}
 --- !u!1 &4809796709263431156
@@ -16079,6 +16079,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1732902524505859501}
+  - component: {fileID: 2156481790709575663}
   m_Layer: 0
   m_Name: Hands
   m_TagString: Untagged
@@ -16104,6 +16105,25 @@ Transform:
   - {fileID: 7923568693083605654}
   m_Father: {fileID: 657242059243303140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2156481790709575663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5166037108553734373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a50d88b55b45648927679791f472de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GroupName: Hands Interaction Group
+  m_InteractionManager: {fileID: 4188990799188179666}
+  m_StartingGroupMembers:
+  - {fileID: 3817320320067208477}
+  - {fileID: 6631010760785510887}
+  - {fileID: 6873844955912965427}
+  m_StartingInteractionOverridesMap: []
 --- !u!1 &5169955958294387758
 GameObject:
   m_ObjectHideFlags: 0
@@ -21887,8 +21907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a50d88b55b45648927679791f472de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GroupName: 
-  m_InteractionManager: {fileID: 0}
+  m_GroupName: LHIG
+  m_InteractionManager: {fileID: 4188990799188179666}
   m_StartingGroupMembers:
   - {fileID: 2995064561949709873}
   - {fileID: 6296983315706236913}
@@ -22919,8 +22939,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a50d88b55b45648927679791f472de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GroupName: 
-  m_InteractionManager: {fileID: 0}
+  m_GroupName: RHIG
+  m_InteractionManager: {fileID: 4188990799188179666}
   m_StartingGroupMembers:
   - {fileID: 9010050881898869285}
   - {fileID: 5544114398990875078}

@@ -131,7 +131,7 @@ public class NetworkPanel : MonoBehaviour
         else
             buttonText.text = "Calibrate";
 
-        RigManager.Instance.RigOrchestrator.LockTeleport(m_isCalibrating);
+        RigManager.Instance.RigOrchestrator.BlockTeleport(m_isCalibrating);
 
         m_calibrationManager.Calibrate();
     }

@@ -12,9 +12,9 @@ public class HandMenuController : MonoBehaviour
     [SerializeField] SoundClip _clickClip;
     [SerializeField] bool _playHoverSound;
 
-    [Header("UI Panels")] 
+    [Header("UI Panels")]
     [SerializeField] List<HandmenuPanel> _panels;
-    
+
     public bool OpenLastPanel { get; set; }
     HandmenuPanel m_lastPanel = null;
     bool m_initialized = false;
@@ -46,22 +46,19 @@ public class HandMenuController : MonoBehaviour
 
     void OnEnable()
     {
-        SceneManager.activeSceneChanged += (_,_) => UnregisterDynamicPanels();
-
-        if (RigManager.Instance != null)
-            RigManager.Instance.RigOrchestrator.ToggleHandMenu(true);
+        SceneManager.activeSceneChanged += (_, _) => UnregisterDynamicPanels();
     }
 
     void OnDisable()
     {
-        SceneManager.activeSceneChanged -= (_,_) => UnregisterDynamicPanels();
+        SceneManager.activeSceneChanged -= (_, _) => UnregisterDynamicPanels();
 
         CloseAllPanels();
 
         if (RigManager.Instance != null)
             RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
     }
-    
+
     public void OpenPanel(HandmenuPanel panel)
     {
         CloseAllPanels();
@@ -82,6 +79,8 @@ public class HandMenuController : MonoBehaviour
             if (panel.gameObject.activeSelf)
             {
                 CloseAllPanels();
+                if (RigManager.Instance != null)
+                    RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
                 return;
             }
         }
@@ -90,6 +89,9 @@ public class HandMenuController : MonoBehaviour
             OpenPanel(m_lastPanel);
         else
             OpenMainPanel();
+
+        if (RigManager.Instance != null)
+            RigManager.Instance.RigOrchestrator.ToggleHandMenu(true);
     }
 
     public void RegisterPanel(HandmenuPanel panel)
@@ -105,13 +107,13 @@ public class HandMenuController : MonoBehaviour
             panel.GetComponent<RectTransform>().localPosition = new Vector3(0, 50, 0);
 
         AddUiElementSoundFeedback(panel);
-        
+
         if (!_panels.Contains(panel))
         {
             _panels.First().GetComponent<MainPanel>().AddPanelButton(panel);
             _panels.Add(panel);
             panel.gameObject.SetActive(false);
-        } 
+        }
     }
 
     public void UnregisterDynamicPanels()
@@ -160,14 +162,14 @@ public class HandMenuController : MonoBehaviour
     }
 
     void AddUiElementSoundFeedback(HandmenuPanel panel)
-    {        
+    {
         var buttons = panel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
             AddButtonSoundFeedback(button);
 
         var toggles = panel.GetComponentsInChildren<Toggle>();
         foreach (var toggle in toggles)
-            AddToggleSoundFeedback(toggle);        
+            AddToggleSoundFeedback(toggle);
 
         var inputFields = panel.GetComponentsInChildren<TMP_InputField>();
         foreach (var inputField in inputFields)
@@ -185,7 +187,7 @@ public class HandMenuController : MonoBehaviour
     {
         var uiInteraction = toggle.gameObject.AddComponent<EventTrigger>();
         if (_playHoverSound) uiInteraction.triggers.Add(m_hover);
-        uiInteraction.triggers.Add(m_click); 
+        uiInteraction.triggers.Add(m_click);
     }
 
     public void AddInputFieldSoundFeedback(TMP_InputField inputField)
