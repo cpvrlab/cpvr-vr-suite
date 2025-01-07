@@ -25,6 +25,7 @@ namespace cpvr_vr_suite.Scripts.Util
 
         }
 
+        /*
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("MainCamera")) return;
@@ -36,5 +37,6 @@ namespace cpvr_vr_suite.Scripts.Util
             foreach (var toHide in objectsToHide)
                 toHide.SetActive(true);
         }
+        */
     }
 }
