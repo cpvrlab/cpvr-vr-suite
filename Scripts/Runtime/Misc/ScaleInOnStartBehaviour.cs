@@ -10,20 +10,6 @@ namespace cpvr_vr_suite.Scripts.Util
         public GameObject objectToScaleIn;
         public List<GameObject> objectsToShowAfterFadeIn;
         public float transitionTime = 3.0f;
-        
-        InitializeTeleportationAreas _initTeleportAreaScript; 
-
-        void Awake()
-        {
-            if (Application.isEditor) return;
-
-            objectToScaleIn.transform.localScale = new Vector3(1.0f, 0.0f, 1.0f);
-
-            foreach (var objToActivate in objectsToShowAfterFadeIn)
-                objToActivate.SetActive(false);
-
-            _initTeleportAreaScript = FindFirstObjectByType<InitializeTeleportationAreas>();
-        }
 
         void Start()
         {
@@ -35,20 +21,23 @@ namespace cpvr_vr_suite.Scripts.Util
 
         IEnumerator ScaleIn()
         {
+            foreach (var objToActivate in objectsToShowAfterFadeIn)
+                objToActivate.SetActive(false);
+
+            objectToScaleIn.transform.localScale = new Vector3(1.0f, 0.0f, 1.0f);
+
             for (float i = 0; i < transitionTime; i += Time.deltaTime)
             {
                 float scaleY = i / transitionTime;
                 objectToScaleIn.transform.localScale = new Vector3(1.0f, scaleY, 1.0f);
 
-                Debug.Log("ScaleInFactor: " + scaleY);
                 yield return null;
             }
 
+            objectToScaleIn.transform.localScale = Vector3.one;
+
             foreach (var objToActivate in objectsToShowAfterFadeIn)
                 objToActivate.SetActive(true);
-
-            if (_initTeleportAreaScript != null)
-                _initTeleportAreaScript.CreateTeleportAreas(SceneManager.GetActiveScene());
         }
     }
 }

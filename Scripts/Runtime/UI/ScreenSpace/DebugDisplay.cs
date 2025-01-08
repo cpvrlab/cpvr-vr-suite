@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class DebugDisplay : MonoBehaviour
 {
     [SerializeField] TMP_Text m_fpsText;
     [SerializeField] TMP_Text m_debugLogText;
+    [SerializeField] bool m_addStackTrace = false;
 
     readonly Dictionary<string, string> m_debugLogs = new();
 
@@ -41,7 +43,7 @@ public class DebugDisplay : MonoBehaviour
         {
             var splitString = logString.Split(char.Parse(":"));
             var debugKey = splitString[0];
-            var debugValue = splitString.Length > 1 ? splitString[1] + " - " + stackTrace : "";
+            var debugValue = m_addStackTrace ? logString + " - " + stackTrace : logString; 
 
             if (m_debugLogs.ContainsKey(debugKey))
                 m_debugLogs[debugKey] = debugValue;
@@ -51,12 +53,7 @@ public class DebugDisplay : MonoBehaviour
 
         var displayText = "";
         foreach (KeyValuePair<string, string> log in m_debugLogs)
-        {
-            if (log.Value == "")
-                displayText += log.Key + "\n";
-            else
-                displayText += log.Key + ": " + log.Value + "\n";
-        }
+            displayText += log.Value + "\n";
 
         m_debugLogText.text = displayText;
     }

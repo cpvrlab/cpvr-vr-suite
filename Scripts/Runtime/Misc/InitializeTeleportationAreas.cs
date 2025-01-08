@@ -12,7 +12,7 @@ public class InitializeTeleportationAreas : MonoBehaviour
 
     public void CreateTeleportAreas(Scene activeScene)
     {
-        var allGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        var allGameObjects = FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         var allTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 
                                     go.layer == LayerMask.NameToLayer("Teleport")).ToList();
         var allNonTeleportObjects = allGameObjects.Where(go => go.scene == activeScene && 

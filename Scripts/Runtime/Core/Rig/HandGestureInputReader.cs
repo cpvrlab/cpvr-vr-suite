@@ -63,6 +63,9 @@ public class HandGestureInputReader : MonoBehaviour, IXRInputButtonReader
         if (!isActiveAndEnabled || Time.timeSinceLevelLoad < m_timeOfLastConditionCheck + m_gestureDetectionInterval)
             return;
 
+        if (gameObject.name == "Teleport Mode")
+            Debug.Log($"{transform.parent.parent.gameObject.name} {gameObject.name}: OnJointsUpdated at: {Time.time}s");
+
         var detected =
             m_handTrackingEvents.handIsTracked &&
             m_handShape != null && m_handShape.CheckConditions(eventArgs) ||
