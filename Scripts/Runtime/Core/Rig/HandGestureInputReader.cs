@@ -60,11 +60,8 @@ public class HandGestureInputReader : MonoBehaviour, IXRInputButtonReader
 
     void OnJointsUpdated(XRHandJointsUpdatedEventArgs eventArgs)
     {
-        if (!isActiveAndEnabled || Time.timeSinceLevelLoad < m_timeOfLastConditionCheck + m_gestureDetectionInterval)
+        if (!isActiveAndEnabled || Time.time < m_timeOfLastConditionCheck + m_gestureDetectionInterval)
             return;
-
-        if (gameObject.name == "Teleport Mode")
-            Debug.Log($"{transform.parent.parent.gameObject.name} {gameObject.name}: OnJointsUpdated at: {Time.time}s");
 
         var detected =
             m_handTrackingEvents.handIsTracked &&
@@ -93,7 +90,7 @@ public class HandGestureInputReader : MonoBehaviour, IXRInputButtonReader
             }
         }
 
-        m_timeOfLastConditionCheck = Time.timeSinceLevelLoad;
+        m_timeOfLastConditionCheck = Time.time;
     }
 
     IEnumerator TrueForOneFrame(BoolReference boolRef)
