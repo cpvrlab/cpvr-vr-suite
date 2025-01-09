@@ -84,7 +84,7 @@ namespace Network
             if (NetworkManager.Singleton == null) return;
             if (!NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership()) return;
 
-            m_currentRayRenderer = interactorObject.GetComponent<LineRenderer>();
+            interactorObject.TryGetComponent(out m_currentRayRenderer);
         }
 
         /// <summary>
