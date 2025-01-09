@@ -43,9 +43,9 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 ### Networked scene setup
 
 1. Place the **Network VR Rig** prefab in an empty scene and add it to the build index (Make sure the index of this scene is 0)
-2. Create two empty GameObjects in the Hierarchy and name them 'NetworkManager' and 'NetworkController' respectivelly
-    1. Add a NetworkManager Component to the 'NetworkManager' GameObject. Select 'Unity Transport' as Transport and check 'Allow remote connections'. Also add references to the networkprefblist and playerprefab which can be found within the package
-    2. Add a NetworkController Component to the 'NetworkController' GameObject. Add references to the 'NetworkManager', the 'NetworkSceneController'-prefab and the 'GroupedTeleportationManager'-prefab. Also check 'Is Persistent' to make sure the object is carried over to the next scene.
+2. Create two empty GameObjects in the Hierarchy and name them `NetworkManager` and `NetworkController` respectivelly
+    1. Add a NetworkManager Component to the `NetworkManager` GameObject. Select `Unity Transport` as Transport and check `Allow remote connections`. Also add references to the networkprefblist and playerprefab which can be found within the package
+    2. Add a NetworkController Component to the `NetworkController` GameObject. Add references to the `NetworkManager`, the `NetworkSceneController`-prefab and the `GroupedTeleportationManager`-prefab. Also check `Is Persistent` to make sure the object is carried over to the next scene.
 2. Add your additional scenes to the build index without the **Network VR Rig** prefab, camera or any other XR Rig in them
 
 ### Sending screenshots via Email
