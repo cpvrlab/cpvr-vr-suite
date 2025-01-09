@@ -33,12 +33,22 @@ public class SceneSelectionPanel : MonoBehaviour
     {
         m_sceneHandler.SceneChangeStarted += FadeOut;
         m_sceneHandler.SceneChangeCompleted += FadeIn;
+        if (LoadingIndicator.Instance != null)
+        {
+            m_sceneHandler.SceneChangeStarted += LoadingIndicator.Instance.StartLoadingDisplay;
+            m_sceneHandler.SceneChangeCompleted += LoadingIndicator.Instance.StopLoadingDisplay;
+        }
     }
 
     void OnDisable()
     {
         m_sceneHandler.SceneChangeStarted -= FadeOut;
         m_sceneHandler.SceneChangeCompleted -= FadeIn;
+        if (LoadingIndicator.Instance != null)
+        {
+            m_sceneHandler.SceneChangeStarted -= LoadingIndicator.Instance.StartLoadingDisplay;
+            m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.Instance.StopLoadingDisplay;
+        }
     }
 
     public void InitializeScenes()
