@@ -5020,7 +5020,7 @@ MonoBehaviour:
   m_Mediator: {fileID: 7158436977075855832}
   m_TransformationPriority: 0
   m_DelayTime: 0
-  <LocalTeleportation>k__BackingField: 1
+  <LocalTeleportation>k__BackingField: 0
   <LeftHandTeleport>k__BackingField: {fileID: 8512132862612614145}
   <RightHandTeleport>k__BackingField: {fileID: 5975804142813660931}
 --- !u!1 &1731384176215799318
@@ -13132,7 +13132,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &4584073219200284074
 GameObject:
   m_ObjectHideFlags: 0

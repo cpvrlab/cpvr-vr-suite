@@ -45,9 +45,21 @@ namespace Network
 
             m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
-                // Disable the LineRenderer for the owner and enable/disable the renderer for the others
-                m_lineRenderer.enabled = newOwnerId != NetworkManager.Singleton.LocalClientId &&
-                                       newOwnerId != ulong.MaxValue;
+                if (newOwnerId == NetworkManager.Singleton.LocalClientId)
+                {
+                    m_lineRenderer.enabled = false;
+                    RigManager.Instance.RigOrchestrator.BlockTeleport(false);
+                }
+                else if (newOwnerId == ulong.MaxValue)
+                {
+                    m_lineRenderer.enabled = false;
+                    RigManager.Instance.RigOrchestrator.BlockTeleport(false);
+                }
+                else
+                {
+                    m_lineRenderer.enabled = true;
+                    RigManager.Instance.RigOrchestrator.BlockTeleport(true);
+                }
             };
 
             // Update the line renderer points
