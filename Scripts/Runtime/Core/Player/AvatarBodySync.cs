@@ -205,18 +205,12 @@ namespace VR
             if (m_rigOrchestrator.LeftHandInteractorManager.TryGetHandPosition(out var leftHandTransform))
                 SyncTransform(leftHandRootBone, leftHandTransform, true, Side.Left);
             else
-            {
-                leftHandRootBone.position = pelvisBone.position + 0.2f * pelvisBone.right;
-                leftHandRootBone.localRotation = Quaternion.Euler(new Vector3(0f, 45f, 180f));
-            }
+                leftHandRootBone.SetPositionAndRotation(pelvisBone.position + 0.2f * pelvisBone.right, pelvisBone.rotation * Quaternion.Euler(new Vector3(180f, 0, 0)));
 
             if (m_rigOrchestrator.RightHandInteractorManager.TryGetHandPosition(out var rightHandTransform))
                 SyncTransform(rightHandRootBone, rightHandTransform, true, Side.Right);
             else
-            {
-                rightHandRootBone.position = pelvisBone.position + -0.2f * pelvisBone.right;
-                rightHandRootBone.localRotation = Quaternion.Euler(new Vector3(0f, 45f, 180f));
-            }
+                rightHandRootBone.SetPositionAndRotation(pelvisBone.position + -0.2f * pelvisBone.right, pelvisBone.rotation * Quaternion.Euler(new Vector3(180f, 0f, 0f)));
 
             // Sync the ik target transform with the root bone
             SyncTransform(leftHandTarget, leftHandRootBone, false, Side.Left);
