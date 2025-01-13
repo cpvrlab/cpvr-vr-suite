@@ -349,9 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 5668634257790559045}
-  <LeftHand>k__BackingField: {fileID: 8212365595793918496}
   <LeftHandInteractorManager>k__BackingField: {fileID: 6866294762038838493}
-  <RightHand>k__BackingField: {fileID: 6325242308962170802}
   <RightHandInteractorManager>k__BackingField: {fileID: 1443280490741311399}
   <Visualizer>k__BackingField: {fileID: 2787829585989790341}
   <NetworkTeleportationProvider>k__BackingField: {fileID: 1311344333546609720}
@@ -9158,6 +9156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63828d8891fb01f4a98cf7a981f31ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <HandMeshRenderer>k__BackingField: {fileID: 6325242308962170802}
+  <HandTrackingEvents>k__BackingField: {fileID: 1055910810275280311}
   m_interactorControls:
   - interactor: {fileID: 9087111481478737680}
     controlAction:
@@ -25790,6 +25790,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63828d8891fb01f4a98cf7a981f31ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <HandMeshRenderer>k__BackingField: {fileID: 8212365595793918496}
+  <HandTrackingEvents>k__BackingField: {fileID: 2059088080182554931}
   m_interactorControls:
   - interactor: {fileID: 5665169157205939393}
     controlAction:

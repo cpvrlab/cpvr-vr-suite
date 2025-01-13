@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.XR.Hands;
 
 public class HandInteractorManager : MonoBehaviour
 {
+    [field: SerializeField] public SkinnedMeshRenderer HandMeshRenderer { get; private set; }
+    [field: SerializeField] public XRHandTrackingEvents HandTrackingEvents { get; private set; }
     [SerializeField] InteractorControl[] m_interactorControls;
 
     void Update()
@@ -17,5 +20,11 @@ public class HandInteractorManager : MonoBehaviour
             if (item.interactor.name == "Teleport Interactor")
                 item.blocked = value;
         }
+    }
+
+    public bool TryGetHandPosition(out Transform handTransform)
+    {
+        handTransform = HandMeshRenderer.rootBone.transform;
+        return HandTrackingEvents.handIsTracked;
     }
 }

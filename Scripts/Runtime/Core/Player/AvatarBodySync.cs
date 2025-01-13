@@ -17,8 +17,6 @@ namespace VR
     /// </summary>
     public class AvatarBodySync : NetworkBehaviour
     {
-
-        // References to the network object
         [Header("Network Position/Rotation Synchronisation")]
         // Head bone transform to sync with VR
         public Transform headBone;
@@ -204,8 +202,21 @@ namespace VR
             if (m_rigOrchestrator == null) return;
 
             // Sync the root bone of the hand
-            SyncTransform(leftHandRootBone, m_rigOrchestrator.LeftHand.rootBone, true, Side.Left);
-            SyncTransform(rightHandRootBone, m_rigOrchestrator.RightHand.rootBone, true, Side.Right);
+            if (m_rigOrchestrator.LeftHandInteractorManager.TryGetHandPosition(out var leftHandTransform))
+                SyncTransform(leftHandRootBone, leftHandTransform, true, Side.Left);
+            else
+            {
+                leftHandRootBone.position = pelvisBone.position + 0.2f * pelvisBone.right;
+                leftHandRootBone.localRotation = Quaternion.Euler(new Vector3(0f, 45f, 180f));
+            }
+
+            if (m_rigOrchestrator.RightHandInteractorManager.TryGetHandPosition(out var rightHandTransform))
+                SyncTransform(rightHandRootBone, rightHandTransform, true, Side.Right);
+            else
+            {
+                rightHandRootBone.position = pelvisBone.position + -0.2f * pelvisBone.right;
+                rightHandRootBone.localRotation = Quaternion.Euler(new Vector3(0f, 45f, 180f));
+            }
 
             // Sync the ik target transform with the root bone
             SyncTransform(leftHandTarget, leftHandRootBone, false, Side.Left);
@@ -214,18 +225,22 @@ namespace VR
             // Start the recursive synchronization of the hand's bones
             // Since the fingers position in the tree can be different between the model the avatar is using and the 
             // OpenXR hands, we sync them using their names. thumb, index, middle, ring, little
-            for (int i = 0; i < leftHandRootBone.childCount; i++)
+            if (m_rigOrchestrator.LeftHandInteractorManager.HandTrackingEvents.handIsTracked)
             {
-                string fingerName = leftHandRootBone.GetChild(i).name.Split('_')[0];
-
-                SyncBoneRec(leftHandRootBone.GetChild(i), FindBoneByName(m_rigOrchestrator.LeftHand.rootBone, fingerName), Side.Left);
+                for (int i = 0; i < leftHandRootBone.childCount; i++)
+                {
+                    string fingerName = leftHandRootBone.GetChild(i).name.Split('_')[0];
+                    SyncBoneRec(leftHandRootBone.GetChild(i), FindBoneByName(m_rigOrchestrator.LeftHandInteractorManager.HandMeshRenderer.rootBone, fingerName), Side.Left);
+                }
             }
 
-            for (int i = 0; i < rightHandRootBone.childCount; i++)
+            if (m_rigOrchestrator.RightHandInteractorManager.HandTrackingEvents.handIsTracked)
             {
-                string fingerName = rightHandRootBone.GetChild(i).name.Split('_')[0];
-
-                SyncBoneRec(rightHandRootBone.GetChild(i), FindBoneByName(m_rigOrchestrator.RightHand.rootBone, fingerName), Side.Right);
+                for (int i = 0; i < rightHandRootBone.childCount; i++)
+                {
+                    string fingerName = rightHandRootBone.GetChild(i).name.Split('_')[0];
+                    SyncBoneRec(rightHandRootBone.GetChild(i), FindBoneByName(m_rigOrchestrator.RightHandInteractorManager.HandMeshRenderer.rootBone, fingerName), Side.Right);
+                }
             }
         }
 

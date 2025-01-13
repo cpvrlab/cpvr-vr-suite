@@ -9,9 +9,7 @@ public class RigOrchestrator : MonoBehaviour
     public Transform Origin { get; private set; }
 
     [field: SerializeField] public GameObject Camera { get; private set; }
-    [field: SerializeField] public SkinnedMeshRenderer LeftHand { get; private set; }
     [field: SerializeField] public HandInteractorManager LeftHandInteractorManager { get; private set; }
-    [field: SerializeField] public SkinnedMeshRenderer RightHand { get; private set; }
     [field: SerializeField] public HandInteractorManager RightHandInteractorManager { get; private set; }
     [field: SerializeField] public HandVisualizer Visualizer { get; private set; }
     [field: SerializeField] public NetworkTeleportationProvider NetworkTeleportationProvider { get; private set; }
