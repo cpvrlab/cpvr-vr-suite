@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using cpvr_vr_suite.Scripts.VR;
 using TMPro;
+using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,7 +51,7 @@ public class NetworkPanel : MonoBehaviour
 
     void OnEnable()
     {
-        if (NetworkController.Instance.NetworkManager.IsConnectedClient)
+        if (NetworkManager.Singleton.IsConnectedClient)
             ClientConnected();
         else
             ClientDisconnected();
@@ -73,9 +74,9 @@ public class NetworkPanel : MonoBehaviour
             
         StartCoroutine(SuspendInteraction());
 
-        if (NetworkController.Instance.NetworkManager.StartHost())
+        if (NetworkManager.Singleton.StartHost())
         {
-            var transport = NetworkController.Instance.NetworkManager.GetComponent<UnityTransport>();
+            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             transport.ConnectionData.Address = ip;
         }
         else
@@ -90,9 +91,9 @@ public class NetworkPanel : MonoBehaviour
 
         if (m_joincodeInputField.text == string.Empty)
         {
-            UnityTransport unityTransport = NetworkController.Instance.NetworkManager.GetComponent<UnityTransport>();
+            UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             unityTransport.ConnectionData.Address = "127.0.0.1";
-            if (NetworkController.Instance.NetworkManager.StartClient())
+            if (NetworkManager.Singleton.StartClient())
             {
                 m_joincode = "localhost";
                 UpdateInfoText("Starting client");
@@ -109,7 +110,7 @@ public class NetworkPanel : MonoBehaviour
 
         SetIpAddress(number.ToString());
         m_joincode = number.ToString();
-        if (NetworkController.Instance.NetworkManager.StartClient())
+        if (NetworkManager.Singleton.StartClient())
             UpdateInfoText("Starting client");
         else
             UpdateInfoText("Failed to join session.");
@@ -117,7 +118,7 @@ public class NetworkPanel : MonoBehaviour
 
     void Shutdown()
     {
-        NetworkController.Instance.NetworkManager.Shutdown();
+        NetworkManager.Singleton.Shutdown();
         ClientDisconnected();
     }
 
@@ -151,7 +152,7 @@ public class NetworkPanel : MonoBehaviour
         string[] numberArray = currentIP.Split(".");
         string subnet = string.Join(".", numberArray.Take(numberArray.Length - 1).ToArray());
 
-        var unityTransport = NetworkController.Instance.NetworkManager.GetComponent<UnityTransport>();
+        var unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         unityTransport.ConnectionData.Address = subnet + "." + gameCode;
     }
 
@@ -167,7 +168,7 @@ public class NetworkPanel : MonoBehaviour
 
     void ClientDisconnected()
     {
-        UpdateInfoText(NetworkController.Instance.NetworkManager.DisconnectReason);
+        UpdateInfoText(NetworkManager.Singleton.DisconnectReason);
         SetJoincode(string.Empty);
         m_lobbyContent.SetActive(false);
         m_mainContent.SetActive(true);
@@ -180,7 +181,7 @@ public class NetworkPanel : MonoBehaviour
         m_hostButton.interactable = false;
         yield return new WaitForSeconds(0.5f);
 
-        while (NetworkController.Instance.NetworkManager.IsListening && !NetworkController.Instance.NetworkManager.IsConnectedClient)
+        while (NetworkManager.Singleton.IsListening && !NetworkManager.Singleton.IsConnectedClient)
             yield return null;
 
         UpdateInfoText("Failed to start or join a session.");

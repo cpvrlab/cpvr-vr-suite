@@ -11,6 +11,6 @@ public class NetworkSceneController : NetworkBehaviour
     [Rpc(SendTo.Server, RequireOwnership = false)]
     public void LoadSceneRpc(string sceneName)
     {
-        NetworkController.Instance.NetworkManager.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

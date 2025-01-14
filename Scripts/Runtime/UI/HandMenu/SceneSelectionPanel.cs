@@ -53,11 +53,13 @@ public class SceneSelectionPanel : MonoBehaviour
 
     public void InitializeScenes()
     {
-        for (var i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
+        for (var i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            var label = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
+            var scenename = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
+            if (scenename.Contains("Bootstrap", StringComparison.OrdinalIgnoreCase))
+                continue;
             var index = i;
-            CreateSceneButton(label, m_sceneHandler.ChangeScene, index);
+            CreateSceneButton(scenename, m_sceneHandler.ChangeScene, index);
         }
     }
 

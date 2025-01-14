@@ -2,37 +2,33 @@ using System;
 using Network;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkController : Singleton<NetworkController>
 {
     public static event Action OnNetworkSessionStarted;
     public static event Action OnNetworkSessionEnded;
 
-    [field: SerializeField] public NetworkManager NetworkManager { get; private set; }
-    [SerializeField] NetworkSceneController m_networkSceneController;
+    [SerializeField] NetworkManager m_networkManagerPrefab;
+    [SerializeField] NetworkSceneController m_networkSceneControllerPrefab;
     public NetworkSceneController NetworkSceneController { get; set; }
-    [SerializeField] GroupedTeleportationManager m_groupedTeleportationManager;
+    [SerializeField] GroupedTeleportationManager m_groupedTeleportationManagerPrefab;
     public GroupedTeleportationManager GroupedTeleportationManager { get; set; }
 
-    public void OnEnable()
+    void Start()
     {
-        NetworkManager.OnConnectionEvent += OnClientConnected;
-        NetworkManager.OnClientStarted += OnClientStarted;
-        NetworkManager.OnClientStopped += _ => OnNetworkSessionEnded?.Invoke();
-    }
+        //Spawn Network prefabs
+        Instantiate(m_networkManagerPrefab);        
+        NetworkManager.Singleton.OnConnectionEvent += OnClientConnected;
+        NetworkManager.Singleton.OnClientStarted += OnClientStarted;
+        NetworkManager.Singleton.OnClientStopped += _ => OnNetworkSessionEnded?.Invoke();
 
-    public void OnDisable()
-    {
-        if (NetworkManager != null)
-        {
-            NetworkManager.OnConnectionEvent -= OnClientConnected;
-            NetworkManager.OnClientStopped += _ => OnNetworkSessionEnded?.Invoke();
-        }
+        SceneManager.LoadScene("XRRigBootstrap");
     }
 
     void OnClientStarted()
     {
-        if (NetworkManager.IsServer)
+        if (NetworkManager.Singleton.IsServer)
             SpawnNetworkObjects();
     }
 
@@ -45,16 +41,26 @@ public class NetworkController : Singleton<NetworkController>
 
     void SpawnNetworkObjects()
     {
-        if (GroupedTeleportationManager == null)
-        {
-            GroupedTeleportationManager = Instantiate(m_groupedTeleportationManager);
-            GroupedTeleportationManager.GetComponent<NetworkObject>().Spawn();
-        }
-
         if (NetworkSceneController == null)
         {
-            NetworkSceneController = Instantiate(m_networkSceneController);
-            NetworkSceneController.GetComponent<NetworkObject>().Spawn();
+            NetworkSceneController = Instantiate(m_networkSceneControllerPrefab);
+            NetworkSceneController.GetComponent<NetworkObject>().Spawn(false);
+        }
+
+        if (GroupedTeleportationManager == null)
+        {
+            GroupedTeleportationManager = Instantiate(m_groupedTeleportationManagerPrefab);
+            GroupedTeleportationManager.GetComponent<NetworkObject>().Spawn(false);
+        }
+    }
+    
+    void OnDestroy()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnConnectionEvent -= OnClientConnected;
+            NetworkManager.Singleton.OnClientStarted -= OnClientStarted;
+            NetworkManager.Singleton.OnClientStopped -= _ => OnNetworkSessionEnded?.Invoke();
         }
     }
 }

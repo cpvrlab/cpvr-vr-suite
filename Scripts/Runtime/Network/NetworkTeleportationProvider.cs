@@ -82,7 +82,7 @@ namespace Network
             if (LocalTeleportation) return;
             if (!interactorObject.name.Contains("Teleport")) return;
             if (NetworkManager.Singleton == null) return;
-            if (!NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership()) return;
+            if (m_inSession && !NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership()) return;
 
             interactorObject.TryGetComponent(out m_currentRayRenderer);
         }
@@ -98,8 +98,9 @@ namespace Network
             if (NetworkManager.Singleton == null) return;
 
             m_currentRayRenderer = null;
-
-            NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
+            
+            if (m_inSession)
+                NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
         }
     }
 }

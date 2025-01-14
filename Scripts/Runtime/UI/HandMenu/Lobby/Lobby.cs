@@ -11,14 +11,14 @@ public class Lobby : MonoBehaviour
 
     void OnEnable()
     {
-        NetworkController.Instance.NetworkManager.OnConnectionEvent += HandleConnectionEvent;
+        NetworkManager.Singleton.OnConnectionEvent += HandleConnectionEvent;
         UpdateLobby();
     }
 
     void OnDisable()
     {
-        if (NetworkController.Instance != null && NetworkController.Instance.NetworkManager != null)
-            NetworkController.Instance.NetworkManager.OnConnectionEvent -= HandleConnectionEvent;
+        if (NetworkController.Instance != null && NetworkManager.Singleton != null)
+            NetworkManager.Singleton.OnConnectionEvent -= HandleConnectionEvent;
     }
 
     void HandleConnectionEvent(NetworkManager manager, ConnectionEventData data)
@@ -57,7 +57,7 @@ public class Lobby : MonoBehaviour
 
     void UpdateLobby()
     {
-        var connectedClientIds = NetworkController.Instance.NetworkManager.ConnectedClientsIds;
+        var connectedClientIds = NetworkManager.Singleton.ConnectedClientsIds;
         var existingClientIds = m_lobbyEntries.Select(x => x.ClientId);
         var missingIds = connectedClientIds.Except(existingClientIds);
         var removedIds = existingClientIds.Except(connectedClientIds);
@@ -75,15 +75,15 @@ public class Lobby : MonoBehaviour
         {
             var entry = Instantiate(m_lobbyEntryPrefab, m_content);
             entry.Initialise(clientId,
-                NetworkController.Instance.NetworkManager.LocalClientId == clientId,
+                NetworkManager.Singleton.LocalClientId == clientId,
                 clientId == 0);
             m_lobbyEntries.Add(entry);
             entry.SetName("Player " + clientId);
 
-            if (NetworkController.Instance.NetworkManager.IsHost)
+            if (NetworkManager.Singleton.IsHost)
             {
-                entry.SetKickButtonVisibility(NetworkController.Instance.NetworkManager.LocalClientId != clientId);
-                entry.AddListener(() => NetworkController.Instance.NetworkManager.DisconnectClient(entry.ClientId, "Kicked by host"));
+                entry.SetKickButtonVisibility(NetworkManager.Singleton.LocalClientId != clientId);
+                entry.AddListener(() => NetworkManager.Singleton.DisconnectClient(entry.ClientId, "Kicked by host"));
             }
 
             m_lobbyEntries.Sort((x, y) => x.ClientId.CompareTo(y.ClientId));

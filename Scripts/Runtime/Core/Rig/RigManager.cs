@@ -21,8 +21,15 @@ public class RigManager : Singleton<RigManager>
     void Start()
     {
         CalibrateHeight();
-        if (SceneManager.sceneCountInBuildSettings <= 1) return;
-        SceneManager.LoadSceneAsync(1);
+
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            var scenename = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)).ToString();
+            if (scenename.Contains("Bootstrap", StringComparison.OrdinalIgnoreCase))
+                continue;
+            SceneManager.LoadSceneAsync(i);
+            break;
+        }
     }
 
     public async Task Fade(Color endColor, float duration = 1f)

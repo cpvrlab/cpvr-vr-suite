@@ -16,7 +16,7 @@ public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
 
     public void OnDisable()
     {
-        if (NetworkController.Instance != null && NetworkController.Instance.NetworkManager != null)
+        if (NetworkController.Instance != null && NetworkManager.Singleton != null)
         {
             NetworkController.OnNetworkSessionStarted -= OnClientStarted;
             NetworkController.OnNetworkSessionEnded -= OnClientStopped;
@@ -25,22 +25,22 @@ public class NetworkSceneHandler : MonoBehaviour, ISceneHandler
 
     void OnClientStarted()
     {
-        NetworkController.Instance.NetworkManager.SceneManager.OnSceneEvent += HandleSceneEvent;
+        NetworkManager.Singleton.SceneManager.OnSceneEvent += HandleSceneEvent;
     }
 
     void OnClientStopped()
     {
         if (NetworkController.Instance != null &&
-            NetworkController.Instance.NetworkManager != null &&
-            NetworkController.Instance.NetworkManager.SceneManager != null)
-        NetworkController.Instance.NetworkManager.SceneManager.OnSceneEvent -= HandleSceneEvent;
+            NetworkManager.Singleton != null &&
+            NetworkManager.Singleton.SceneManager != null)
+        NetworkManager.Singleton.SceneManager.OnSceneEvent -= HandleSceneEvent;
     }
 
     public void ChangeScene(int index)
     {
         if (index == SceneManager.GetActiveScene().buildIndex) return;
 
-        if (NetworkController.Instance == null || !NetworkController.Instance.NetworkManager.IsConnectedClient)
+        if (NetworkController.Instance == null || !NetworkManager.Singleton.IsConnectedClient)
         {
             SceneChangeStarted?.Invoke();
             var sceneChangeOperation = SceneManager.LoadSceneAsync(index);

@@ -38,15 +38,17 @@ Please refer to the Unity [documentation](https://docs.unity3d.com/Manual/Custom
 ### Scene setup
 
 1. Place the **Complete VR Rig** prefab in an empty scene and add it to the build index
-2. Add your additional scenes to the build index without the **Complete VR Rig** prefab, camera or any other XR Rig in them
+2. Make sure the scenename contains the string 'bootstrap' so for example: XRRigBootstrap
+3. Add your additional scenes to the build index without the **Complete VR Rig** prefab, camera or any other XR Rig in them
+
+***IMPORTANT!***\
+All scenes containing the string 'bootstrap' will not be added to the scene panel.
 
 ### Networked scene setup
 
-1. Place the **Network VR Rig** prefab in an empty scene and add it to the build index (Make sure the index of this scene is 0)
-2. Create two empty GameObjects in the Hierarchy and name them `NetworkManager` and `NetworkController` respectivelly
-    1. Add a NetworkManager Component to the `NetworkManager` GameObject. Select `Unity Transport` as Transport and check `Allow remote connections`. Also add references to the networkprefblist and playerprefab which can be found within the package
-    2. Add a NetworkController Component to the `NetworkController` GameObject. Add references to the `NetworkManager`, the `NetworkSceneController`-prefab and the `GroupedTeleportationManager`-prefab. Also check `Is Persistent` to make sure the object is carried over to the next scene.
-2. Add your additional scenes to the build index without the **Network VR Rig** prefab, camera or any other XR Rig in them
+1. Create an empty scene called 'NetworkBootstrap' and place the `NetworkController` prefab in it. Make sure the scene is placed first in the build index.
+2. Place the **Network VR Rig** prefab in an empty scene called 'XRRigBootstrap' (case sensitive!) and add it to the build index
+3. Add your additional scenes to the build index without the **Network VR Rig** prefab, camera or any other XR Rig in them
 
 ### Sending screenshots via Email
 
