@@ -45,18 +45,22 @@ namespace Network
 
             m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
+                Debug.Log($"Ray owner id changed: {newOwnerId}");
                 if (newOwnerId == NetworkManager.Singleton.LocalClientId)
                 {
+                    Debug.Log($"Teleport Ray: I am the owner of the teleport ray");
                     m_lineRenderer.enabled = false;
                     RigManager.Instance.RigOrchestrator.BlockTeleport(false);
                 }
                 else if (newOwnerId == ulong.MaxValue)
                 {
+                    Debug.Log($"Teleport Ray: Ownership of the ray has been reset");
                     m_lineRenderer.enabled = false;
                     RigManager.Instance.RigOrchestrator.BlockTeleport(false);
                 }
                 else
                 {
+                    Debug.Log($"Teleport Ray: I am not the owner of the ray so i cannot teleport");
                     m_lineRenderer.enabled = true;
                     RigManager.Instance.RigOrchestrator.BlockTeleport(true);
                 }
@@ -151,10 +155,11 @@ namespace Network
         /// <param name="valid">If the teleportation is valid and thus, should be done or not.</param>
         public void ReleaseOwnership(bool valid)
         {
-            if (!m_owned.Value || m_ownerId.Value != NetworkManager.Singleton.LocalClientId) return;
-
-            var position = m_positionsData.Value.Positions.Last() + GetOffset();
-            ReleaseOwnershipRpc(valid, position);
+            if (m_owned.Value && m_ownerId.Value == NetworkManager.Singleton.LocalClientId)
+            {
+                var position = m_positionsData.Value.Positions.Last() + GetOffset();
+                ReleaseOwnershipRpc(valid, position);
+            }
         }
 
         /// <summary>

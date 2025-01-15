@@ -79,10 +79,11 @@ namespace Network
         /// <param name="interactorObject">Interactor that started an interaction.</param>
         void OnInteractionStarted(GameObject interactorObject)
         {
+            if (!m_inSession) return;
             if (LocalTeleportation) return;
             if (!interactorObject.name.Contains("Teleport")) return;
             if (NetworkManager.Singleton == null) return;
-            if (m_inSession && !NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership()) return;
+            if (!NetworkController.Instance.GroupedTeleportationManager.ClaimOwnership()) return;
 
             interactorObject.TryGetComponent(out m_currentRayRenderer);
         }
@@ -93,14 +94,13 @@ namespace Network
         /// <param name="interactorObject">Interactor that ended an interaction.</param>
         void OnInteractionEnded(GameObject interactorObject)
         {
+            if (!m_inSession) return;
             if (LocalTeleportation) return;
             if (!interactorObject.name.Contains("Teleport")) return;
             if (NetworkManager.Singleton == null) return;
 
             m_currentRayRenderer = null;
-            
-            if (m_inSession)
-                NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
+            NetworkController.Instance.GroupedTeleportationManager.ReleaseOwnership(false);
         }
     }
 }

@@ -18,7 +18,10 @@ public class HandInteractorManager : MonoBehaviour
         foreach (var item in m_interactorControls)
         {
             if (item.interactor.name == "Teleport Interactor")
+            {
                 item.blocked = value;
+                Debug.Log($"Teleport Interactor: the interactor on {transform.name} is now blocked: {value}");
+            }
         }
     }
 
