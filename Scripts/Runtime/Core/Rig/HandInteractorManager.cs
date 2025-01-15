@@ -20,7 +20,7 @@ public class HandInteractorManager : MonoBehaviour
             if (item.interactor.name == "Teleport Interactor")
             {
                 item.blocked = value;
-                Debug.Log($"Teleport Interactor: the interactor on {transform.name} is now blocked: {value}");
+                Debug.Log($"{transform.name}: the teleport interactor is now blocked: {value}");
             }
         }
     }
