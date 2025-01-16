@@ -10,10 +10,6 @@ using Util;
 
 namespace Network
 {
-    /// <summary>
-    /// Everything related to the network side of teleportation management.
-    /// Gesture and local side is managed by NetworkTeleportationProvider.cs.
-    /// </summary>
     public class GroupedTeleportationManager : NetworkBehaviour
     {
         [field: SerializeField] public bool LocalTeleportation { get; private set; }
@@ -31,10 +27,10 @@ namespace Network
         public override void OnNetworkSpawn()
         {
             NetworkController.Instance.GroupedTeleportationManager = this;
-            
+
             if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
             {
-                m_markers[0] = pos1; 
+                m_markers[0] = pos1;
                 m_markers[1] = pos2;
                 RecenterXROrigin();
             }
@@ -66,20 +62,17 @@ namespace Network
                 }
             };
 
-            // Update the line renderer points
             m_positionsData.OnValueChanged += (_, newValue) => UpdateLineRenderer(newValue.Positions);
 
-            // On network spawn, subscribe to TeleportOccuredMessage
             NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler("TeleportPositionMessage",
                 ReceiveTeleportPosition);
 
             NetworkManager.SceneManager.OnLoadEventCompleted += OnLoadEventCompleted;
         }
 
-        public override void OnNetworkDespawn()
-        {
-            m_networkTeleportationProvider.GroupedTeleportationManager = null;
-        }
+        public override void OnNetworkDespawn() => m_networkTeleportationProvider.GroupedTeleportationManager = null;
+
+        public bool OwnsTeleportRay() => m_ownerId.Value == NetworkManager.Singleton.LocalClientId;
 
         void ReceiveTeleportPosition(ulong senderId, FastBufferReader messagePayload)
         {
@@ -96,11 +89,6 @@ namespace Network
 
         public void SetMarkers(Vector3[] markers) => m_markers = markers;
 
-        /// <summary>
-        /// Set the new position of the object.
-        /// </summary>
-        /// <param name="position">The new object position.</param>
-        /// <param name="withRecenter">If we should place the player correctly while taking care of calibration.</param>
         void SetNewPosition(Vector3 position, bool withRecenter)
         {
             transform.position = position;
@@ -121,10 +109,6 @@ namespace Network
             xrOriginTransform.position = xrOriginTransform.TransformPoint(-localOrigin);
         }
 
-        /// <summary>
-        /// Update the teleport ray with new positions.
-        /// </summary>
-        /// <param name="positions">The new positions of the ray.</param>
         void UpdateLineRenderer(Vector3[] positions)
         {
             if (!m_lineRenderer.enabled) return;
@@ -141,9 +125,6 @@ namespace Network
                 RecenterXROrigin();
         }
 
-        /// <summary>
-        /// Ask for the teleportation ray.
-        /// </summary>
         public bool ClaimOwnership()
         {
             if (m_ownerId.Value == ulong.MaxValue)
@@ -154,76 +135,26 @@ namespace Network
             else return false;
         }
 
-        /// <summary>
-        /// Release the ray and teleport or not.
-        /// </summary>
-        /// <param name="valid">If the teleportation is valid and thus, should be done or not.</param>
-        public void ReleaseOwnership(bool valid)
+        public void ReleaseOwnership()
         {
-            if (m_ownerId.Value == NetworkManager.Singleton.LocalClientId)
+            if (OwnsTeleportRay())
+                ReleaseOwnershipRpc();
+        }
+
+        public void StartTeleportation()
+        {
+            if (OwnsTeleportRay() &&
+                m_positionsData.Value.Positions.Count() > 0)
             {
-                if (m_positionsData.Value.Positions.Count() > 0)
-                {
-                    var position = m_positionsData.Value.Positions.Last() + GetOffset();
-                    ReleaseOwnershipRpc(valid, position);
-                }
+                var position = m_positionsData.Value.Positions.Last() + GetOffset();
+                SendTeleportPositionRpc(position);
             }
         }
 
-        /// <summary>
-        /// Set the positions of the ray.
-        /// </summary>
-        /// <param name="data">New positions.</param>
         public void SetPositionsData(PositionsData data)
         {
-            if (m_ownerId.Value == NetworkManager.Singleton.LocalClientId)
+            if (OwnsTeleportRay())
                 SetPositionsDataRpc(data);
-        }
-
-        /*
-         * RPCs
-         * Functions called by the host/server.
-         */
-
-        /// <summary>
-        /// Ask for the ownership of the ray.
-        /// </summary>
-        /// <param name="rpcParams">Contains the ClientID of who is asking.</param>
-        [Rpc(SendTo.Server, RequireOwnership = false)]
-        void ClaimOwnershipRpc(RpcParams rpcParams = default)
-        {
-            if (m_ownerId.Value == ulong.MaxValue)
-                m_ownerId.Value = rpcParams.Receive.SenderClientId;
-        }
-
-        /// <summary>
-        /// Set the new positions of the ray for everyone.
-        /// </summary>
-        /// <param name="data">New positions of the ray.</param>
-        /// <param name="rpcParams">Contains the ClientID of who is trying to set the new position.</param>
-        [Rpc(SendTo.Server, RequireOwnership = false)]
-        void SetPositionsDataRpc(PositionsData data, RpcParams rpcParams = default)
-        {
-            if (m_ownerId.Value == rpcParams.Receive.SenderClientId)
-                m_positionsData.Value = data;
-        }
-
-        /// <summary>
-        /// Release the ray and teleport if needed.
-        /// </summary>
-        /// <param name="valid">If the teleportation is valid and thus, should be done or not.</param>
-        /// <param name="rpcParams">Contains the ClientID of who is trying to teleport.</param>
-        [Rpc(SendTo.Server, RequireOwnership = false)]
-        void ReleaseOwnershipRpc(bool valid, Vector3 position, RpcParams rpcParams = default)
-        {
-            if (m_ownerId.Value == rpcParams.Receive.SenderClientId)
-            {
-                // We reset the ownership of the ray.
-                m_ownerId.Value = ulong.MaxValue;
-
-                if (valid)
-                    SendTeleportPositionRpc(position);
-            }
         }
 
         Vector3 GetOffset()
@@ -234,10 +165,27 @@ namespace Network
             return pos - camera;
         }
 
-        /// <summary>
-        /// Send the teleportation position to all connected player.
-        /// </summary>
-        /// <param name="teleportPosition">Teleport position.</param>
+        [Rpc(SendTo.Server, RequireOwnership = false)]
+        void ClaimOwnershipRpc(RpcParams rpcParams = default)
+        {
+            if (m_ownerId.Value == ulong.MaxValue)
+                m_ownerId.Value = rpcParams.Receive.SenderClientId;
+        }
+
+        [Rpc(SendTo.Server, RequireOwnership = false)]
+        void SetPositionsDataRpc(PositionsData data, RpcParams rpcParams = default)
+        {
+            if (m_ownerId.Value == rpcParams.Receive.SenderClientId)
+                m_positionsData.Value = data;
+        }
+
+        [Rpc(SendTo.Server, RequireOwnership = false)]
+        void ReleaseOwnershipRpc(RpcParams rpcParams = default)
+        {
+            if (m_ownerId.Value == rpcParams.Receive.SenderClientId)
+                m_ownerId.Value = ulong.MaxValue;
+        }
+
         [Rpc(SendTo.Server, RequireOwnership = false)]
         void SendTeleportPositionRpc(Vector3 teleportPosition)
         {
