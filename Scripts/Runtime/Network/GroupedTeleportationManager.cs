@@ -35,9 +35,10 @@ namespace Network
                 RecenterXROrigin();
             }
 
+            LocalTeleportation = false;
             m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;
-            m_networkTeleportationProvider.LocalTeleportation = false;
             m_networkTeleportationProvider.GroupedTeleportationManager = this;
+            m_networkTeleportationProvider.locomotionEnded += (_) => StartTeleportation();
 
             m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
@@ -70,7 +71,11 @@ namespace Network
             NetworkManager.SceneManager.OnLoadEventCompleted += OnLoadEventCompleted;
         }
 
-        public override void OnNetworkDespawn() => m_networkTeleportationProvider.GroupedTeleportationManager = null;
+        public override void OnNetworkDespawn()
+        {
+            m_networkTeleportationProvider.GroupedTeleportationManager = null;
+            m_networkTeleportationProvider.locomotionEnded -= (_) => StartTeleportation();
+        }
 
         public bool OwnsTeleportRay() => m_ownerId.Value == NetworkManager.Singleton.LocalClientId;
 
@@ -91,6 +96,7 @@ namespace Network
 
         void SetNewPosition(Vector3 position, bool withRecenter)
         {
+            Debug.Log($"Setting new position to: {position}");
             transform.position = position;
 
             if (withRecenter)
@@ -120,7 +126,6 @@ namespace Network
         public void SetLocalTeleportation(bool status)
         {
             LocalTeleportation = status;
-            m_networkTeleportationProvider.LocalTeleportation = status;
             if (!status)
                 RecenterXROrigin();
         }
