@@ -1,5 +1,4 @@
 using Serializable;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
@@ -56,8 +55,9 @@ namespace Network
 
         public override bool QueueTeleportRequest(TeleportRequest teleportRequest)
         {
-            Debug.Log($"Teleport request. {GroupedTeleportationManager != null && (GroupedTeleportationManager.OwnsTeleportRay() || GroupedTeleportationManager.LocalTeleportation)}");
-            return GroupedTeleportationManager != null && (GroupedTeleportationManager.OwnsTeleportRay() || GroupedTeleportationManager.LocalTeleportation) && base.QueueTeleportRequest(teleportRequest);
+            var condition = GroupedTeleportationManager == null || GroupedTeleportationManager.OwnsTeleportRay() || GroupedTeleportationManager.LocalTeleportation;
+            Debug.Log($"Teleport request success: {condition}");
+            return condition && base.QueueTeleportRequest(teleportRequest);
         }
 
         void OnInteractionStarted(GameObject interactorObject)

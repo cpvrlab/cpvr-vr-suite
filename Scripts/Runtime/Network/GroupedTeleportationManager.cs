@@ -43,24 +43,10 @@ namespace Network
             m_ownerId.OnValueChanged += (_, newOwnerId) =>
             {
                 Debug.Log($"Ray owner id: {newOwnerId}");
-                if (newOwnerId == NetworkManager.Singleton.LocalClientId)
-                {
-                    Debug.Log($"Teleport Ray: I am the owner of the teleport ray");
-                    m_lineRenderer.enabled = false;
-                    RigManager.Instance.RigOrchestrator.BlockTeleport(false);
-                }
-                else if (newOwnerId == ulong.MaxValue)
-                {
-                    Debug.Log($"Teleport Ray: Ownership of the ray has been reset");
-                    m_lineRenderer.enabled = false;
-                    RigManager.Instance.RigOrchestrator.BlockTeleport(false);
-                }
-                else
-                {
-                    Debug.Log($"Teleport Ray: I am not the owner of the ray so i cannot teleport");
-                    m_lineRenderer.enabled = true;
-                    RigManager.Instance.RigOrchestrator.BlockTeleport(true);
-                }
+                var value = newOwnerId != NetworkManager.Singleton.LocalClientId && newOwnerId != ulong.MaxValue;
+                m_lineRenderer.enabled = value;
+                RigManager.Instance.RigOrchestrator.BlockTeleport(value);
+                Debug.Log($"Teleport allowed: {!value}");
             };
 
             m_positionsData.OnValueChanged += (_, newValue) => UpdateLineRenderer(newValue.Positions);
@@ -75,6 +61,7 @@ namespace Network
         {
             m_networkTeleportationProvider.GroupedTeleportationManager = null;
             m_networkTeleportationProvider.locomotionEnded -= (_) => StartTeleportation();
+            NetworkManager.SceneManager.OnLoadEventCompleted -= OnLoadEventCompleted;
         }
 
         public bool OwnsTeleportRay() => m_ownerId.Value == NetworkManager.Singleton.LocalClientId;
