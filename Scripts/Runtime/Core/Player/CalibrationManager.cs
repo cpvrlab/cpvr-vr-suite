@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using Util;
 using VR;
 
@@ -9,22 +8,16 @@ namespace cpvr_vr_suite.Scripts.VR
     public class CalibrationManager : MonoBehaviour
     {
         [SerializeField] Collider m_planeCollider;
-        [SerializeField] Transform m_firstMarker;
-        [SerializeField] Transform m_secondMarker;
-
+        [SerializeField] GameObject m_marker;
         bool m_isCalibrating;
 
         void Start()
         {
             m_isCalibrating = false;
-            m_firstMarker.gameObject.SetActive(false);
-            m_secondMarker.gameObject.SetActive(false);
+            m_marker.SetActive(false);
 
-            if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
-            {
-                m_firstMarker.position = pos1;
-                m_secondMarker.position = pos2;
-            }
+            if (MarkerPrefs.LoadPosition(out var pos1))
+                m_marker.transform.localPosition = pos1;
         }
 
         public void Calibrate()
@@ -36,8 +29,7 @@ namespace cpvr_vr_suite.Scripts.VR
 
             SetInteractables(!m_isCalibrating);
 
-            m_firstMarker.gameObject.SetActive(m_isCalibrating);
-            m_secondMarker.gameObject.SetActive(m_isCalibrating);
+            m_marker.gameObject.SetActive(m_isCalibrating);
             m_planeCollider.enabled = m_isCalibrating;
 
             if (!m_isCalibrating)
@@ -46,11 +38,8 @@ namespace cpvr_vr_suite.Scripts.VR
 
         void SaveCalibration()
         {
-            Vector3[] coordinates = { m_firstMarker.localPosition, m_secondMarker.localPosition };
-
-            MarkerPrefs.SavePrefs(coordinates[0], coordinates[1]);
-
-            NetworkController.Instance.GroupedTeleportationManager.SetMarkers(coordinates);
+            MarkerPrefs.SavePositon(m_marker.transform.localPosition);
+            NetworkController.Instance.GroupedTeleportationManager.Marker = m_marker;
             NetworkController.Instance.GroupedTeleportationManager.RecenterXROrigin();
         }
 

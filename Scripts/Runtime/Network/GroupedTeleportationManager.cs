@@ -17,23 +17,12 @@ namespace Network
 
         NetworkTeleportationProvider m_networkTeleportationProvider;
         readonly NetworkVariable<ulong> m_ownerId = new(ulong.MaxValue);
-        readonly NetworkVariable<PositionsData> m_positionsData = new(new PositionsData
-        {
-            Positions = Array.Empty<Vector3>()
-        });
-
-        Vector3[] m_markers = new Vector3[2];
+        readonly NetworkVariable<PositionsData> m_positionsData = new(new PositionsData { Positions = Array.Empty<Vector3>() });
+        public GameObject Marker { get; set; }
 
         public override void OnNetworkSpawn()
         {
             NetworkController.Instance.GroupedTeleportationManager = this;
-
-            if (MarkerPrefs.LoadPrefs(out var pos1, out var pos2))
-            {
-                m_markers[0] = pos1;
-                m_markers[1] = pos2;
-                RecenterXROrigin();
-            }
 
             LocalTeleportation = false;
             m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;
@@ -79,8 +68,6 @@ namespace Network
             SetNewPosition(Vector3.zero, true);
         }
 
-        public void SetMarkers(Vector3[] markers) => m_markers = markers;
-
         void SetNewPosition(Vector3 position, bool withRecenter)
         {
             Debug.Log($"Setting new position to: {position}");
@@ -92,14 +79,11 @@ namespace Network
 
         public void RecenterXROrigin()
         {
-            Vector3 localOrigin = m_markers[0];
-            Vector3 localForward = (m_markers[1] - m_markers[0]).normalized;
-            float angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.up);
-
+            if (Marker == null) return;
+            Marker.transform.rotation = Quaternion.identity;
             var xrOriginTransform = RigManager.Instance.RigOrchestrator.Origin;
-
-            xrOriginTransform.SetPositionAndRotation(transform.position, Quaternion.AngleAxis(angle, Vector3.up));
-            xrOriginTransform.position = xrOriginTransform.TransformPoint(-localOrigin);
+            var offset = xrOriginTransform.rotation * -Marker.transform.localPosition;
+            xrOriginTransform.position = offset;
         }
 
         void UpdateLineRenderer(Vector3[] positions)
