@@ -52,6 +52,9 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -159,6 +162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2954664063
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -166,6 +171,8 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &5160613740671783673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d96c398083d7486bb91cfe0943deff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPersistent: 1
+  ShowTopMostFoldoutHeaderGroup: 1
   <LocalTeleportation>k__BackingField: 0
-  m_blockTeleportOnSpawn: 0
   m_lineRenderer: {fileID: 6191789117387003001}
