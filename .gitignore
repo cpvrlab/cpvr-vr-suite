@@ -2,3 +2,5 @@
 .idea/
 .vs/
 .vscode/
+*.blend1
+*.blend1.meta
