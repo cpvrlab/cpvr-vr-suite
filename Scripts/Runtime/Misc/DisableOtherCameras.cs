@@ -25,6 +25,6 @@ public class DisableOtherCameras : MonoBehaviour
         foreach (var item in allOtherCameras)
             item.SetActive(false);
 
-        Debug.Log($"{allOtherCameras.Count()} Cameras disabled.");
+        //Debug.Log($"{allOtherCameras.Count()} Cameras disabled.");
     }
 }

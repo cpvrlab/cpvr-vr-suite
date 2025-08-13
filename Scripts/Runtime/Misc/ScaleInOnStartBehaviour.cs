@@ -14,7 +14,13 @@ namespace cpvr_vr_suite.Scripts.Util
         void Start()
         {
             if (Application.isEditor) return;
-            
+
+            if (LoadingIndicator.Instance != null)
+            {
+                //Debug.Log("Calling StopLoadingDisplay from ScaleInOnStartBehaviour");
+                LoadingIndicator.Instance.StopLoadingDisplay();
+            }
+
             StartCoroutine(ScaleIn());
         }
 

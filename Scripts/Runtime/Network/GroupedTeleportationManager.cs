@@ -75,7 +75,7 @@ namespace Network
 
         void OnLoadEventCompleted(string _, LoadSceneMode __, List<ulong> ___, List<ulong> ____)
         {
-            Debug.Log("OnLoadEventCompleted()");
+            //Debug.Log("OnLoadEventCompleted()");
             SetNewPosition(Vector3.zero, true);
         }
 

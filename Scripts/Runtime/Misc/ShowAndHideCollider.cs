@@ -16,7 +16,7 @@ namespace cpvr_vr_suite.Scripts.Util
         {
             if (!other.CompareTag("MainCamera")) return;
 
-            Debug.Log("OnTriggerEnter: " + gameObject.name);
+            //Debug.Log("OnTriggerEnter: " + gameObject.name);
 
             foreach (var toShow in objectsToShow)
                 toShow.SetActive(true);
@@ -30,7 +30,7 @@ namespace cpvr_vr_suite.Scripts.Util
         {
             if (!other.CompareTag("MainCamera")) return;
 
-            Debug.Log("OnTriggerExit: " + gameObject.name);
+            //Debug.Log("OnTriggerExit: " + gameObject.name);
 
             foreach (var toShow in objectsToShow)
                 toShow.SetActive(false);

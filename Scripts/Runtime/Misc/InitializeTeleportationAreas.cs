@@ -36,17 +36,17 @@ public class InitializeTeleportationAreas : MonoBehaviour
             }
         }
         
-        Debug.Log($"{allTeleportObjects.Count} Teleport Layer Objects found");
-        Debug.Log($"{teleportAreaCounter} Teleport areas added");
+        //Debug.Log($"{allTeleportObjects.Count} Teleport Layer Objects found");
+        //Debug.Log($"{teleportAreaCounter} Teleport areas added");
         
         foreach (var go in allNonTeleportObjects)
         {
             if (!go.TryGetComponent<Collider>(out var _))
             {
-                Debug.LogWarning($"GameObject {go.name} has no collider attached to it. Non-Teleport will not be available on this object.");
+                //Debug.LogWarning($"GameObject {go.name} has no collider attached to it. Non-Teleport will not be available on this object.");
                 continue;
             }
         }
-        Debug.Log($"{allNonTeleportObjects.Count} Non-Teleport Layer Objects found");
+        //Debug.Log($"{allNonTeleportObjects.Count} Non-Teleport Layer Objects found");
     }
 }

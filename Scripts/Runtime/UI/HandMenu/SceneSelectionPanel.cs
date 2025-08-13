@@ -33,10 +33,12 @@ public class SceneSelectionPanel : MonoBehaviour
     {
         m_sceneHandler.SceneChangeStarted += FadeOut;
         m_sceneHandler.SceneChangeCompleted += FadeIn;
+        //Debug.Log("SceneSelectionPanel.OnEnable");
         if (LoadingIndicator.Instance != null)
         {
             m_sceneHandler.SceneChangeStarted += LoadingIndicator.Instance.StartLoadingDisplay;
             m_sceneHandler.SceneChangeCompleted += LoadingIndicator.Instance.StopLoadingDisplay;
+            //Debug.Log("SceneSelectionPanel.OnEnable: Handlers attached");
         }
     }
 
@@ -44,10 +46,12 @@ public class SceneSelectionPanel : MonoBehaviour
     {
         m_sceneHandler.SceneChangeStarted -= FadeOut;
         m_sceneHandler.SceneChangeCompleted -= FadeIn;
+        //Debug.Log("SceneSelectionPanel.OnDisable");
         if (LoadingIndicator.Instance != null)
         {
             m_sceneHandler.SceneChangeStarted -= LoadingIndicator.Instance.StartLoadingDisplay;
             m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.Instance.StopLoadingDisplay;
+            //Debug.Log("SceneSelectionPanel.OnDisable: Handlers dettached");
         }
     }
 
