@@ -47,7 +47,7 @@ public class RigManager : Singleton<RigManager>
     {
         if (m_isCalibrating) return;
 
-        Debug.Log("Started calibration.");
+        //Debug.Log("Started calibration.");
         OnHeightCalibrationStarted?.Invoke();
         m_isCalibrating = true;
 
@@ -61,7 +61,7 @@ public class RigManager : Singleton<RigManager>
         HeightCalculated = true;
         m_isCalibrating = false;
 
-        Debug.Log("Finished calibration.");
+        //Debug.Log("Finished calibration.");
         OnHeightCalibrationEnded?.Invoke(Height);
     }
 }

@@ -55,6 +55,7 @@ public class LoadingIndicator : MonoBehaviour
         StopCoroutine(DisplayLoading());
         m_loadingSpriteTransform.gameObject.SetActive(false);
         m_downloadProgressText.text = string.Empty;
+        //Debug.Log("StopLoadingDisplay");
     }
 
     IEnumerator DisplayLoading()
