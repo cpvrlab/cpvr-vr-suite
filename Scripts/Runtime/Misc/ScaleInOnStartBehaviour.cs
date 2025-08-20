@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace cpvr_vr_suite.Scripts.Util
 {
@@ -18,7 +17,7 @@ namespace cpvr_vr_suite.Scripts.Util
             if (LoadingIndicator.Instance != null)
             {
                 //Debug.Log("Calling StopLoadingDisplay from ScaleInOnStartBehaviour");
-                LoadingIndicator.Instance.StopLoadingDisplay();
+                LoadingIndicator.StopLoadingDisplay();
             }
 
             StartCoroutine(ScaleIn());
