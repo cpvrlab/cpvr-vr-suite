@@ -24,18 +24,33 @@ public class LoadingIndicator : MonoBehaviour
         m_downloadProgressText.text = string.Empty;
     }
 
-    public void UpdateDownloadProgress(string text)
+    public static void StartLoadingDisplay()
     {
-        m_downloadProgressText.text = text;
+        if (Instance != null)
+            Instance.ShowDisplay();
     }
 
-    public void StartLoadingDisplay()
+    public static void StopLoadingDisplay()
+    {
+        if (Instance != null)
+            Instance.HideDisplay();
+    }
+
+    public static void UpdateDownloadProgress(string text)
+    {
+        if (Instance != null)
+            Instance.UpdateText(text);
+    }
+
+    void UpdateText(string text) => m_downloadProgressText.text = text;
+
+    void ShowDisplay()
     {
         m_loadingSpriteTransform.gameObject.SetActive(true);
         StartCoroutine(DisplayLoading());
     }
 
-    public void StopLoadingDisplay()
+    void HideDisplay()
     {
         StopCoroutine(DisplayLoading());
         m_loadingSpriteTransform.gameObject.SetActive(false);

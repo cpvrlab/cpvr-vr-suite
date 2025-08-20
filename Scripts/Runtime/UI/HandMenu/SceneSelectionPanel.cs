@@ -35,8 +35,8 @@ public class SceneSelectionPanel : MonoBehaviour
         m_sceneHandler.SceneChangeCompleted += FadeIn;
         if (LoadingIndicator.Instance != null)
         {
-            m_sceneHandler.SceneChangeStarted += LoadingIndicator.Instance.StartLoadingDisplay;
-            m_sceneHandler.SceneChangeCompleted += LoadingIndicator.Instance.StopLoadingDisplay;
+            m_sceneHandler.SceneChangeStarted += LoadingIndicator.StartLoadingDisplay;
+            m_sceneHandler.SceneChangeCompleted += LoadingIndicator.StopLoadingDisplay;
         }
     }
 
@@ -46,8 +46,8 @@ public class SceneSelectionPanel : MonoBehaviour
         m_sceneHandler.SceneChangeCompleted -= FadeIn;
         if (LoadingIndicator.Instance != null)
         {
-            m_sceneHandler.SceneChangeStarted -= LoadingIndicator.Instance.StartLoadingDisplay;
-            m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.Instance.StopLoadingDisplay;
+            m_sceneHandler.SceneChangeStarted -= LoadingIndicator.StartLoadingDisplay;
+            m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.StopLoadingDisplay;
         }
     }
 
