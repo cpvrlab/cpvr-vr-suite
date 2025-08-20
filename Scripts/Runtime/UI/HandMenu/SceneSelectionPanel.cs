@@ -24,33 +24,24 @@ public class SceneSelectionPanel : MonoBehaviour
 
     void Start()
     {
+        m_sceneHandler.SceneChangeStarted += FadeOut;
+        m_sceneHandler.SceneChangeCompleted += FadeIn;
+        m_sceneHandler.SceneChangeStarted += LoadingIndicator.StartLoadingDisplay;
+        m_sceneHandler.SceneChangeCompleted += LoadingIndicator.StopLoadingDisplay;
+
         if (TryGetComponent<HandmenuPanel>(out var panel))
             m_handMenuController = panel.HandMenuController;
         InitializeScenes();
     }
 
-    void OnEnable()
+    void OnDestroy()
     {
-        m_sceneHandler.SceneChangeStarted += FadeOut;
-        m_sceneHandler.SceneChangeCompleted += FadeIn;
-        //Debug.Log("SceneSelectionPanel.OnEnable");
-        if (LoadingIndicator.Instance != null)
-        {
-            m_sceneHandler.SceneChangeStarted += LoadingIndicator.StartLoadingDisplay;
-            m_sceneHandler.SceneChangeCompleted += LoadingIndicator.StopLoadingDisplay;
-        }
-    }
+        if (m_sceneHandler == null) return;
 
-    void OnDisable()
-    {
         m_sceneHandler.SceneChangeStarted -= FadeOut;
         m_sceneHandler.SceneChangeCompleted -= FadeIn;
-        //Debug.Log("SceneSelectionPanel.OnDisable");
-        if (LoadingIndicator.Instance != null)
-        {
-            m_sceneHandler.SceneChangeStarted -= LoadingIndicator.StartLoadingDisplay;
-            m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.StopLoadingDisplay;
-        }
+        m_sceneHandler.SceneChangeStarted -= LoadingIndicator.StartLoadingDisplay;
+        m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.StopLoadingDisplay;
     }
 
     public void InitializeScenes()
@@ -95,14 +86,12 @@ public class SceneSelectionPanel : MonoBehaviour
     async void FadeOut()
     {
         if (!m_fadeOnSceneChange) return;
-
         await RigManager.Instance.Fade(Color.black, 0.75f);
     }
 
     async void FadeIn()
     {
         if (!m_fadeOnSceneChange) return;
-
         await RigManager.Instance.Fade(Color.clear, 0.75f);
     }
 }
