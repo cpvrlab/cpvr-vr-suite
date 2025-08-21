@@ -16,6 +16,7 @@ namespace cpvr_vr_suite.Scripts.UI
 
         [Header("Screenshot Settings")]
         [SerializeField] string emailAddress;
+        [SerializeField] string subject = "NO SUBJECT";
         [SerializeField] bool saveImageToGallery;
 
         void Start()
@@ -28,8 +29,15 @@ namespace cpvr_vr_suite.Scripts.UI
                 PlayerPrefs.SetString("emailAddress", emailAddress);
             else
                 emailAddress = PlayerPrefs.GetString("emailAddress");
-            if (emailAddress.Equals("") && !saveImageToGallery)
+            if (string.IsNullOrWhiteSpace(emailAddress) && !saveImageToGallery)
                 screenshotButton.interactable = false;
+        }
+
+        public void SetEmailAddress(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email)) return;
+            emailAddress = email;
+            screenshotButton.interactable = true;
         }
 
         public void OnScreenshotClicked() => ScreenshotRoutine();
@@ -37,7 +45,7 @@ namespace cpvr_vr_suite.Scripts.UI
         async void ScreenshotRoutine()
         {
             var flashColor = Color.white;
-            var filename = $"VR4Architects-{DateTime.Now:yyyyMMdd-HHmmss}";
+            var filename = $"{subject.Trim().Replace(" ", "-")}-{DateTime.Now:yyyyMMdd-HHmmss}";
 
             screenshotButton.interactable = false;
         
@@ -73,7 +81,7 @@ namespace cpvr_vr_suite.Scripts.UI
 
             if (!emailAddress.Equals(""))
             {
-                var emailError = await MailSender.SendEmail(emailAddress, "", screenshot);
+                var emailError = await MailSender.SendEmail(emailAddress, subject, "", screenshot);
                 if (emailError)
                     resultMsg = "Screenshot sent to " + emailAddress;
                 else

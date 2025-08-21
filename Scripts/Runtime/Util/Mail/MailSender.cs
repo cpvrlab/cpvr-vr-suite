@@ -10,7 +10,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
 {
     public static class MailSender
     {
-        public static async Task<bool> SendEmail(string receiver, string message, Texture2D screenshot)
+        public static async Task<bool> SendEmail(string receiver, string subject, string message, Texture2D screenshot)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace cpvrlab_vr_suite.Scripts.Util
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(mailData.address);
                 mail.To.Add(new MailAddress(receiver));
-                mail.Subject = "VR4Architects Screenshot";
+                mail.Subject = subject;
                 mail.Body = message;
 
                 var memoryStream = new MemoryStream(screenshot.EncodeToPNG());
