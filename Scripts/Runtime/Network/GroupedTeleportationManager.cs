@@ -157,28 +157,28 @@ namespace Network
             return pos - camera;
         }
 
-        [Rpc(SendTo.Server, RequireOwnership = false)]
+        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
         void ClaimOwnershipRpc(RpcParams rpcParams = default)
         {
             if (m_ownerId.Value == ulong.MaxValue)
                 m_ownerId.Value = rpcParams.Receive.SenderClientId;
         }
 
-        [Rpc(SendTo.Server, RequireOwnership = false)]
+        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
         void SetPositionsDataRpc(PositionsData data, RpcParams rpcParams = default)
         {
             if (m_ownerId.Value == rpcParams.Receive.SenderClientId)
                 m_positionsData.Value = data;
         }
 
-        [Rpc(SendTo.Server, RequireOwnership = false)]
+        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
         void ReleaseOwnershipRpc(RpcParams rpcParams = default)
         {
             if (m_ownerId.Value == rpcParams.Receive.SenderClientId)
                 m_ownerId.Value = ulong.MaxValue;
         }
 
-        [Rpc(SendTo.Server, RequireOwnership = false)]
+        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
         void SendTeleportPositionRpc(Vector3 teleportPosition)
         {
             var messageContent = new ForceNetworkSerializeByMemcpy<Vector3>(teleportPosition);
