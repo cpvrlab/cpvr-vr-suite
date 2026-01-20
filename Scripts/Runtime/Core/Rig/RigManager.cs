@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class RigManager : Singleton<RigManager>
     [SerializeField] Image m_fadeImage;
 
     bool m_isCalibrating;
+    readonly Dictionary<Type, object> m_services = new();
 
     void Start()
     {
@@ -63,5 +65,48 @@ public class RigManager : Singleton<RigManager>
 
         //Debug.Log("Finished calibration.");
         OnHeightCalibrationEnded?.Invoke(Height);
+    }
+
+    public void Register<T>(T service) where T : class
+    {
+        var type = typeof(T);
+
+        if (!m_services.TryAdd(type, service))
+        {
+            Debug.LogWarning($"Service {type.Name} already registered. Overwriting.");
+            m_services[type] = service;
+        }
+    }
+
+    public void Unregister<T>(T service) where T : class
+    {
+        var type = typeof(T);
+
+        if (m_services.TryGetValue(type, out var registered) &&
+            ReferenceEquals(registered, service))
+        {
+            m_services.Remove(type);
+        }
+    }
+
+    public T Get<T>() where T : class
+    {
+        if (m_services.TryGetValue(typeof(T), out var service))
+            return service as T;
+
+        Debug.LogError($"Service {typeof(T).Name} not registered.");
+        return null;
+    }
+
+    public bool TryGet<T>(out T service) where T : class
+    {
+        if (m_services.TryGetValue(typeof(T), out var obj))
+        {
+            service = obj as T;
+            return true;
+        }
+
+        service = null;
+        return false;
     }
 }
