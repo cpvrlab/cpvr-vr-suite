@@ -8,7 +8,10 @@ public class LoadingIndicator : MonoBehaviour
     [SerializeField] RectTransform m_loadingSpriteTransform;
     [SerializeField] TMP_Text m_downloadProgressText;
     readonly WaitForSecondsRealtime m_wait = new(0.125f);
-    readonly Vector3 m_rotationIncrement = new Vector3(0, 0, -45);
+    readonly Vector3 m_rotationIncrement = new(0, 0, -45);
+
+    Coroutine m_loadingRoutine;
+    ushort m_loaders = 0;
 
     void Awake()
     {
@@ -22,6 +25,9 @@ public class LoadingIndicator : MonoBehaviour
     {
         m_loadingSpriteTransform.gameObject.SetActive(false);
         m_downloadProgressText.text = string.Empty;
+
+        if (RigManager.Instance != null)
+            RigManager.Instance.Register(this);
     }
 
     public static void StartLoadingDisplay()
@@ -42,20 +48,34 @@ public class LoadingIndicator : MonoBehaviour
             Instance.UpdateText(text);
     }
 
+    public void StartLoading() => ShowDisplay();
+    public void StopLoading() => HideDisplay();
+
     void UpdateText(string text) => m_downloadProgressText.text = text;
 
     void ShowDisplay()
     {
-        m_loadingSpriteTransform.gameObject.SetActive(true);
-        StartCoroutine(DisplayLoading());
+        if (m_loaders <= 0 && m_loadingRoutine == null)
+        {
+            m_loadingSpriteTransform.gameObject.SetActive(true);
+            m_loadingRoutine = StartCoroutine(DisplayLoading());
+        }
+        
+        m_loaders++;
     }
 
     void HideDisplay()
     {
-        StopCoroutine(DisplayLoading());
-        m_loadingSpriteTransform.gameObject.SetActive(false);
-        m_downloadProgressText.text = string.Empty;
-        //Debug.Log("StopLoadingDisplay");
+        m_loaders--;
+
+        if (m_loaders <= 0 && m_loadingRoutine != null)
+        {
+            StopCoroutine(m_loadingRoutine);
+            m_loadingRoutine = null;
+            m_loadingSpriteTransform.gameObject.SetActive(false);
+            m_downloadProgressText.text = string.Empty;
+            //Debug.Log("StopLoadingDisplay");
+        }
     }
 
     IEnumerator DisplayLoading()
