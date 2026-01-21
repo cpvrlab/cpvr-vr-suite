@@ -47,6 +47,8 @@ public class LoadingIndicator : MonoBehaviour
 
     public void UpdateText(string text) => m_downloadProgressText.text = text;
 
+    public void UpdateDownloadProgress(int downloadedMB, float percent) => m_downloadProgressText.text = $"{downloadedMB} MB downloaded. ({percent:P0})";
+
     IEnumerator DisplayLoading()
     {
         while (true)
