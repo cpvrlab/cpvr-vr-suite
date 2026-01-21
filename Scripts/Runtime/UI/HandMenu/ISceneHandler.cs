@@ -2,8 +2,8 @@ using System;
 
 public interface ISceneHandler
 {
-    public event Action SceneChangeStarted;
-    public event Action SceneChangeCompleted;
+    event Action SceneChangeStarted;
+    event Action SceneChangeCompleted;
 
-    public void ChangeScene(int index);
+    void ChangeScene(int index);
 }

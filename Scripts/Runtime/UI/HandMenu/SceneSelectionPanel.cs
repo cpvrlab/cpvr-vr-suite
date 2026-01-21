@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class SceneSelectionPanel : MonoBehaviour
 {
+    public IEnumerable<Button> SceneButtons { get => m_sceneButtons.AsReadOnly(); }
+
     [SerializeField] GameObject m_sceneHandlerContainer;
     [SerializeField] bool m_fadeOnSceneChange;
     [SerializeField] GameObject m_buttonPrefab;
@@ -15,7 +17,7 @@ public class SceneSelectionPanel : MonoBehaviour
     ISceneHandler m_sceneHandler;
     HandMenuController m_handMenuController;
 
-    public IEnumerable<Button> SceneButtons { get => m_sceneButtons.AsReadOnly(); }
+    LoadingIndicator m_loadingIndicator;
 
     void Awake()
     {
@@ -24,10 +26,12 @@ public class SceneSelectionPanel : MonoBehaviour
 
     void Start()
     {
+        m_loadingIndicator = RigManager.Instance != null ? RigManager.Instance.Get<LoadingIndicator>() : null;
+
         m_sceneHandler.SceneChangeStarted += FadeOut;
         m_sceneHandler.SceneChangeCompleted += FadeIn;
-        m_sceneHandler.SceneChangeStarted += LoadingIndicator.StartLoadingDisplay;
-        m_sceneHandler.SceneChangeCompleted += LoadingIndicator.StopLoadingDisplay;
+        m_sceneHandler.SceneChangeStarted += m_loadingIndicator.StartLoading;
+        m_sceneHandler.SceneChangeCompleted += m_loadingIndicator.StopLoading;
 
         if (TryGetComponent<HandmenuPanel>(out var panel))
             m_handMenuController = panel.HandMenuController;
@@ -40,8 +44,8 @@ public class SceneSelectionPanel : MonoBehaviour
 
         m_sceneHandler.SceneChangeStarted -= FadeOut;
         m_sceneHandler.SceneChangeCompleted -= FadeIn;
-        m_sceneHandler.SceneChangeStarted -= LoadingIndicator.StartLoadingDisplay;
-        m_sceneHandler.SceneChangeCompleted -= LoadingIndicator.StopLoadingDisplay;
+        m_sceneHandler.SceneChangeStarted -= m_loadingIndicator.StartLoading;
+        m_sceneHandler.SceneChangeCompleted -= m_loadingIndicator.StopLoading;
     }
 
     public void InitializeScenes()

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LoadingIndicator : MonoBehaviour
 {
-    public static LoadingIndicator Instance;
     [SerializeField] RectTransform m_loadingSpriteTransform;
     [SerializeField] TMP_Text m_downloadProgressText;
     readonly WaitForSecondsRealtime m_wait = new(0.125f);
@@ -12,14 +11,6 @@ public class LoadingIndicator : MonoBehaviour
 
     Coroutine m_loadingRoutine;
     ushort m_loaders = 0;
-
-    void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this);
-    }
 
     void Start()
     {
@@ -30,30 +21,7 @@ public class LoadingIndicator : MonoBehaviour
             RigManager.Instance.Register(this);
     }
 
-    public static void StartLoadingDisplay()
-    {
-        if (Instance != null)
-            Instance.ShowDisplay();
-    }
-
-    public static void StopLoadingDisplay()
-    {
-        if (Instance != null)
-            Instance.HideDisplay();
-    }
-
-    public static void UpdateDownloadProgress(string text)
-    {
-        if (Instance != null)
-            Instance.UpdateText(text);
-    }
-
-    public void StartLoading() => ShowDisplay();
-    public void StopLoading() => HideDisplay();
-
-    void UpdateText(string text) => m_downloadProgressText.text = text;
-
-    void ShowDisplay()
+    public void StartLoading()
     {
         if (m_loaders <= 0 && m_loadingRoutine == null)
         {
@@ -64,7 +32,7 @@ public class LoadingIndicator : MonoBehaviour
         m_loaders++;
     }
 
-    void HideDisplay()
+    public void StopLoading()
     {
         m_loaders--;
 
@@ -74,9 +42,10 @@ public class LoadingIndicator : MonoBehaviour
             m_loadingRoutine = null;
             m_loadingSpriteTransform.gameObject.SetActive(false);
             m_downloadProgressText.text = string.Empty;
-            //Debug.Log("StopLoadingDisplay");
         }
     }
+
+    public void UpdateText(string text) => m_downloadProgressText.text = text;
 
     IEnumerator DisplayLoading()
     {
