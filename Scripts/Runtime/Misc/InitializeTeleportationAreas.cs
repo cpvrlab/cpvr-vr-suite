@@ -2,6 +2,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class InitializeTeleportationAreas : MonoBehaviour
 {
@@ -27,11 +29,11 @@ public class InitializeTeleportationAreas : MonoBehaviour
                 continue;
             }
             
-            if (!go.TryGetComponent<UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation.TeleportationArea>(out var _))
+            if (!go.TryGetComponent<TeleportationArea>(out var _))
             {
-                var area = go.AddComponent<UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation.TeleportationArea>();
+                var area = go.AddComponent<TeleportationArea>();
                 area.interactionLayers = InteractionLayerMask.GetMask("Teleport");
-                area.selectMode = UnityEngine.XR.Interaction.Toolkit.Interactables.InteractableSelectMode.Multiple;
+                area.selectMode = InteractableSelectMode.Multiple;
                 teleportAreaCounter++;
             }
         }
