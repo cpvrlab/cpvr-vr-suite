@@ -1,11 +1,9 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
-using Util;
 
-namespace VR
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
-
     enum Side
     {
         Left = 1,

@@ -2,17 +2,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Util;
-using VR;
 
-enum HeightCalibrationState
-{
-    Waiting,
-    Initializing,
-    Done
-}
-
-namespace V3.Scripts.VR
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
     /// <summary>
     /// Manage the avatar's meshes, colors and height.
@@ -51,7 +42,7 @@ namespace V3.Scripts.VR
         {
             RigManager.Instance.OnHeightCalibrationEnded += ScaleAvatar;
         }
-        
+
         void OnDisable()
         {
             RigManager.Instance.OnHeightCalibrationEnded -= ScaleAvatar;

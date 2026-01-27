@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace cpvr_vr_suite.Scripts.Util
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
     public class ScaleInOnStartBehaviour : MonoBehaviour
     {

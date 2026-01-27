@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace cpvrlab_vr_suite.Scripts.Util
+namespace cpvr_vr_suite.Scripts.Runtime.Util
 {
     public static class AndroidExtensions
     {

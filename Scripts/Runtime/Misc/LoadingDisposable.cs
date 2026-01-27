@@ -1,21 +1,25 @@
 using System;
+using cpvr_vr_suite.Scripts.Runtime.UI;
 
-public class LoadingDisposable : IDisposable
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
-    readonly LoadingIndicator m_indicator;
-
-    public LoadingDisposable(LoadingIndicator indicator)
+    public class LoadingDisposable : IDisposable
     {
-        if (indicator != null)
+        readonly LoadingIndicator m_indicator;
+
+        public LoadingDisposable(LoadingIndicator indicator)
         {
-            m_indicator = indicator;
-            m_indicator.StartLoading();
+            if (indicator != null)
+            {
+                m_indicator = indicator;
+                m_indicator.StartLoading();
+            }
         }
-    }
 
-    public void Dispose()
-    {
-        if (m_indicator != null)
-            m_indicator.StopLoading();
+        public void Dispose()
+        {
+            if (m_indicator != null)
+                m_indicator.StopLoading();
+        }
     }
 }

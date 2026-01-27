@@ -1,9 +1,12 @@
 using System;
 
-public interface ISceneHandler
+namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
-    event Action SceneChangeStarted;
-    event Action SceneChangeCompleted;
+    public interface ISceneHandler
+    {
+        event Action SceneChangeStarted;
+        event Action SceneChangeCompleted;
 
-    void ChangeScene(int index);
+        void ChangeScene(int index);
+    }
 }

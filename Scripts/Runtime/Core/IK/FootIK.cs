@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Util
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
     /// <summary>
     /// Foot Behaviour using the LimbIK.

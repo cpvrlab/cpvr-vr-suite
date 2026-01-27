@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.Profiling;
 using TMPro;
 
-namespace cpvr_vr_suite.Scripts.UI
+namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
     public class FpsCounter : MonoBehaviour
     {

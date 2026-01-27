@@ -1,15 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenshotMenuButton : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
-    void OnEnable()
+    [RequireComponent(typeof(Button))]
+    public class ScreenshotMenuButton : MonoBehaviour
     {
-        ValidateEmail();
-    }
+        void OnEnable()
+        {
+            ValidateEmail();
+        }
 
-    public void ValidateEmail()
-    {
-        GetComponent<Button>().interactable = !string.IsNullOrEmpty(PlayerPrefs.GetString("emailAddress"));
+        public void ValidateEmail()
+        {
+            GetComponent<Button>().interactable = !string.IsNullOrEmpty(PlayerPrefs.GetString("emailAddress"));
+        }
     }
 }

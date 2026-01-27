@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Serializable;
+using cpvr_vr_suite.Scripts.Runtime.Core;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Util;
 
-namespace Network
+namespace cpvr_vr_suite.Scripts.Runtime.Network
 {
     public class GroupedTeleportationManager : NetworkBehaviour
     {

@@ -1,33 +1,36 @@
 using UnityEngine;
 using UnityEngine.XR.Hands;
 
-public class HandInteractorManager : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
-    [field: SerializeField] public SkinnedMeshRenderer HandMeshRenderer { get; private set; }
-    [field: SerializeField] public XRHandTrackingEvents HandTrackingEvents { get; private set; }
-    [SerializeField] InteractorControl[] m_interactorControls;
-
-    void Update()
+    public class HandInteractorManager : MonoBehaviour
     {
-        foreach (var control in m_interactorControls)
-            control.interactor.SetActive(control.IsActive);
-    }
+        [field: SerializeField] public SkinnedMeshRenderer HandMeshRenderer { get; private set; }
+        [field: SerializeField] public XRHandTrackingEvents HandTrackingEvents { get; private set; }
+        [SerializeField] InteractorControl[] m_interactorControls;
 
-    public void BlockTeleport(bool value)
-    {
-        foreach (var item in m_interactorControls)
+        void Update()
         {
-            if (item.interactor.name == "Teleport Interactor")
+            foreach (var control in m_interactorControls)
+                control.interactor.SetActive(control.IsActive);
+        }
+
+        public void BlockTeleport(bool value)
+        {
+            foreach (var item in m_interactorControls)
             {
-                item.blocked = value;
-                Debug.Log($"{transform.name}: the teleport interactor is now blocked: {value}");
+                if (item.interactor.name == "Teleport Interactor")
+                {
+                    item.blocked = value;
+                    Debug.Log($"{transform.name}: the teleport interactor is now blocked: {value}");
+                }
             }
         }
-    }
 
-    public bool TryGetHandPosition(out Transform handTransform)
-    {
-        handTransform = HandMeshRenderer.rootBone.transform;
-        return HandTrackingEvents.handIsTracked;
+        public bool TryGetHandPosition(out Transform handTransform)
+        {
+            handTransform = HandMeshRenderer.rootBone.transform;
+            return HandTrackingEvents.handIsTracked;
+        }
     }
 }

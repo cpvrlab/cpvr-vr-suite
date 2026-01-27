@@ -1,10 +1,14 @@
+using cpvr_vr_suite.Scripts.Runtime.Core;
 using UnityEngine;
 
-public class SetRigTransform : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
-    void Start()
+    public class SetRigTransform : MonoBehaviour
     {
-        if (RigManager.Instance != null && RigManager.Instance.RigOrchestrator != null)
-            RigManager.Instance.RigOrchestrator.Origin.SetPositionAndRotation(transform.position, transform.rotation);
+        void Start()
+        {
+            if (RigManager.Instance != null && RigManager.Instance.RigOrchestrator != null)
+                RigManager.Instance.RigOrchestrator.Origin.SetPositionAndRotation(transform.position, transform.rotation);
+        }
     }
 }

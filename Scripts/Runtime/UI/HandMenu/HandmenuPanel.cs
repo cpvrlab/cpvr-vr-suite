@@ -1,42 +1,45 @@
 using UnityEngine;
 
-public enum PanelType
+namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
-    Static,
-    Dynamic
-}
-
-public sealed class HandmenuPanel : MonoBehaviour
-{
-    [field: SerializeField] public HandMenuController HandMenuController { get; private set; }
-    [field: SerializeField] public PanelType PanelType { get; private set; } = PanelType.Static;
-    [field: SerializeField] public Sprite Sprite { get; private set; }
-    [field: SerializeField] public string PanelName { get; private set; }
-
-    void Start() => Init();
-
-    public void OnBackClicked()
+    public enum PanelType
     {
-        if (HandMenuController == null) return;
-        HandMenuController.OpenMainPanel();
+        Static,
+        Dynamic
     }
 
-    public void OnQuitClicked()
+    public sealed class HandmenuPanel : MonoBehaviour
     {
+        [field: SerializeField] public HandMenuController HandMenuController { get; private set; }
+        [field: SerializeField] public PanelType PanelType { get; private set; } = PanelType.Static;
+        [field: SerializeField] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public string PanelName { get; private set; }
+
+        void Start() => Init();
+
+        public void OnBackClicked()
+        {
+            if (HandMenuController == null) return;
+            HandMenuController.OpenMainPanel();
+        }
+
+        public void OnQuitClicked()
+        {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
-    }
+        }
 
-    void Init()
-    {
-        if (HandMenuController == null)
-            HandMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
-        if (HandMenuController != null)
-            HandMenuController.RegisterPanel(this);
-        else
-            Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
+        void Init()
+        {
+            if (HandMenuController == null)
+                HandMenuController = FindFirstObjectByType(typeof(HandMenuController), FindObjectsInactive.Include) as HandMenuController;
+            if (HandMenuController != null)
+                HandMenuController.RegisterPanel(this);
+            else
+                Debug.LogError($"[PANEL {transform.name}]: No HandMenuController found to attach panel to.");
+        }
     }
 }

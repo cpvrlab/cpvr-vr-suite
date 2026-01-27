@@ -1,10 +1,8 @@
+using cpvr_vr_suite.Scripts.Runtime.Network;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Util;
-using VR;
-
-namespace cpvr_vr_suite.Scripts.VR
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
     public class CalibrationManager : MonoBehaviour
     {

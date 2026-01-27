@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace cpvr_vr_suite.Scripts.Misc
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
     public class InputActionCall : MonoBehaviour
     {

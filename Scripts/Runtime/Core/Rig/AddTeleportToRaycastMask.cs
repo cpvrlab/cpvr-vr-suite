@@ -1,18 +1,21 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-[RequireComponent(typeof(UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor))]
-public class AddTeleportToRaycastMask : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    [RequireComponent(typeof(XRRayInteractor))]
+    public class AddTeleportToRaycastMask : MonoBehaviour
     {
-        var interactor = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>();
-        if (interactor.interactionLayers == (interactor.interactionLayers | (1 << InteractionLayerMask.NameToLayer("Teleport"))))
+        void Start()
         {
-            interactor.raycastMask |= 1 << LayerMask.NameToLayer("Teleport");
-            interactor.raycastMask |= 1 << LayerMask.NameToLayer("Non-Teleport");
+            var interactor = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>();
+            if (interactor.interactionLayers == (interactor.interactionLayers | (1 << InteractionLayerMask.NameToLayer("Teleport"))))
+            {
+                interactor.raycastMask |= 1 << LayerMask.NameToLayer("Teleport");
+                interactor.raycastMask |= 1 << LayerMask.NameToLayer("Non-Teleport");
+            }
+            Destroy(this);
         }
-        Destroy(this);
     }
 }

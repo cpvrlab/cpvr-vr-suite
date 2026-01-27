@@ -1,7 +1,8 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace Util {
+namespace cpvr_vr_suite.Scripts.Runtime.Util
+{
     /// <summary>
     /// Network helper methods.
     /// </summary>

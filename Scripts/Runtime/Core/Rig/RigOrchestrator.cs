@@ -1,61 +1,64 @@
 using System.Collections.Generic;
 using System.Linq;
-using Network;
+using cpvr_vr_suite.Scripts.Runtime.Network;
 using UnityEngine;
 using UnityEngine.XR.Hands.Samples.VisualizerSample;
 
-public class RigOrchestrator : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
-    public Transform Origin { get; private set; }
-
-    [field: SerializeField] public GameObject Camera { get; private set; }
-    [field: SerializeField] public HandInteractorManager LeftHandInteractorManager { get; private set; }
-    [field: SerializeField] public HandInteractorManager RightHandInteractorManager { get; private set; }
-    [field: SerializeField] public HandVisualizer Visualizer { get; private set; }
-    [field: SerializeField] public NetworkTeleportationProvider NetworkTeleportationProvider { get; private set; }
-
-    readonly List<InteractorManager> m_interactorManagers = new();
-
-    void Awake()
+    public class RigOrchestrator : MonoBehaviour
     {
-        Origin = transform;
+        public Transform Origin { get; private set; }
 
-        var managers = GetComponentsInChildren<InteractorManager>();
-        m_interactorManagers.AddRange(managers);
-    }
+        [field: SerializeField] public GameObject Camera { get; private set; }
+        [field: SerializeField] public HandInteractorManager LeftHandInteractorManager { get; private set; }
+        [field: SerializeField] public HandInteractorManager RightHandInteractorManager { get; private set; }
+        [field: SerializeField] public HandVisualizer Visualizer { get; private set; }
+        [field: SerializeField] public NetworkTeleportationProvider NetworkTeleportationProvider { get; private set; }
 
-    public void SwitchToRay()
-    {
-        if (TryGetInteractorManager<HandMenuManager>(out var handMenuManager))
-            handMenuManager.Blocked = true;
-        else
-            Debug.LogWarning("No HandMenuManager for the right hand found.");
-    }
+        readonly List<InteractorManager> m_interactorManagers = new();
 
-    public void ToggleHandMenu(bool value)
-    {
-        if (!TryGetInteractorManager<HandMenuManager>(out var handMenuManager) ||
-            (handMenuManager != null && handMenuManager.Blocked)) return;
+        void Awake()
+        {
+            Origin = transform;
 
-        if (TryGetInteractorManager<GazeManager>(out var gazeManager))
-            gazeManager.BlockInteractor(value);
-        else
-            Debug.LogWarning("No GazeManager found.");
+            var managers = GetComponentsInChildren<InteractorManager>();
+            m_interactorManagers.AddRange(managers);
+        }
 
-        BlockTeleport(value);
-    }
-    
-    public bool TryGetInteractorManager<T>(out T interactorManager) where T : InteractorManager
-    {
-        interactorManager = m_interactorManagers.OfType<T>().FirstOrDefault();
-        return interactorManager != null;
-    }
+        public void SwitchToRay()
+        {
+            if (TryGetInteractorManager<HandMenuManager>(out var handMenuManager))
+                handMenuManager.Blocked = true;
+            else
+                Debug.LogWarning("No HandMenuManager for the right hand found.");
+        }
 
-    public void BlockTeleport(bool value)
-    {
-        if (LeftHandInteractorManager != null)
-            LeftHandInteractorManager.BlockTeleport(value);
-        if (RightHandInteractorManager != null)            
-            RightHandInteractorManager.BlockTeleport(value);
+        public void ToggleHandMenu(bool value)
+        {
+            if (!TryGetInteractorManager<HandMenuManager>(out var handMenuManager) ||
+                (handMenuManager != null && handMenuManager.Blocked)) return;
+
+            if (TryGetInteractorManager<GazeManager>(out var gazeManager))
+                gazeManager.BlockInteractor(value);
+            else
+                Debug.LogWarning("No GazeManager found.");
+
+            BlockTeleport(value);
+        }
+
+        public bool TryGetInteractorManager<T>(out T interactorManager) where T : InteractorManager
+        {
+            interactorManager = m_interactorManagers.OfType<T>().FirstOrDefault();
+            return interactorManager != null;
+        }
+
+        public void BlockTeleport(bool value)
+        {
+            if (LeftHandInteractorManager != null)
+                LeftHandInteractorManager.BlockTeleport(value);
+            if (RightHandInteractorManager != null)
+                RightHandInteractorManager.BlockTeleport(value);
+        }
     }
 }

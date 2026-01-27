@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace cpvr_vr_suite.Scripts.Util
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
     /// <summary>
     /// This is a generic behaviour to show and hide objects when the main camera tagged game object

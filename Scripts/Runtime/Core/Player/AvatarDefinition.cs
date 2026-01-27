@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Util {
+namespace cpvr_vr_suite.Scripts.Runtime.Core
+{
     /// <summary>
     /// Lists the different possible parts of an avatar.
     /// </summary>

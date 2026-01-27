@@ -1,29 +1,32 @@
 using UnityEngine;
 
-public class GazeManager : InteractorManager
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
-    public bool Operative { get; private set; }
-    public bool Blocked { get; private set; }
-
-    void Awake() => Initialize();
-
-    void Initialize()
+    public class GazeManager : InteractorManager
     {
-        Operative = !PlayerPrefs.HasKey("useGaze") || PlayerPrefs.GetInt("useGaze") == 1;
-        Blocked = false;
-        gameObject.SetActive(Operative && !Blocked);
-    }
+        public bool Operative { get; private set; }
+        public bool Blocked { get; private set; }
 
-    public void SetActiveState(bool value)
-    {
-        Operative = value;
-        gameObject.SetActive(Operative && !Blocked);
-        PlayerPrefs.SetInt("useGaze", Operative ? 1 : 0);
-    }
+        void Awake() => Initialize();
 
-    public void BlockInteractor(bool value)
-    {
-        Blocked = value;
-        gameObject.SetActive(Operative && !Blocked);
+        void Initialize()
+        {
+            Operative = !PlayerPrefs.HasKey("useGaze") || PlayerPrefs.GetInt("useGaze") == 1;
+            Blocked = false;
+            gameObject.SetActive(Operative && !Blocked);
+        }
+
+        public void SetActiveState(bool value)
+        {
+            Operative = value;
+            gameObject.SetActive(Operative && !Blocked);
+            PlayerPrefs.SetInt("useGaze", Operative ? 1 : 0);
+        }
+
+        public void BlockInteractor(bool value)
+        {
+            Blocked = value;
+            gameObject.SetActive(Operative && !Blocked);
+        }
     }
 }

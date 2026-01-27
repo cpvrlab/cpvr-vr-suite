@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class ToggleGameObject : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
-    public void ToggleObject(GameObject go) => go.SetActive(!go.activeSelf);
+    public class ToggleGameObject : MonoBehaviour
+    {
+        public void ToggleObject(GameObject go) => go.SetActive(!go.activeSelf);
+    }
 }

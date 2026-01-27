@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI
+namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
     /// <summary>
     /// // Keeps the input with numerical string between 0 and 999

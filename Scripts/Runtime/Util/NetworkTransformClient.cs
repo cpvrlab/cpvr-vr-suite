@@ -1,11 +1,14 @@
 using Unity.Netcode.Components;
 
-namespace Util {
+namespace cpvr_vr_suite.Scripts.Runtime.Util
+{
     /// <summary>
     /// A client authoritative network transform synchronizer.
     /// </summary>
-    public class NetworkTransformClient : NetworkTransform {
-        protected override bool OnIsServerAuthoritative() {
+    public class NetworkTransformClient : NetworkTransform
+    {
+        protected override bool OnIsServerAuthoritative()
+        {
             return false;
         }
     }

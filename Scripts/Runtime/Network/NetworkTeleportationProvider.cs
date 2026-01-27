@@ -1,8 +1,7 @@
-using Serializable;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
-namespace Network
+namespace cpvr_vr_suite.Scripts.Runtime.Network
 {
     public class NetworkTeleportationProvider : TeleportationProvider
     {

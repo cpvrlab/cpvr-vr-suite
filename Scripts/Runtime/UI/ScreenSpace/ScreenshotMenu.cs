@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using cpvrlab_vr_suite.Scripts.Util;
+using cpvr_vr_suite.Scripts.Runtime.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace cpvr_vr_suite.Scripts.UI
+namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
     public class ScreenshotMenu : MonoBehaviour
     {

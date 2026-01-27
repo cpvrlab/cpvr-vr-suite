@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace cpvr_vr_suite.Scripts.VR
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
     public class ResetOriginOnSceneChange : MonoBehaviour
     {

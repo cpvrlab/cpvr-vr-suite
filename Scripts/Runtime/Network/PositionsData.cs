@@ -1,11 +1,13 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Serializable {
+namespace cpvr_vr_suite.Scripts.Runtime.Network
+{
     /// <summary>
     /// Used to send teleportation position over network.
     /// </summary>
-    public struct PositionsData : INetworkSerializable {
+    public struct PositionsData : INetworkSerializable 
+    {
         public Vector3[] Positions;
         
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {

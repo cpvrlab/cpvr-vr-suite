@@ -1,30 +1,34 @@
 using System.Linq;
+using cpvr_vr_suite.Scripts.Runtime.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DisableOtherCameras : MonoBehaviour
+namespace cpvr_vr_suite.Scripts.Runtime.Misc
 {
-    void Awake()
+    public class DisableOtherCameras : MonoBehaviour
     {
-        SceneManager.activeSceneChanged += (_, activeScene) => DisableCameras(activeScene);
-    }
+        void Awake()
+        {
+            SceneManager.activeSceneChanged += (_, activeScene) => DisableCameras(activeScene);
+        }
 
-    void DisableCameras(Scene activeScene)
-    {
-        if (RigManager.Instance == null) return;
+        void DisableCameras(Scene activeScene)
+        {
+            if (RigManager.Instance == null) return;
 
-        var rigCamera = RigManager.Instance.RigOrchestrator.Camera;
-        if (!rigCamera.CompareTag("MainCamera")) return;
+            var rigCamera = RigManager.Instance.RigOrchestrator.Camera;
+            if (!rigCamera.CompareTag("MainCamera")) return;
 
-        var allGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
-        var allOtherCameras = allGameObjects.Where(
-            go => go.scene == activeScene &&
-            go.TryGetComponent<Camera>(out var _) &&
-            go != rigCamera);
+            var allGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+            var allOtherCameras = allGameObjects.Where(
+                go => go.scene == activeScene &&
+                go.TryGetComponent<Camera>(out var _) &&
+                go != rigCamera);
 
-        foreach (var item in allOtherCameras)
-            item.SetActive(false);
+            foreach (var item in allOtherCameras)
+                item.SetActive(false);
 
-        //Debug.Log($"{allOtherCameras.Count()} Cameras disabled.");
+            //Debug.Log($"{allOtherCameras.Count()} Cameras disabled.");
+        }
     }
 }

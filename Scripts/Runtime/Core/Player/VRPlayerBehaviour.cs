@@ -1,7 +1,7 @@
 using System;
 using Unity.Netcode;
 
-namespace VR
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
     public class VRPlayerBehaviour : NetworkBehaviour
     {

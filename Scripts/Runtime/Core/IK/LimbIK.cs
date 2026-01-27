@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-namespace Util
+
+namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
     /// <summary>
     /// An IK solution for two limbs / one joint.
