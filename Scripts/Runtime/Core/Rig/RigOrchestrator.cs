@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using cpvr_vr_suite.Scripts.Runtime.Network;
 using UnityEngine;
-using UnityEngine.XR.Hands.Samples.VisualizerSample;
 
 namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
@@ -13,8 +11,6 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         [field: SerializeField] public GameObject Camera { get; private set; }
         [field: SerializeField] public HandInteractorManager LeftHandInteractorManager { get; private set; }
         [field: SerializeField] public HandInteractorManager RightHandInteractorManager { get; private set; }
-        [field: SerializeField] public HandVisualizer Visualizer { get; private set; }
-        [field: SerializeField] public NetworkTeleportationProvider NetworkTeleportationProvider { get; private set; }
 
         readonly List<InteractorManager> m_interactorManagers = new();
 

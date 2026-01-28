@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using cpvr_vr_suite.Scripts.Runtime.Util;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +18,6 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public bool HeightCalculated { get; private set; }
         public float Height { get; private set; }
 
-        [field: SerializeField] public RigOrchestrator RigOrchestrator { get; private set; }
         [SerializeField] List<MonoBehaviour> m_servicesToRegister = new();
         [SerializeField] Image m_fadeImage;
 
@@ -26,13 +26,13 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
 
         protected override void Awake()
         {
-            base.Awake();
-            
             foreach (var behaviour in m_servicesToRegister)
             {
                 RegisterLocal(behaviour);
                 Debug.Log($"Service {behaviour.GetType()} registered");
             }
+
+            base.Awake();
         }
 
         void Start()
@@ -81,17 +81,20 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public async void CalibrateHeight()
         {
             if (m_isCalibrating) return;
+            if (!TryGet<XROrigin>(out var origin)) return;
 
             //Debug.Log("Started calibration.");
             OnHeightCalibrationStarted?.Invoke();
             m_isCalibrating = true;
 
+            var cameraTransform = origin.Camera.transform;
             var heightData = new float[75];
             for (int i = 0; i < heightData.Length; i++)
             {
-                heightData[i] = RigOrchestrator.Origin.transform.InverseTransformPoint(RigOrchestrator.Camera.transform.position).y + .1f;
+                heightData[i] = origin.transform.InverseTransformPoint(cameraTransform.position).y + .1f;
                 await Task.Delay(10);
             }
+
             Height = heightData.Average();
             HeightCalculated = true;
             m_isCalibrating = false;

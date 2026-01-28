@@ -4,6 +4,7 @@ using System.Linq;
 using cpvr_vr_suite.Scripts.Runtime.Core;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,7 +36,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Network
             }
 
             LocalTeleportation = false;
-            m_networkTeleportationProvider = RigManager.Instance.RigOrchestrator.NetworkTeleportationProvider;
+            m_networkTeleportationProvider = RigManager.Instance.Get<NetworkTeleportationProvider>();
             m_networkTeleportationProvider.GroupedTeleportationManager = this;
             m_networkTeleportationProvider.locomotionEnded += (_) => StartTeleportation();
 
@@ -44,7 +45,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Network
                 Debug.Log($"Ray owner id: {newOwnerId}");
                 var value = newOwnerId != NetworkManager.Singleton.LocalClientId && newOwnerId != ulong.MaxValue;
                 m_lineRenderer.enabled = value;
-                RigManager.Instance.RigOrchestrator.BlockTeleport(value);
+                RigManager.Instance.Get<RigOrchestrator>().BlockTeleport(value);
                 Debug.Log($"Teleport allowed: {!value}");
             };
 
@@ -91,11 +92,10 @@ namespace cpvr_vr_suite.Scripts.Runtime.Network
 
         public void RecenterXROrigin()
         {
-            Vector3 localOrigin = m_markers[0];
-            Vector3 localForward = (m_markers[1] - m_markers[0]).normalized;
-            float angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.up);
-
-            var xrOriginTransform = RigManager.Instance.RigOrchestrator.Origin;
+            var localOrigin = m_markers[0];
+            var localForward = (m_markers[1] - m_markers[0]).normalized;
+            var angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.up);
+            var xrOriginTransform = RigManager.Instance.Get<XROrigin>().transform;
 
             xrOriginTransform.SetPositionAndRotation(transform.position, Quaternion.AngleAxis(angle, Vector3.up));
             xrOriginTransform.position = xrOriginTransform.TransformPoint(-localOrigin);
@@ -151,7 +151,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Network
         Vector3 GetOffset()
         {
             var pos = transform.position;
-            var camera = RigManager.Instance.RigOrchestrator.Camera.transform.position;
+            var camera = RigManager.Instance.Get<XROrigin>().Camera.transform.position;
             camera.y = pos.y;
             return pos - camera;
         }

@@ -42,10 +42,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Network
                     var positionArray = new Vector3[m_currentRayRenderer.positionCount];
                     m_currentRayRenderer.GetPositions(positionArray);
 
-                    GroupedTeleportationManager.SetPositionsData(new PositionsData
-                    {
-                        Positions = positionArray
-                    });
+                    GroupedTeleportationManager.SetPositionsData(new PositionsData { Positions = positionArray });
                 }
             }
 

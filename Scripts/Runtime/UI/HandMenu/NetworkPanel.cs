@@ -135,7 +135,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
             else
                 buttonText.text = "Calibrate";
 
-            RigManager.Instance.RigOrchestrator.BlockTeleport(m_isCalibrating);
+            RigManager.Instance.Get<RigOrchestrator>().BlockTeleport(m_isCalibrating);
 
             m_calibrationManager.Calibrate();
         }

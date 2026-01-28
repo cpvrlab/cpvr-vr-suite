@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.XR.Hands.Samples.VisualizerSample;
 
 namespace cpvr_vr_suite.Scripts.Runtime.Core
 {
@@ -27,7 +28,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public Material interactionModeTeleportMaterial;
         public Material interactionModeRayMaterial;
 
-        RigOrchestrator m_orchestrator;
+        HandVisualizer m_handvisualizer;
 
         void Awake()
         {
@@ -35,7 +36,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
             if (RigManager.Instance == null)
                 Debug.LogError("RigManager not found!");
             else
-                m_orchestrator = RigManager.Instance.RigOrchestrator;
+                m_handvisualizer = RigManager.Instance.Get<HandVisualizer>();
         }
 
         void OnEnable()
@@ -54,7 +55,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
                 avatar.DisableAll();
 
             InitAvatar();
-            m_orchestrator.Visualizer.drawMeshes = false;
+            m_handvisualizer.drawMeshes = false;
 
             if (IsOwner)
                 ScaleAvatar(RigManager.Instance.Height);
@@ -65,7 +66,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public override void OnNetworkDespawn()
         {
             if (IsOwner)
-                m_orchestrator.Visualizer.drawMeshes = true;
+                m_handvisualizer.drawMeshes = true;
         }
 
         void InitAvatar()
@@ -74,10 +75,10 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
             int partIndex = (int)OwnerClientId;
 
             int avatarIndex = partIndex % avatars.Count;
-            AvatarDefinition avatar = avatars[avatarIndex];
+            var avatar = avatars[avatarIndex];
 
-            GameObject head = ActivatePart(partIndex, avatar.heads);
-            GameObject hair = ActivatePart(partIndex, avatar.hairs);
+            var head = ActivatePart(partIndex, avatar.heads);
+            var hair = ActivatePart(partIndex, avatar.hairs);
 
             if (IsOwner)
             {

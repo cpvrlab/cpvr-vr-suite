@@ -1,4 +1,5 @@
 using System;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 namespace cpvr_vr_suite.Scripts.Runtime.Core
@@ -14,7 +15,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         void Start()
         {
             if (RigManager.Instance != null)
-                m_headTransform = RigManager.Instance.RigOrchestrator.Camera.transform;
+                m_headTransform = RigManager.Instance.Get<XROrigin>().Camera.transform;
             else
                 m_headTransform = GameObject.FindWithTag("MainCamera").transform;
         }

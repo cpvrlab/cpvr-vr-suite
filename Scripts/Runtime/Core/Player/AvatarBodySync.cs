@@ -44,14 +44,14 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
 
         RigOrchestrator m_rigOrchestrator;
 
-        void Awake()
+        void Start()
         {
             m_headToMainBone = pelvisBone.position - headBone.position;
 
             if (RigManager.Instance == null)
                 Debug.LogError("RigManager not found!");
             else
-                m_rigOrchestrator = RigManager.Instance.RigOrchestrator;
+                m_rigOrchestrator = RigManager.Instance.Get<RigOrchestrator>();
         }
 
         public override void OnNetworkSpawn()

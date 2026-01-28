@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 namespace cpvr_vr_suite.Scripts.Runtime.Core
@@ -9,51 +10,33 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
     /// </summary>
     public class FootIK : MonoBehaviour
     {
-        // Ratio between Leg Length and the Distance between the foot and the model before moving the foot.
-        const float LegLengthFootMaxDistanceRatio = 0.4f;
+        public bool IsStepping { get; private set; }
 
-        // Max Y Angle difference before replacing the foot
-        const float FootMaxAngle = 45;
-
-        // Time taken to replace the foot in second
-        const float StepDuration = .4f;
-
-        // Highest point during a step.
-        const float StepHeight = .1f;
-
-        // Time before placing the feet in a Idle position in milliseconds
-        const long MSBeforeIdle = 1500;
-
-        // Max Distance before replacing the foot
-        float m_footMaxDistance = .4f;
-
-        // IK target
         public Transform target;
-        // Other foot FootIK for knowing if stepping or not
         public FootIK otherFoot;
-        // Center of model
-        public Transform model;
+        public Transform model;                             // Center of model
 
-        // If the foot is currently making a step
-        [NonSerialized] public bool Stepping;
+        float m_footMaxDistance = .4f;
+        Transform m_hipBone;                                // Parent bone from where the ray will be casted
+        Transform m_originTransform;
+        float m_hipHeight;                                  // Default hipHeight
+        long m_lastFootMovement;                            // Used for making the foot idle
+        Vector3 m_lastModelPosition;                        // Used to compute the current body velocity
+        Vector3 m_velocity;                                 // Used to compute the current body velocity
 
-        // Parent bone from where the ray will be casted
-        Transform m_hipBone;
-
-        // Default hipHeight
-        float m_hipHeight;
-
-        // Used for making the foot idle
-        long m_lastFootMovement;
-
-        // Used to compute the current body velocity
-        Vector3 m_lastModelPosition;
-        Vector3 m_velocity;
+        const float LegLengthFootMaxDistanceRatio = 0.4f;   // Ratio between Leg Length and the Distance between the foot and the model before moving the foot.
+        const float FootMaxAngle = 45;                      // Max Y Angle difference before replacing the foot
+        const float StepDuration = .4f;                     // Time taken to replace the foot in second
+        const float StepHeight = .1f;                       // Highest point during a step.
+        const long MSBeforeIdle = 1500;                     // Time before placing the feet in a Idle position in milliseconds
 
         void Start()
         {
             // Get the bone from where the ray will be cast
             m_hipBone = transform.parent.parent;
+
+            if (RigManager.Instance != null)
+                m_originTransform = RigManager.Instance.Get<XROrigin>().transform;
 
             ComputeLength();
         }
@@ -68,7 +51,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         void Update()
         {
             // If we are taking a step we don't do any calculation
-            if (Stepping) return;
+            if (IsStepping) return;
 
             if (CheckFootDistance())
                 return;
@@ -81,7 +64,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
 
         void ComputeVelocity()
         {
-            Vector3 modelPosition = model.position;
+            var modelPosition = model.position;
 
             m_velocity = (modelPosition - m_lastModelPosition) * 30;
             m_lastModelPosition = modelPosition;
@@ -95,14 +78,12 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         bool CheckFootDistance()
         {
             // Vector used to reduce the Y coordinates
-            Vector3 flatVector = new Vector3(1, 0, 1);
+            var flatVector = new Vector3(1, 0, 1);
+            var originPosition = Vector3.Scale(model.position, flatVector);
+            var footPosition = Vector3.Scale(target.position, flatVector);
+            var distance = Vector3.Distance(footPosition, originPosition);
 
-            Vector3 originPosition = Vector3.Scale(model.position, flatVector);
-            Vector3 footPosition = Vector3.Scale(target.position, flatVector);
-
-            float distance = Vector3.Distance(footPosition, originPosition);
-
-            if (distance > m_footMaxDistance && !otherFoot.Stepping)
+            if (distance > m_footMaxDistance && !otherFoot.IsStepping)
             {
                 StartFootstep();
                 return true;
@@ -118,12 +99,11 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         /// <returns>A bool that says if a footstep has started (true) or not (false).</returns>
         bool CheckFootRotation()
         {
-            float yTarget = target.rotation.eulerAngles.y;
-            float ySpine = model.rotation.eulerAngles.y;
+            var yTarget = target.rotation.eulerAngles.y;
+            var ySpine = model.rotation.eulerAngles.y;
+            var yDiff = Mathf.DeltaAngle(ySpine, yTarget);
 
-            float yDiff = Mathf.DeltaAngle(ySpine, yTarget);
-
-            if (Math.Abs(yDiff) > FootMaxAngle && !otherFoot.Stepping)
+            if (Math.Abs(yDiff) > FootMaxAngle && !otherFoot.IsStepping)
             {
                 StartFootstep();
                 return true;
@@ -149,15 +129,10 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
             float leftright = Math.Sign(model.InverseTransformPoint(m_hipBone.position).x);
             Vector3 direction = Quaternion.AngleAxis(leftright * 5, model.forward) * Vector3.down;
 
-            RaycastHit hit;
-            if (Physics.Raycast(m_hipBone.position, direction, out hit, m_hipHeight + .1f))
-            {
+            if (Physics.Raycast(m_hipBone.position, direction, out var hit, m_hipHeight + .1f))
                 targetPosition = hit.point + new Vector3(0, 0.05f, 0);
-            }
             else
-            {
                 targetPosition = m_hipBone.position + direction * m_hipHeight;
-            }
 
             // Do not start a step if we are trying to place the foot at the position is already in
             if (Vector3.Distance(target.position, targetPosition) < .05f)
@@ -166,7 +141,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
                 return;
             }
 
-            Stepping = true;
+            IsStepping = true;
 
             StartCoroutine(MoveFoot(targetPosition, model.rotation.eulerAngles.y - 15 * leftright));
         }
@@ -176,18 +151,18 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         /// </summary>
         void StartFootstep()
         {
-            Stepping = true;
+            IsStepping = true;
 
             // Compute the target position based on the velocity.
-            float targetRayX = Mathf.Clamp(m_velocity.x, -m_footMaxDistance, m_footMaxDistance);
-            float targetRayZ = Mathf.Clamp(m_velocity.z, -m_footMaxDistance, m_footMaxDistance);
+            var targetRayX = Mathf.Clamp(m_velocity.x, -m_footMaxDistance, m_footMaxDistance);
+            var targetRayZ = Mathf.Clamp(m_velocity.z, -m_footMaxDistance, m_footMaxDistance);
 
-            Vector3 targetRay = new Vector3(targetRayX, -m_hipHeight, targetRayZ);
+            var targetRay = new Vector3(targetRayX, -m_hipHeight, targetRayZ);
 
             IEnumerator moveFoot;
 
             // if we hit a raycast we place in on the ground
-            // if we don't we place it at a supposed ground height
+            // otherwise we place it at a supposed ground height
             if (Physics.Raycast(m_hipBone.position, targetRay, out var hit, m_hipHeight * 1.5f))
             {
                 moveFoot = MoveFoot(
@@ -213,21 +188,20 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         IEnumerator MoveFoot(Vector3 finalPosition, float finalAngle)
         {
             float timer = 0f;
-
-            Vector3 initialPosition = target.position;
-            float initialAngle = target.rotation.eulerAngles.y;
+            var initialPosition = target.position;
+            var initialAngle = target.rotation.eulerAngles.y;
 
             // Lerp the foot from the initial position to the final position
             // and lifting it using LiftFootAnimationCurve
             while (timer < StepDuration)
             {
-                float t = timer / StepDuration;
-                Vector3 targetPosition = Vector3.Lerp(initialPosition, finalPosition, t);
+                var t = timer / StepDuration;
+
+                var targetPosition = Vector3.Lerp(initialPosition, finalPosition, t);
                 targetPosition += Vector3.up * LiftFootAnimationCurve(t);
 
-                float targetAngle = Mathf.LerpAngle(initialAngle, finalAngle, t);
-
-                Vector3 currentAngles = target.rotation.eulerAngles;
+                var targetAngle = Mathf.LerpAngle(initialAngle, finalAngle, t);
+                var currentAngles = target.rotation.eulerAngles;
 
                 target.SetPositionAndRotation(targetPosition, Quaternion.Euler(currentAngles.x, targetAngle, currentAngles.z));
                 timer += Time.deltaTime;
@@ -236,9 +210,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
 
             // Ensure final position is reached
             target.position = finalPosition;
-
-            Stepping = false;
-
+            IsStepping = false;
             m_lastFootMovement = DateTime.Now.Ticks;
         }
 
@@ -247,10 +219,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         /// </summary>
         /// <param name="x">f(x)</param>
         /// <returns>y</returns>
-        float LiftFootAnimationCurve(float x)
-        {
-            return (float)((-Math.Pow(x * 2 - 1, 2) + 1) * StepHeight);
-        }
+        float LiftFootAnimationCurve(float x) => (float)((-Math.Pow(x * 2 - 1, 2) + 1) * StepHeight);
 
         /// <summary>
         /// Compute the hip height and distance before replacing the foot.
@@ -258,15 +227,13 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public void ComputeLength()
         {
             if (m_hipBone == null) return;
-            m_hipHeight = RigManager.Instance.RigOrchestrator.Origin.InverseTransformPoint(m_hipBone.position).y;
 
-            Transform knee = transform.parent;
+            var knee = transform.parent;
+            var footKneeDistance = Vector3.Distance(transform.position, knee.position);
+            var kneeHipDistance = Vector3.Distance(knee.position, m_hipBone.position);
+            var legLength = footKneeDistance + kneeHipDistance;
 
-            float footKneeDistance = Vector3.Distance(transform.position, knee.position);
-            float kneeHipDistance = Vector3.Distance(knee.position, m_hipBone.position);
-
-            float legLength = footKneeDistance + kneeHipDistance;
-
+            m_hipHeight = m_originTransform.InverseTransformPoint(m_hipBone.position).y;
             m_footMaxDistance = legLength * LegLengthFootMaxDistanceRatio;
         }
     }

@@ -10,6 +10,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         [SerializeField] Transform m_firstMarker;
         [SerializeField] Transform m_secondMarker;
 
+        Passthrough m_passthrough;
         bool m_isCalibrating;
 
         void Start()
@@ -23,14 +24,15 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
                 m_firstMarker.position = pos1;
                 m_secondMarker.position = pos2;
             }
+
+            m_passthrough = RigManager.Instance ? RigManager.Instance.Get<Passthrough>() : null;
         }
 
         public void Calibrate()
         {
             m_isCalibrating = !m_isCalibrating;
 
-            var passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
-            passthrough.ActivePassthrough(m_isCalibrating, !m_isCalibrating);
+            m_passthrough.ActivePassthrough(m_isCalibrating, !m_isCalibrating);
 
             SetInteractables(!m_isCalibrating);
 

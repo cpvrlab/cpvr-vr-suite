@@ -8,6 +8,12 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
     public class SettingsPanel : MonoBehaviour
     {
+        public string InfoText
+        {
+            get => m_infoText.text;
+            set => m_infoText.text = value;
+        }
+
         [SerializeField] HandMenuController m_handmenuController;
         [SerializeField] DebugDisplay m_debugDisplay;
         [SerializeField] Toggle m_fpsToggle;
@@ -22,12 +28,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
         [SerializeField] TMP_Text m_infoText;
         [SerializeField] Passthrough m_passthrough;
 
-        public string InfoText
-        {
-            get => m_infoText.text;
-            set => m_infoText.text = value;
-        }
-
+        RigOrchestrator m_orchestrator;
 
         void Awake()
         {
@@ -39,6 +40,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 
         void Start()
         {
+            m_orchestrator = RigManager.Instance ? RigManager.Instance.Get<RigOrchestrator>() : null;
+
             m_fpsToggle.onValueChanged.AddListener(value =>
             {
                 PlayerPrefs.SetInt("showFPS", value ? 1 : 0);
@@ -53,8 +56,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 
             m_gazeToggle.onValueChanged.AddListener(value =>
             {
-                if (RigManager.Instance != null &&
-                    RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
+                if (m_orchestrator != null && m_orchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager))
                     gazeManager.SetActiveState(value);
             });
 
@@ -85,17 +87,16 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 
             m_fpsToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showFPS") == 1);
             m_debugToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("showDebug") == 1);
-            m_gazeToggle.SetIsOnWithoutNotify(RigManager.Instance != null &&
-                                            RigManager.Instance.RigOrchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager) &&
-                                            gazeManager.Operative);
+            m_gazeToggle.SetIsOnWithoutNotify(m_orchestrator != null && m_orchestrator.TryGetInteractorManager<GazeManager>(out var gazeManager) && gazeManager.Operative);
             m_panelToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("reopenPanel") == 1);
             m_inputField.text = PlayerPrefs.GetString("emailAddress");
         }
 
         void Init()
         {
-            m_passthrough = RigManager.Instance.RigOrchestrator.Camera.GetComponent<Passthrough>();
-            m_passthrough.PassthroughValueChanged += value => m_passthroughToggle.SetIsOnWithoutNotify(value);
+            if (RigManager.Instance.TryGet(out m_passthrough))
+                m_passthrough.PassthroughValueChanged += value => m_passthroughToggle.SetIsOnWithoutNotify(value);
+
             RigManager.Instance.OnHeightCalibrationStarted += () => m_calibrateHeightButton.interactable = false;
             RigManager.Instance.OnHeightCalibrationEnded += SetHeightText;
             RigManager.Instance.OnHeightCalibrationEnded += (_) => m_calibrateHeightButton.interactable = true;

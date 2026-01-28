@@ -1,4 +1,5 @@
 using cpvr_vr_suite.Scripts.Runtime.Core;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 namespace cpvr_vr_suite.Scripts.Runtime.Misc
@@ -7,8 +8,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.Misc
     {
         void Start()
         {
-            if (RigManager.Instance != null && RigManager.Instance.RigOrchestrator != null)
-                RigManager.Instance.RigOrchestrator.Origin.SetPositionAndRotation(transform.position, transform.rotation);
+            if (RigManager.Instance != null && RigManager.Instance.TryGet<XROrigin>(out var origin))
+                origin.transform.SetPositionAndRotation(transform.position, transform.rotation);
         }
     }
 }

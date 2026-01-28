@@ -1,3 +1,4 @@
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,10 +13,10 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
             ResetPosition = Vector3.zero;
             SceneManager.activeSceneChanged += (_, _) =>
             {
-                if (RigManager.Instance != null && RigManager.Instance.RigOrchestrator != null)
+                if (RigManager.Instance != null && RigManager.Instance.TryGet<XROrigin>(out var origin))
                 {
-                    RigManager.Instance.RigOrchestrator.Origin.position = ResetPosition;
-                    RigManager.Instance.RigOrchestrator.Camera.transform.position = Vector3.zero;
+                    origin.transform.position = ResetPosition;
+                    origin.Camera.transform.position = Vector3.zero;
                 }
             };
         }

@@ -12,6 +12,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
     public class HandMenuController : MonoBehaviour
     {
+        public bool OpenLastPanel { get; set; }
+
         [SerializeField] SoundClip _hoverClip;
         [SerializeField] SoundClip _clickClip;
         [SerializeField] bool _playHoverSound;
@@ -19,8 +21,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
         [Header("UI Panels")]
         [SerializeField] List<HandmenuPanel> _panels;
 
-        public bool OpenLastPanel { get; set; }
         HandmenuPanel m_lastPanel = null;
+        RigOrchestrator m_orchestrator;
         bool m_initialized = false;
         EventTrigger.Entry m_hover;
         EventTrigger.Entry m_click;
@@ -44,6 +46,7 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 
         void Start()
         {
+            m_orchestrator = RigManager.Instance ? RigManager.Instance.Get<RigOrchestrator>() : null;
             OpenLastPanel = PlayerPrefs.GetInt("reopenPanel") == 1;
             CloseAllPanels();
         }
@@ -59,8 +62,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 
             CloseAllPanels();
 
-            if (RigManager.Instance != null)
-                RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
+            if (m_orchestrator != null)
+                m_orchestrator.ToggleHandMenu(false);
         }
 
         public void OpenPanel(HandmenuPanel panel)
@@ -83,8 +86,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
                 if (panel.gameObject.activeSelf)
                 {
                     CloseAllPanels();
-                    if (RigManager.Instance != null)
-                        RigManager.Instance.RigOrchestrator.ToggleHandMenu(false);
+                    if (m_orchestrator != null)
+                        m_orchestrator.ToggleHandMenu(false);
                     return;
                 }
             }
@@ -94,8 +97,8 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
             else
                 OpenMainPanel();
 
-            if (RigManager.Instance != null)
-                RigManager.Instance.RigOrchestrator.ToggleHandMenu(true);
+            if (m_orchestrator != null)
+                m_orchestrator.ToggleHandMenu(true);
         }
 
         public void RegisterPanel(HandmenuPanel panel)
