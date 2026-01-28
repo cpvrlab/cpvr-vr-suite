@@ -18,10 +18,22 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public float Height { get; private set; }
 
         [field: SerializeField] public RigOrchestrator RigOrchestrator { get; private set; }
+        [SerializeField] List<MonoBehaviour> m_servicesToRegister = new();
         [SerializeField] Image m_fadeImage;
 
         bool m_isCalibrating;
         readonly Dictionary<Type, object> m_services = new();
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            foreach (var behaviour in m_servicesToRegister)
+            {
+                RegisterLocal(behaviour);
+                Debug.Log($"Service {behaviour.GetType()} registered");
+            }
+        }
 
         void Start()
         {
@@ -36,6 +48,24 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
                 break;
             }
         }
+
+#if UNITY_EDITOR
+        void OnValidate()
+        {
+            var seen = new HashSet<Type>();
+
+            foreach (var service in m_servicesToRegister)
+            {
+                if (service == null)
+                    continue;
+
+                var type = service.GetType();
+
+                if (!seen.Add(type))
+                    Debug.LogError($"Duplicate rig service of type {type.Name} on RigManager.", this);
+            }
+        }
+#endif
 
         public async Task Fade(Color endColor, float duration = 1f)
         {
@@ -73,6 +103,17 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
         public void Register<T>(T service) where T : class
         {
             var type = typeof(T);
+
+            if (!m_services.TryAdd(type, service))
+            {
+                Debug.LogWarning($"Service {type.Name} already registered. Overwriting.");
+                m_services[type] = service;
+            }
+        }
+
+        void RegisterLocal(MonoBehaviour service)
+        {
+            var type = service.GetType();
 
             if (!m_services.TryAdd(type, service))
             {

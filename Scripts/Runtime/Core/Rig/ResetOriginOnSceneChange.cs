@@ -12,8 +12,11 @@ namespace cpvr_vr_suite.Scripts.Runtime.Core
             ResetPosition = Vector3.zero;
             SceneManager.activeSceneChanged += (_, _) =>
             {
-                transform.position = ResetPosition;
-                ResetPosition = Vector3.zero;
+                if (RigManager.Instance != null && RigManager.Instance.RigOrchestrator != null)
+                {
+                    RigManager.Instance.RigOrchestrator.Origin.position = ResetPosition;
+                    RigManager.Instance.RigOrchestrator.Camera.transform.position = Vector3.zero;
+                }
             };
         }
     }

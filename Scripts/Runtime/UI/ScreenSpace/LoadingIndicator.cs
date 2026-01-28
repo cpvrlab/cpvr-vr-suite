@@ -1,5 +1,4 @@
 using System.Collections;
-using cpvr_vr_suite.Scripts.Runtime.Core;
 using TMPro;
 using UnityEngine;
 
@@ -19,9 +18,6 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
         {
             m_loadingSpriteTransform.gameObject.SetActive(false);
             m_downloadProgressText.text = string.Empty;
-
-            if (RigManager.Instance != null)
-                RigManager.Instance.Register(this);
         }
 
         public void StartLoading()

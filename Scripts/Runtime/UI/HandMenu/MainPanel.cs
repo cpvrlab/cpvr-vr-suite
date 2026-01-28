@@ -8,8 +8,6 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 {
     public class MainPanel : MonoBehaviour
     {
-        [SerializeField] HandMenuController m_handmenuController;
-        [SerializeField] TMP_Text m_title;
         public string Title
         {
             get => m_title != null ? m_title.text : string.Empty;
@@ -19,8 +17,12 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
                     m_title.text = value;
             }
         }
+
+        [SerializeField] HandMenuController m_handmenuController;
+        [SerializeField] TMP_Text m_title;
         [SerializeField] Transform m_scrollviewContent;
         [SerializeField] GameObject m_buttonPrefab;
+
         readonly Dictionary<HandmenuPanel, Button> m_menuButtonDictionary = new();
 
         void OnEnable()
@@ -30,13 +32,12 @@ namespace cpvr_vr_suite.Scripts.Runtime.UI
 
         public void AddPanelButton(HandmenuPanel panel)
         {
-            if (m_menuButtonDictionary.ContainsKey(panel)) return;
             if (m_buttonPrefab == null)
             {
                 Debug.LogError("ButtonPrefab not assigned!");
                 return;
             }
-
+            if (m_menuButtonDictionary.ContainsKey(panel)) return;
 
             var button = Instantiate(m_buttonPrefab, m_scrollviewContent).GetComponent<Button>();
 
