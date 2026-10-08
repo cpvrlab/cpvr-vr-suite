@@ -12,17 +12,20 @@ namespace cpvr_vr_suite.Scripts.Runtime.Misc
 
         void Awake() => SceneManager.activeSceneChanged += (_, activeScene) => DisableCameras(activeScene);
 
-        void Start() => m_camera = RigManager.Instance ? RigManager.Instance.Get<XROrigin>().Camera : null;
-
         void DisableCameras(Scene activeScene)
         {
-            if (!m_camera.CompareTag("MainCamera")) return;
+            // Resolve lazily: the first activeSceneChanged fires before Start.
+            if (m_camera == null && RigManager.Instance != null && RigManager.Instance.TryGet<XROrigin>(out var origin))
+                m_camera = origin.Camera;
 
+            if (m_camera == null || !m_camera.CompareTag("MainCamera")) return;
+
+            var rigCameraObject = m_camera.gameObject;
             var allGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             var allOtherCameras = allGameObjects.Where(
                 go => go.scene == activeScene &&
                 go.TryGetComponent<Camera>(out var _) &&
-                go != m_camera);
+                go != rigCameraObject);
 
             foreach (var item in allOtherCameras)
                 item.SetActive(false);
