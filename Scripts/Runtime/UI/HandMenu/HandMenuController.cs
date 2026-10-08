@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using cpvr_vr_suite.Scripts.Runtime.Core;
 using cpvr_vr_suite.Scripts.Runtime.Util;
+using cpvr_vr_suite.Scripts.Runtime.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
